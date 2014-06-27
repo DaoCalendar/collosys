@@ -28,7 +28,8 @@ namespace ColloSys.FileUploaderService.FileReader
         public IRecordCreator<T> RecordCreatorObj { get; private set; }
         //public IExcelReader ExcelReader2 { get; private set; }
         public ICounter Counter { get; private set; }
-        protected readonly MultiKeyEntityList<T> TodayRecordList;
+        private readonly uint _batchSize;
+        
         protected readonly IDbLayer DbLayer;
         public readonly StreamReader InpuStreamReader;
 
@@ -42,7 +43,7 @@ namespace ColloSys.FileUploaderService.FileReader
             recordCreator.InitPreviousDayLiner(FileScheduler);
             _fileProcess = new FileProcess();
             RecordCreatorObj = recordCreator;
-            TodayRecordList = new MultiKeyEntityList<T>();
+            _batchSize = 500;
             DbLayer = new DbLayer.DbLayer();
 
         }
@@ -55,7 +56,7 @@ namespace ColloSys.FileUploaderService.FileReader
             recordCreator.InitPreviousDayLiner(FileScheduler);
             _fileProcess = new FileProcess();
             RecordCreatorObj = recordCreator;
-            TodayRecordList = new MultiKeyEntityList<T>();
+            _batchSize = 500;
             DbLayer = new DbLayer.DbLayer();
         }
 
@@ -104,7 +105,7 @@ namespace ColloSys.FileUploaderService.FileReader
                     ((IFileUploadable)obj).FileDate = FileScheduler.FileDate;
                     obj.FileRowNo = Counter.CurrentRow;
                     list.Add(obj);
-                    TodayRecordList.AddEntity(obj);
+                    RecordCreatorObj.TodayRecordList.AddEntity(obj);
                 }
 
             } while (list.Count != BatchSize);

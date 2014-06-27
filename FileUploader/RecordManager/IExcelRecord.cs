@@ -13,7 +13,7 @@ using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploaderService.RecordManager
 {
-    public interface IExcelRecord<TEntity> : IRecordCreator<TEntity> where TEntity : class , new()
+    public interface IExcelRecord<TEntity> : IRecordCreator<TEntity> where TEntity :  Entity, IFileUploadable, IUniqueKey, new()
     {
         IList<FileMapping> GetMappings(ColloSysEnums.FileMappingValueType eNumType, IEnumerable<FileMapping> mappingss);
 

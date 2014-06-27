@@ -251,5 +251,20 @@ namespace ColloSys.FileUploaderService.DbLayer
 
             return objEntity;
         }
+
+        public IList<TEntity> GetPreviousRecords<TEntity>(ScbEnums.Products products)
+            where TEntity : Entity, IDelinquentCustomer
+        {
+            using (var session = SessionManager.GetNewSession())
+            {
+                using (var tx = session.BeginTransaction())
+                {
+                    var data = session.QueryOver<TEntity>()
+                        .Where(x => x.Product == products).List();
+                    tx.Rollback();
+                    return data;
+                }
+            }
+        }
     }
 }

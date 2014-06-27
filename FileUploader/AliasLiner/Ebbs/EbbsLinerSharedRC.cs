@@ -15,10 +15,10 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
     // ReSharper disable once InconsistentNaming
     public abstract class EbbsLinerSharedRC : RecordCreator<ELiner>
     {
-        public uint AccountNoPosition { get; set; }
-        public uint AccountNoLegnth { get; set; }
+        private uint AccountNoPosition { get; set; }
+        private uint AccountNoLegnth { get; set; }
 
-        public EbbsLinerSharedRC(uint accNo, uint accLength)
+        protected EbbsLinerSharedRC(uint accNo, uint accLength)
         {
             AccountNoPosition = accNo;
             AccountNoLegnth = accLength;

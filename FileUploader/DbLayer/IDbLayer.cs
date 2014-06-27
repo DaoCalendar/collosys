@@ -29,6 +29,8 @@ namespace ColloSys.FileUploaderService.DbLayer
        TEntity GetRecordForUpdate<TEntity>(string accountNo)
            where TEntity : Entity, IDelinquentCustomer;
 
+       IList<TEntity> GetPreviousRecords<TEntity>(ScbEnums.Products products)
+           where TEntity : Entity, IDelinquentCustomer;
        IList<TEntity> GetDataForDate<TEntity>(DateTime fileDate)
            where TEntity : Entity, IFileUploadable;
    }

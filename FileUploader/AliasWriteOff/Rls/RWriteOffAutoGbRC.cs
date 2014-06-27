@@ -1,4 +1,7 @@
-﻿namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
+﻿using ColloSys.DataLayer.Domain;
+using ColloSys.DataLayer.Enumerations;
+
+namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
 {
 // ReSharper disable once InconsistentNaming
     public class RWriteOffAutoGbRC:RWriteOffSharedRC
@@ -8,7 +11,7 @@
         private const uint CycleString = 5;
         public RWriteOffAutoGbRC() : base(AccountPosition, AccountLength, CycleString)
         {
-
+            TodayRecordList.AddEntities(DbLayer.GetPreviousRecords<RWriteoff>(ScbEnums.Products.AUTO));
         }
     }
 }

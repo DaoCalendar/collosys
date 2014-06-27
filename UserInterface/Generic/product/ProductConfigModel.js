@@ -5,8 +5,7 @@ csapp.factory("ProductsDatalayer", ["Restangular", "$csnotify", function (rest, 
 
     var reatApi = rest.all('ProductConfigApi');
     var dldata = {};
-    dldata.codes = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'];
-
+   
     dldata.AllocationStrategy = [{ display: 'Has Month End Reset', value: 'Monthly' }, { display: 'Has Cycle Wise Reset', value: 'Cyclewise' }];
 
     dldata.BillingStrategy = [{ display: 'Cycle End', value: 'Cyclewise' }, { display: 'Month End(Open And Close Cycle)', value: 'Monthly' }, { display: 'Month End(Close Cycle Only)', value: 'MonthlyConfirmed' }];
@@ -101,9 +100,7 @@ csapp.controller("ProductConfigController", ["$scope", '$csnotify', 'Restangular
     "ProductsDatalayer", "$location",
     function ($scope, $csnotify, rest, $modal, datalayer, $location) {
 
-        $scope.codes = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'];
-
-        (function () {
+      (function () {
             $scope.dldata = datalayer.dldata;
             datalayer.GetAll();
 
@@ -146,6 +143,8 @@ csapp.controller("updateViewController", ["$scope", "ProductsDatalayer", "Produc
                     $scope.productconfig = data;
                 });
             }
+            $scope.sourceTags = ["aaa", "bbb", "vvv"];
+            $scope.tags = "";
             $scope.Products = $csModels.getColumns("Product");
         })();
 
@@ -195,6 +194,7 @@ csapp.controller("updateViewController", ["$scope", "ProductsDatalayer", "Produc
 
 
     }]);
+
 
 //#endregion
 

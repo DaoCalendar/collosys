@@ -10,15 +10,15 @@ using NLog;
 
 namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
 {
-// ReSharper disable once InconsistentNaming
-    public abstract class RWriteOffSharedRC:RecordCreator<RWriteoff>
+    // ReSharper disable once InconsistentNaming
+    public abstract class RWriteOffSharedRC : RecordCreator<RWriteoff>
     {
         private uint AccountPos { get; set; }
         private uint AccountNoLength { get; set; }
         private uint CycleString { get; set; }
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
 
-        public  RWriteOffSharedRC(uint accPos,uint accNolength,uint cyclestring)
+        public RWriteOffSharedRC(uint accPos, uint accNolength, uint cyclestring)
         {
             AccountPos = accPos;
             AccountNoLength = accNolength;
@@ -27,14 +27,14 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
 
         public override bool ComputedSetter(RWriteoff entity)
         {
-            entity.FileDate =FileScheduler.FileDate;
+            entity.FileDate = FileScheduler.FileDate;
             entity.Allocs = null;
             //if (entity.Settlement=="Y")
             //{
             //    entity.IsSetteled = true;
             //}
             entity.IsReferred = false;
-            
+
             return true;
         }
 
@@ -54,7 +54,7 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
             ulong loanNumber;
             if (!ulong.TryParse(Reader.GetValue(AccountPos), out loanNumber))
             {
-               // Counter.IncrementIgnoreRecord();
+                // Counter.IncrementIgnoreRecord();
                 _log.Debug(string.Format("Data is rejected, Because account No {0} is not valid number", Reader.GetValue(AccountPos)));
                 return false;
             }
@@ -72,8 +72,11 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
 
         public override RWriteoff GetRecordForUpdate()
         {
-            return DbLayer.GetRecordForUpdate<RWriteoff>(Reader.GetValue(AccountPos).ToString(CultureInfo.InvariantCulture)) 
-                ?? new RWriteoff();
+            var accno = Reader.GetValue(AccountPos).ToString(CultureInfo.InvariantCulture);
+            return TodayRecordList.GetEntity(accno) ??
+                new RWriteoff();
+            //return DbLayer.GetRecordForUpdate<RWriteoff>(Reader.GetValue(AccountPos).ToString(CultureInfo.InvariantCulture)) 
+            //    ?? new RWriteoff();
         }
 
         public override RWriteoff GetPreviousDayEntity(RWriteoff entity)

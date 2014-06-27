@@ -22,42 +22,58 @@ namespace AngularUI.Shared.webapis
 
         public void AddCustomEnums(EnumList list)
         {
-            string[] dateList = { "dd-MM-yyyy", "yyyy-MM-dd", "MM-dd-yyyy" };
+            string[] dateList = {"dd-MM-yyyy", "yyyy-MM-dd", "MM-dd-yyyy"};
             list.AddToList("DateFormat", new List<string>(dateList));
 
-            string[] operatorList = { "Plus", "Minus", "Multiply", "Divide", "ModuloDivide" };
+            string[] operatorList = {"Plus", "Minus", "Multiply", "Divide", "ModuloDivide"};
             list.AddToList("OperatorType", new List<string>(operatorList));
 
-            string[] relationType = { "And", "Or" };
+            string[] relationType = {"And", "Or"};
             list.AddToList("RelationType", new List<string>(relationType));
 
-            string[] typeSwitch = { "Table", "Formula", "Matrix", "Value" };
+            string[] typeSwitch = {"Table", "Formula", "Matrix", "Value"};
             list.AddToList("TypeSwitch", new List<string>(typeSwitch));
 
-            string[] dateValueEnum = { "First_Quarter", "Second_Quarter", "Third_Quarter", 
-                                         "Fourth_Quarter", "Start_of_Year", "Start_of_Month", 
-                                         "Start_of_Week", "Today", "End_of_Week", "End_of_Month", 
-                                         "End_of_Year", "Absolute_Date" };
+            string[] dateValueEnum =
+            {
+                "First_Quarter", "Second_Quarter", "Third_Quarter",
+                "Fourth_Quarter", "Start_of_Year", "Start_of_Month",
+                "Start_of_Week", "Today", "End_of_Week", "End_of_Month",
+                "End_of_Year", "Absolute_Date"
+            };
             list.AddToList("DateValueEnum", new List<string>(dateValueEnum));
 
-            string[] lsqlfunctionType = { "Sum", "Count", "Avg" };
+            string[] lsqlfunctionType = {"Sum", "Count", "Avg"};
             list.AddToList("LsqlFunctionType", new List<string>(lsqlfunctionType));
 
-            string[] textConditionOperators = { "EqualTo", "NotEqualTo", "Contains", "DoNotContains", "StartsWith", "EndsWith", "IsInList" };
+            string[] textConditionOperators =
+            {
+                "EqualTo", "NotEqualTo", "Contains", "DoNotContains", "StartsWith",
+                "EndsWith", "IsInList"
+            };
             list.AddToList("TextConditionOperators", new List<string>(textConditionOperators));
 
-            string[] checkboxConditionOperators = { "EqualTo" };
+            string[] checkboxConditionOperators = {"EqualTo"};
             list.AddToList("CheckboxConditionOperators", new List<string>(checkboxConditionOperators));
 
-            string[] dropdownConditionOperators = { "EqualTo", "NotEqualTo" };
+            string[] dropdownConditionOperators = {"EqualTo", "NotEqualTo"};
             list.AddToList("DropdownConditionOperators", new List<string>(dropdownConditionOperators));
 
-            string[] conditionOperators = { "EqualTo", "NotEqualTo", "LessThan", "LessThanEqualTo", "GreaterThan", "GreaterThanEqualTo" };
+            string[] conditionOperators =
+            {
+                "EqualTo", "NotEqualTo", "LessThan", "LessThanEqualTo", "GreaterThan",
+                "GreaterThanEqualTo"
+            };
             list.AddToList("ConditionOperators", new List<string>(conditionOperators));
 
-            string[] vertical = { "Field", "Telecalling", "BackOffice" };
+            string[] vertical = {"Field", "Telecalling", "BackOffice"};
             list.AddToList("Vertical", new List<string>(vertical));
-            
+
+            string[] cyclecode = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", 
+                                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+                                     "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", };
+            list.AddToList("CycleCodes", new List<string>(cyclecode));
+
         }
 
         public void InitSystemEnums(EnumList list)

@@ -38,7 +38,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
                 return;
             }
 
-            var missingEnties = RecordCreatorObj.YesterdayRecords.Where(x => !TodayRecordList.DoesAccountExist(x)).ToList();
+            var missingEnties = RecordCreatorObj.YesterdayRecords.Where(x => !RecordCreatorObj.TodayRecordList.DoesAccountExist(x)).ToList();
 
             foreach (var liner in missingEnties)
             {
