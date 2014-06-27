@@ -375,7 +375,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', '$csfactory
             }
         };
 
-        $scope.getStakeById = function (param) {
+        $scope.searchStake = function (param) {
             if (param.length < 3) {
                 $scope.stakeholderData = [];
                 $scope.showDiv = false;
