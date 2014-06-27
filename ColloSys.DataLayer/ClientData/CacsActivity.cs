@@ -48,6 +48,7 @@ namespace ColloSys.DataLayer.Domain
 
         public override ulong FileRowNo { get; set; }
 
+
         public virtual bool ConsiderInAllocation { get; set; }
         #endregion
 

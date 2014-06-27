@@ -10,6 +10,7 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.SessionMgr;
+using NHibernate.Linq;
 using NHibernate.Transform;
 
 #endregion
@@ -42,15 +43,18 @@ namespace ColloSys.FileUploaderService.DbLayer
                                      .ThenBy(x => x.CreatedOn).Asc
                                      .List();
 
-                    
+
                     FileScheduler file2Upload = null;
                     IList<FileScheduler> filesWaiting = new List<FileScheduler>();
                     foreach (var fileScheduler in obj)
                     {
-                        fileScheduler.FileDetail.FileMappings =
-                            session.QueryOver<FileMapping>()
-                                .Where(x => x.FileDetail.Id == fileScheduler.FileDetail.Id)
-                                .List();
+                        var fileDetailId = fileScheduler.FileDetail.Id;
+                        var mappings =
+                            session.Query<FileMapping>()
+                                .Where(x => x.FileDetail.Id == fileDetailId)
+                                .ToList();
+                        fileScheduler.FileDetail.FileMappings = mappings;
+
                         // if no depend alias then continue with upload
                         var dependAlias = fileScheduler.FileDetail.DependsOnAlias;
                         if (dependAlias == null)
@@ -59,17 +63,13 @@ namespace ColloSys.FileUploaderService.DbLayer
                             break;
                         }
 
-                        FileScheduler fs1 = null;
-                        FileDetail fd1 = null;
                         var schedulerDate = fileScheduler.FileDate.Date;
-                        var fileDetailOnAlias =
-                            session.QueryOver<FileDetail>()
-                            .Where(x => x.AliasName == dependAlias)
-                            .SingleOrDefault();
+                        var fileDetailOnAlias = session.Query<FileDetail>()
+                            .Single(x => x.AliasName == dependAlias.Value);
 
                         var dependFileScheduler = session.QueryOver<FileScheduler>()
                             .Where(x => x.FileDate == schedulerDate)
-                            .And(x=>x.FileDetail.Id==fileDetailOnAlias.Id)
+                            .And(x => x.FileDetail.Id == fileDetailOnAlias.Id)
                             .And(
                                 x =>
                                     x.UploadStatus == ColloSysEnums.UploadStatus.Done ||
@@ -92,7 +92,7 @@ namespace ColloSys.FileUploaderService.DbLayer
                         }
 
                         // if depend File not scheduled then set description to waiting.
-                        var waitingDescription = "Waiting for all " + dependAlias.ToString();
+                        var waitingDescription = "Waiting for all " + dependAlias;
                         // if description already set then continue without set other wise set description
                         if (fileScheduler.StatusDescription == waitingDescription) continue;
                         fileScheduler.StatusDescription = waitingDescription;
@@ -218,7 +218,7 @@ namespace ColloSys.FileUploaderService.DbLayer
         public TEntity GetRecordForUpdate<TEntity>(string accountNo)
             where TEntity : Entity, IDelinquentCustomer
         {
-            TEntity objEntity = null;
+            TEntity objEntity;
             using (var session = SessionManager.GetNewSession())
             {
                 using (var tx = session.BeginTransaction())
@@ -228,7 +228,7 @@ namespace ColloSys.FileUploaderService.DbLayer
                     tx.Commit();
                 }
             }
-            
+
             return objEntity;
         }
     }

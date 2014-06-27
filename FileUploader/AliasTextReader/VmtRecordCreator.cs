@@ -117,6 +117,7 @@ namespace ColloSys.FileUploaderService.AliasTextReader
             catch (Exception)
             {
                 Counter.IncrementIgnoreRecord();
+               
                 return false;
             }
         }

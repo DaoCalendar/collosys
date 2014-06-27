@@ -20,7 +20,7 @@ namespace ColloSys.FileUploaderService.AliasPayment
         protected readonly IDbLayer DbLayer;
         private readonly uint _accountPosition;
         private readonly uint _accountLength;
-        private readonly Logger _log = LogManager.GetCurrentClassLogger();
+        public readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         protected PaymentRecordCreator(uint accountPosition, uint accountLength)
         {

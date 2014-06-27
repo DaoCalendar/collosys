@@ -44,6 +44,8 @@ namespace ColloSys.FileUploaderService.AliasPayment
             catch (Exception exception)
             {
                 throw new Exception("EbbsPaymentLinerRecordCreator Computted setter in not set", exception);
+                //_log.Debug(string.Format("EbbsPaymentLinerRecordCreator Computted setter in not set {0}",exception));
+               // return false;
             }
         }
 

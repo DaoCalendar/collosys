@@ -63,10 +63,10 @@ namespace ColloSys.FileUploaderService.AliasTextReader
             {
                 throw new Exception(exception.Message);
             }
-            
 
 
-          
+
+
         }
 
         private bool CheckValidRecord(string reader)
@@ -94,6 +94,11 @@ namespace ColloSys.FileUploaderService.AliasTextReader
                     Counter.IncrementIgnoreRecord();
                     return false;
                 }
+
+                // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
+                Convert.ToDecimal(currentLine.Substring2(1, 16));
+
+
 
                 return true;
             }

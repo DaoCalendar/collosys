@@ -107,9 +107,11 @@ namespace ColloSys.FileUploaderService.FileReader
                     obj.FileRowNo = Counter.CurrentRow;
                     list.Add(obj);
                     TodayRecordList.AddEntity(obj);
+                    
                 }
                 
             }
+            _log.Info("GetNextBatch: Batch Create ");
             Counter.CalculateTotalRecord();
             return list;
 
