@@ -66,7 +66,7 @@ namespace ColloSys.Shared.Types4Product
                 case ScbEnums.Category.WriteOff:
                     if (currentProduct.WriteoffTable != null)
                     {
-                        tableName = currentProduct.WriteoffTable.Value;
+                        tableName = currentProduct.WriteoffTable;
                         break;
                     }
                     throw new InvalidProgramException("NO table exist for the said product-category combination.");
