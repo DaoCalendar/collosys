@@ -3,7 +3,7 @@
         <div class="form-group row">
             <label class="col-md-3 control-label">Tables</label>
             <div class="col-md-6">
-                <select data-ng-model="selectedTable" class="input-large" data-ng-change="fetchData()" data-ui-select2="">
+                <select data-ng-model="selectedTable" class="input-lg" data-ng-change="fetchData()">
                     <option value=""></option>
                     <option data-ng-repeat="s in dbTables | orderBy: 'toString()'">{{s}}</option>
                 </select>

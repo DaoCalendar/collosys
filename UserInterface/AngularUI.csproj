@@ -330,6 +330,10 @@
     <Content Include="Legal\RequisitionPreparation\RequisitionPreparation.js" />
     <Content Include="Legal\RequsitionIntiation\RequsitionIntiation.html" />
     <Content Include="Legal\RequsitionIntiation\RequsitionIntiation.js" />
+    <Content Include="Scripts\angular-tag\angular-tags-0.3.1-tpls.js" />
+    <Content Include="Scripts\angular-tag\angular-tags-0.3.1-tpls.map.js" />
+    <Content Include="Scripts\angular-tag\angular-tags-0.3.1-tpls.min.js" />
+    <Content Include="Scripts\angular-tag\angular-tags-0.3.1.css" />
     <Content Include="Scripts\angular-ui-bootstrap\ui-bootstrap-tpls-0.11.0.js" />
     <Content Include="Scripts\angular-ui-bootstrap\ui-bootstrap-tpls-0.11.0.min.js" />
     <Content Include="Scripts\angular-ui-bootstrap\ui-bootstrap-0.11.0.js" />
