@@ -94,6 +94,7 @@
                     if (angular.isDefined(newVal)) {
                         if (newVal.length === 0) scope.uncheckAll();
                     }
+                    if (angular.isUndefined(newVal)) scope.uncheckAll();
                     if (angular.isDefined(newVal)) {
                         markChecked(newVal);
                         scope.$eval(changeHandler);

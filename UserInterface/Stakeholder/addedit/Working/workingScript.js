@@ -389,7 +389,8 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             $scope.Payment = data.Stakeholder.StkhPayments.length === 0 ? {} : data.Stakeholder.StkhPayments[0];
             getPaymentData($scope.selectedHierarchy);
             $scope.workingDetailsList = data.Stakeholder.StkhWorkings;
-            factory.ParseBuckets($scope.workingDetailsList);
+            if ($scope.selectedHierarchy.HasBuckets)
+                factory.ParseBuckets($scope.workingDetailsList);
             return data;
         };
 
@@ -445,7 +446,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
 
         $scope.computeSalary = function (basic, gross) {
             $scope.SalDetails = factory.ComputeSalary(basic, gross, $scope.SalDetails);
-            console.log("salObj : ",$scope.SalDetails);
+            console.log("salObj : ", $scope.SalDetails);
         };
 
         $scope.getReportsTo = function (product) {
@@ -512,7 +513,8 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                 if (!$scope.selectedHierarchy.HasPayment) {
                     $scope.gotoView();
                 } else {
-                    factory.ParseBuckets($scope.workingDetailsList);
+                    if ($scope.selectedHierarchy.HasBuckets)
+                        factory.ParseBuckets($scope.workingDetailsList);
                     factory.SetReportsToName($scope.workingDetailsList, data.ReportsToList);
                 }
                 return data;
@@ -658,16 +660,6 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             }
         };
 
-        $scope.disableAddBtn = function (workModel, form) {
-            if (form.$invalid) return true;
-            if (angular.isUndefined(workModel)) return true;
-            if (angular.isUndefined($scope.selectedHierarchy)) return true;
-            if ($scope.selectedHierarchy.HasBuckets)//isDefined check required because the multiselect component keeps the model undefined untill selected
-                return !(angular.isDefined(workModel.SelectedPincodeData.Buckets) && workModel.SelectedPincodeData.Buckets.length > 0);
-            if ($scope.selectedHierarchy.LocationLevel === 'Country') return false;
-            return !(angular.isDefined(workModel.SelectedPincodeData[$scope.selectedHierarchy.LocationLevel]) && workModel.SelectedPincodeData[$scope.selectedHierarchy.LocationLevel].length > 0);
-        };
-
         $scope.showEndDate = function (deleteList) {
             var showEndDt = false;
             _.forEach(deleteList, function (working) {
@@ -694,7 +686,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         };
 
         $scope.showSaveButton = function () {
-            if (angular.isUndefined($scope.workingDetailsList)) return false;
+            if (angular.isUndefined($scope.workingDetailsList)) return true;
             return $scope.workingDetailsList.length == 0;
         };
 
@@ -704,7 +696,15 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
     }
 ]);
 
-
+//$scope.disableAddBtn = function (workModel, form) {
+//    if (form.$invalid) return true;
+//    if (angular.isUndefined(workModel)) return true;
+//    if (angular.isUndefined($scope.selectedHierarchy)) return true;
+//    if ($scope.selectedHierarchy.HasBuckets)//isDefined check required because the multiselect component keeps the model undefined untill selected
+//        return !(angular.isDefined(workModel.SelectedPincodeData.Buckets) && workModel.SelectedPincodeData.Buckets.length > 0);
+//    if ($scope.selectedHierarchy.LocationLevel === 'Country') return false;
+//    return !(angular.isDefined(workModel.SelectedPincodeData[$scope.selectedHierarchy.LocationLevel]) && workModel.SelectedPincodeData[$scope.selectedHierarchy.LocationLevel].length > 0);
+//};
 
 //var getStakeholderForEdit = function (stakeId) {
 //    datalayer.GetStakeholder(stakeId).then(function (data) {
