@@ -12,5 +12,10 @@
         {
 
         }
+
+        public override string GetValueForIsSettled()
+        {
+            return Reader.GetValue(11);
+        }
     }
 }

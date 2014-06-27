@@ -11,7 +11,7 @@ using NLog;
 namespace ColloSys.FileUploaderService.AliasWriteOff.Ebbs
 {
     // ReSharper disable once InconsistentNaming
-    public class EWriteOffSharedRC : RecordCreator<EWriteoff>
+    public abstract class EWriteOffSharedRC : RecordCreator<EWriteoff>
     {
         private uint AccountPosition { get; set; }
         private uint AccountLength { get; set; }
@@ -33,11 +33,9 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Ebbs
                 entity.AccountNo = ulong.Parse(Reader.GetValue(AccountPosition))
                     .ToString("D" + AccountPosition.ToString(CultureInfo.InvariantCulture));
 
-                if ( entity.SettlementY=="Y")
-                {
-                    entity.IsSetteled = true;
-                }
-                entity.IsSetteled = false;
+                var value = GetValueForIsSettled();
+                    entity.IsSetteled = !string.IsNullOrWhiteSpace(value) 
+                        && value.Trim().ToUpperInvariant() == "Y";
                 return true;
             }
             catch (Exception)
@@ -87,5 +85,7 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Ebbs
         {
             throw new NotImplementedException();
         }
+
+        public abstract string GetValueForIsSettled();
     }
 }
