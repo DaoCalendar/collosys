@@ -77,11 +77,11 @@
                 data-ng-class="{'alert-danger': fileScheduler.UploadStatus == 'Error', 'alert-info': fileScheduler.UploadStatus == 'UploadStarted', 'alert-success': fileScheduler.UploadStatus == 'Done' || fileScheduler.UploadStatus == 'DoneWithError','alert-info': fileScheduler.UploadStatus == 'PostProcessing'}">
                 <td colspan="2">
                     <div class="btn-group" style="width: 90px">
-                        <icon-btn permission="FileStatusDelete" type="delete" data-ng-show="{{fileScheduler.UploadStatus=='Error'}}" data-ng-click="showDeleteModal(fileScheduler)"></icon-btn>
-                        <icon-btn permission="FileStatusAddEdit" type="download" data-ng-show="{{fileScheduler.UploadStatus=='Done' || fileScheduler.UploadStatus=='DoneWithError'}}" data-ng-click="downloadOutput(fileScheduler)"></icon-btn>
-                        <icon-btn permission="FileStatusAddEdit" type="forward" data-ng-show="{{fileScheduler.UploadStatus=='UploadRequest' && fileScheduler.IsImmediate != true }}" data-ng-click="showImmediateModal(fileScheduler)"></icon-btn>
-                        <icon-btn permission="FileStatusAddEdit" type="retry" data-ng-show="{{fileScheduler.UploadStatus=='Error'}}" data-ng-click="retryUpload(fileScheduler)"></icon-btn>
-                        <icon-btn permission="FileStatus" type="status" data-ng-show="{{fileScheduler.UploadStatus!='UploadRequest' && fileScheduler.UploadStatus!='Error' && fileScheduler.UploadStatus!='RetryUpload' }}" data-ng-click="showStatusModal(fileScheduler)" type="button">Status</icon-btn>
+                        <icon-btn permission="FileScheduleDelete" type="delete" data-ng-show="{{fileScheduler.UploadStatus=='Error'}}" data-ng-click="showDeleteModal(fileScheduler)"></icon-btn>
+                        <icon-btn permission="FileSchedule" type="download" data-ng-show="{{fileScheduler.UploadStatus=='Done' || fileScheduler.UploadStatus=='DoneWithError'}}" data-ng-click="downloadOutput(fileScheduler)"></icon-btn>
+                        <icon-btn permission="FileSchedule" type="forward" data-ng-show="{{fileScheduler.UploadStatus=='UploadRequest' && fileScheduler.IsImmediate != true }}" data-ng-click="showImmediateModal(fileScheduler)"></icon-btn>
+                        <icon-btn permission="FileScheduleRetry" type="retry" data-ng-show="{{fileScheduler.UploadStatus=='Error'}}" data-ng-click="retryUpload(fileScheduler)"></icon-btn>
+                        <icon-btn permission="FileSchedule" type="status" data-ng-show="{{fileScheduler.UploadStatus!='UploadRequest' && fileScheduler.UploadStatus!='Error' && fileScheduler.UploadStatus!='RetryUpload' }}" data-ng-click="showStatusModal(fileScheduler)"></icon-btn>
                     </div>
                 </td>
                 <td>{{fileScheduler.ScbSystems}}</td>

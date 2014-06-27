@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AngularUI.Generic.Menu;
+using AngularUI.Generic.permissions;
 using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.JsonSerialization;
 using ColloSys.DataLayer.SessionMgr;

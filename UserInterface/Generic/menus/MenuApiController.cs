@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
+using AngularUI.Generic.permissions;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.GenericBuilder;
-using ColloSys.QueryBuilder.Test.GenerateDb;
 
 namespace AngularUI.Generic.Menu
 {

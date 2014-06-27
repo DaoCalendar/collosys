@@ -9,7 +9,6 @@ using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
-using ColloSys.QueryBuilder.Test.GenerateDb;
 
 #endregion
 
