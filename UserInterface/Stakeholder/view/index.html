@@ -5,10 +5,15 @@
                   data-ng-model="filter.name"
                   data-ng-change="getStakeholders(filter.name)">
         </cs-field>
+        <cs-field field="fields.Search"
+                  layout="4.0.12"  
+                  data-ng-model="filter.search"
+                  data-ng-change="searchStake(filter.search)"
+                  data-ng-show="filter.name === 'Search'"></cs-field>      
     </div>
 </cs-form>
 
-<div class="col-md-12">
+<div class="col-md-12" data-ng-show="stakeholders.length>0">
     <table class="table table-bordered table-condensed table-hover table-striped">
         <thead>
             <th class="col-md-2">Name</th>

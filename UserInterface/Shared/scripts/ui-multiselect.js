@@ -91,7 +91,9 @@
                     //when directive initialize, newVal usually undefined. Also, if model value already set in the controller
                     //for preselected list then we need to mark checked in our scope item. But we don't want to do this every time
                     //model changes. We need to do this only if it is done outside directive scope, from controller, for example.
-                    if (newVal.length === 0) scope.uncheckAll();
+                    if (angular.isDefined(newVal)) {
+                        if (newVal.length === 0) scope.uncheckAll();
+                    }
                     if (angular.isDefined(newVal)) {
                         markChecked(newVal);
                         scope.$eval(changeHandler);
@@ -122,8 +124,12 @@
                 function getHeaderText() {
                     if (is_empty(modelCtrl.$modelValue)) scope.header = 'Select';
                     if (isMultiple) {
-                        if (angular.isUndefined(modelCtrl.$modelValue)) scope.header = "0 selected";
-                        scope.header = modelCtrl.$modelValue.length + ' ' + 'selected';
+                        if (angular.isUndefined(modelCtrl.$modelValue)) {
+                            scope.header = "0 selected";
+                        } else {
+                            scope.header = modelCtrl.$modelValue.length + ' ' + 'selected';
+                        }
+
                     } else {
                         var local = {};
                         local[parsedResult.itemName] = modelCtrl.$modelValue;
