@@ -4,10 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.SessionMgr;
 using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
-using NHibernate.Linq;
 
 #endregion
 
@@ -51,23 +49,6 @@ namespace AngularUI.Stakeholder.addedit.Working
             return stkhProductList;
         }
 
-        public static void UpdateAndSave(List<StkhWorking> workList)
-        {
-            var session = SessionManager.GetCurrentSession();
-
-            using (var transaction = session.BeginTransaction())
-            {
-                var stake = session.Query<Stakeholders>()
-                       .Where(x => x.Id == workList[0].Stakeholder.Id)
-                       .Fetch(x => x.StkhWorkings)
-                       .Single();
-                stake.StkhWorkings = workList;
-                session.Merge(stake);
-                transaction.Commit();
-                session.Close();
-            }
-        }
-
         public static IEnumerable<StkhWorking> SetStatusForApprove(IEnumerable<StkhWorking> workList)
         {
             var newWorkList = new List<StkhWorking>();
@@ -90,7 +71,7 @@ namespace AngularUI.Stakeholder.addedit.Working
             return newWorkList;
         }
 
-        public static List<StkhWorking> SetStatusForSave(List<StkhWorking> workList)
+        public static List<StkhWorking> SetStatusForSave(IEnumerable<StkhWorking> workList)
         {
             var newWorkList = new List<StkhWorking>();
             foreach (var stkhWorking in workList.Where(stkhWorking => stkhWorking.Id == Guid.Empty))
@@ -150,16 +131,11 @@ namespace AngularUI.Stakeholder.addedit.Working
             return payment;
         }
 
-        public static List<StkhWorking> FilterWorkList(IList<StkhWorking> workList)
+        public static List<StkhWorking> FilterWorkList(IEnumerable<StkhWorking> workList)
         {
-            return
-                workList.Where(
-                    x =>
-                    (x.EndDate > DateTime.Today || x.EndDate == null) &&
-                    x.ApprovalStatus != ColloSysEnums.ApproveStatus.Rejected)
-                        .ToList();
-
-
+            return workList.Where(x => (x.EndDate > DateTime.Today || x.EndDate == null)
+                                       && x.ApprovalStatus != ColloSysEnums.ApproveStatus.Rejected)
+                .ToList();
         }
     }
 }

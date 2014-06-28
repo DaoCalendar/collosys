@@ -1,9 +1,11 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
+
+#endregion
 
 namespace AngularUI.Stakeholder.view
 {
@@ -15,23 +17,15 @@ namespace AngularUI.Stakeholder.view
         {
             switch (filterParam)
             {
+                case "All":
+                    return StakeQuery.GetAll();
                 case "Approved":
-                    return GetApprovedStake();
+                    return StakeQuery.GetAllApproved();
                 case "Unapproved":
-                    return GetUnApproved();
+                    return StakeQuery.GetAllUnApproved();
                 default:
                     throw new Exception("invalid filter param " + filterParam);
             }
-        }
-
-        private static IEnumerable<Stakeholders> GetApprovedStake()
-        {
-            return StakeQuery.GetAllApproved();
-        }
-
-        private static IEnumerable<Stakeholders> GetUnApproved()
-        {
-            return StakeQuery.GetAllUnApproved();
         }
     }
 }

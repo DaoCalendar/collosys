@@ -3,10 +3,6 @@ csapp.factory('ViewStakeholderDatalayer', ["Restangular", function (rest) {
 
     var restApi = rest.all('ViewStakeApi');
 
-    var getStakeholder = function () {
-        return restApi.customGET('GetAllStakeHolders');
-    };
-
     var getFilteredList = function (filterParam) {
         return restApi.customGET("GetFilteredList", { "filterParam": filterParam });
     };
@@ -16,7 +12,6 @@ csapp.factory('ViewStakeholderDatalayer', ["Restangular", function (rest) {
     };
 
     return {
-        GetStakeholder: getStakeholder,
         GetFilteredList: getFilteredList,
         SearchStakeholder: searchStakeholder
     };
@@ -27,19 +22,12 @@ csapp.controller('viewStake', [
     '$scope', '$log', 'ViewStakeholderDatalayer', '$location', "$timeout",
     function ($scope, $log, datalayer, $location, $timeout) {
 
-        var getAllStakeholders = function () {
-            return datalayer.GetStakeholder().then(function (data) {
-                $scope.stakeholders = data;
-            });
-        };
-
         (function () {
-            //getAllStakeholders();
             $scope.fields = {
                 filters: { type: 'enum', label: 'View' },
                 Search: { placeholder: "enter ID/Name to edit", type: 'text' }
             };
-            $scope.filterList = ['Approved', 'Unapproved', "Search"];
+            $scope.filterList = ['All','Approved', 'Unapproved', "Search"];
         })();
 
         $scope.switchPage = function (data, page) {
@@ -57,17 +45,12 @@ csapp.controller('viewStake', [
         };
 
         $scope.searchStake = function (param) {
-            if (param.length < 3) {
-                return;
-            }
+            if (param.length < 3) { return; }
             $timeout(function () {
                 datalayer.SearchStakeholder(param).then(function (data) {
                     $scope.stakeholders = data;
                 });
-            }, 300
-            );
-
-
+            }, 400);
         };
 
         $scope.getStakeholders = function (filterParam) {
