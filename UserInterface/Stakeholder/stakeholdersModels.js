@@ -104,7 +104,7 @@
             Line2: { label: 'Street/Area Name', type: 'text' },
             Line3: { label: 'Landmark', type: 'text' },
             StateCity: { label: 'City/State', type: 'text' },
-            Pincode: { label: 'Pincode', type: 'text' },
+            Pincode: { label: 'Pincode', type: 'number' },
             Country: { label: 'Country', type: 'text' },
             LandlineNo: { label: 'LandlineNo', type: 'text', template: 'phone', required: true },
         };

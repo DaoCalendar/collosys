@@ -451,7 +451,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                 Buckets: []
             };
             $scope.showPayment = true;
-            $scope.bucketList = [1, 2, 3, 4, 5, 6];
+            $scope.bucketList = ["1", "2", "3", " 4", "5", "6"];
             getStakeData();
             $scope.paymentModel = $csModels.getColumns("StkhPayment");
             $scope.workingModel = $csModels.getColumns("StkhWorking");
@@ -667,7 +667,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             });
         };
 
-        //TODO: separate into working payment part
+        //TODO: separate into working payment part-done
 
         $scope.approveWorkings = function (workList) {
             factory.SetWorkList($scope.currStakeholder, workList);
@@ -713,9 +713,6 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             $scope.gotoView();
             return $scope.Payment;
         };
-
-
-
 
         $scope.setApprovalStatus = function (param1, status, param) {
 
