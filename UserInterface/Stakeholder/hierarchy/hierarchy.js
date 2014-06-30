@@ -86,7 +86,9 @@ csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function 
         if ($csfactory.isNullOrEmptyArray(dldata.HierarchyList)) { return; }
 
         dldata.HierarchyList = _.sortBy(dldata.HierarchyList, 'PositionLevel');
-        dldata.DesignationList = dldata.HierarchyList;
+        dldata.DesignationList = _.forEach(dldata.HierarchyList, function(item) {
+            item.Designation = item.Designation + '(' + item.Hierarchy +')';
+        });
     };
 
     var setHierarchy = function (hierarchy, hierarchyList) {
