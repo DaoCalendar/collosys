@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.IO;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploaderService.RecordManager;
@@ -10,15 +9,8 @@ namespace ColloSys.FileUploaderService.AliasTextReader
 {
     public class VmtRecordCreator: TextRecordCreator<Payment>
     {
-        private StreamReader _inpuStreamReader;
-
         string _firstLine = string.Empty;
         string _secondLine = string.Empty;
-
-        public VmtRecordCreator()
-        {
-           
-        }
 
         public override bool CreateRecord(out Payment payment)
         {

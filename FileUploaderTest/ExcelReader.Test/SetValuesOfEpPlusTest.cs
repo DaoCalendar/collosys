@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using ColloSys.FileUploaderService.ExcelReader;
-using NUnit.Framework;
 using FileUploader.ExcelReader;
+using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
 
-namespace FileUploader.Tests.ExcelReader.Test
+namespace ReflectionExtension.Tests.ExcelReader.Test
 {
     [TestFixture]
     class SetValuesOfEpPlusTest
@@ -19,7 +19,7 @@ namespace FileUploader.Tests.ExcelReader.Test
         public void Init()
         {
             var fileInfo = new FileInfo("c:\\ExampleData.xlsx");
-            //_excel = new EpPlusExcelReader(fileInfo);
+            _excel = new EpPlusExcelReader(fileInfo);
             _data = new ConvertExcelToList<ExcelReaderHelper>(_excel);
             _list = ExcelReaderHelper.GetMappingInfo();
             _objList = _data.GetList(_list);

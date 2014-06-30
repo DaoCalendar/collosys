@@ -109,7 +109,6 @@ namespace ColloSys.FileUploaderService
                     //case ColloSysEnums.FileAliasName.R_WRITEOFF_AUTO_GB:
                     //case ColloSysEnums.FileAliasName.R_WRITEOFF_AUTO_SCB:
                     //  var payment  new RlsPaymentLinerFileReader(scheduler);
-                    break;
 
                 #endregion
 

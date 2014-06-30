@@ -64,12 +64,8 @@ namespace ColloSys.Shared.Types4Product
                     tableName = currentProduct.PaymentTable;
                     break;
                 case ScbEnums.Category.WriteOff:
-                    if (currentProduct.WriteoffTable != null)
-                    {
-                        tableName = currentProduct.WriteoffTable;
-                        break;
-                    }
-                    throw new InvalidProgramException("NO table exist for the said product-category combination.");
+                    tableName = currentProduct.WriteoffTable;
+                    break;
                 default:
                     throw new InvalidProgramException("NO table exist for the said product-category combination.");
             }
@@ -101,12 +97,8 @@ namespace ColloSys.Shared.Types4Product
                     tableName = currentProduct.PaymentTable;
                     break;
                 case ScbEnums.Category.WriteOff:
-                    if (currentProduct.WriteoffTable != null)
-                    {
-                        tableName = currentProduct.WriteoffTable;
-                        break;
-                    }
-                    throw new InvalidProgramException("NO table exist for the said product-category combination.");
+                    tableName = currentProduct.WriteoffTable;
+                    break;
                 default:
                     throw new InvalidProgramException("NO table exist for the said product-category combination.");
             }

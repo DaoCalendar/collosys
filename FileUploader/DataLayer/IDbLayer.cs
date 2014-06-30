@@ -9,7 +9,7 @@ using ColloSys.DataLayer.Enumerations;
 
 #endregion
 
-namespace ColloSys.FileUploaderService.DbLayer
+namespace ColloSys.FileUploaderService.DataLayer
 {
    public interface IDbLayer
    {

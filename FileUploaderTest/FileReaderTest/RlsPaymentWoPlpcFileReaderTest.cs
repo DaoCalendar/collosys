@@ -12,14 +12,13 @@ namespace ReflectionExtension.Tests.FileReaderTest
     internal class RlsPaymentWoPlpcFileReaderTest
     {
         private IFileReader<Payment> _fileReader;
-        private FileScheduler _uploadedFile;
         private FileMappingData _data;
+        private FileScheduler _uploadedFile;
 
         [SetUp]
         public void Init()
         {
             _data = new FileMappingData();
-           // _uploadedFile = _data.GetUploadedFile();
             _fileReader = new RlsPaymentWoPlpcFileReader(_uploadedFile);
         }
 
@@ -28,7 +27,6 @@ namespace ReflectionExtension.Tests.FileReaderTest
         {
             //Arrange
             var payment = _data.GetPayment();
-            var mappings = _data.GetMappings();
 
             //Act
             _fileReader.ReadAndSaveBatch();

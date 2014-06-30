@@ -139,8 +139,8 @@
     <Compile Include="AllFileUploader.cs" />
     <Compile Include="ExcelReader\DecodeScbProduct.cs" />
     <Compile Include="FileUploaderService1.cs" />
-    <Compile Include="DbLayer\DbLayer.cs" />
-    <Compile Include="DbLayer\IDbLayer.cs" />
+    <Compile Include="DataLayer\DbLayer.cs" />
+    <Compile Include="DataLayer\IDbLayer.cs" />
     <Compile Include="ExcelReader\ConvertExcelToList.cs" />
     <Compile Include="ExcelReader\EpPlusExcelReader.cs" />
     <Compile Include="ExcelReader\ExcelDataReader.cs" />

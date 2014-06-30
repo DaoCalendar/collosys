@@ -395,8 +395,8 @@
     <Content Include="FileUpload\uploadpincode\uploadpincode.js" />
     <Content Include="Generic\changepassword\changepassword.html" />
     <Content Include="Generic\changepassword\changepassword.js" />
-    <Content Include="Generic\general\generalConfig.js" />
-    <Content Include="Generic\general\index.html" />
+    <Content Include="Generic\encryption\encryptConfig.js" />
+    <Content Include="Generic\encryption\index.html" />
     <Content Include="Generic\genericmodels.js" />
     <Content Include="Generic\home\home.js" />
     <Content Include="Generic\keyvalue\keyvalue.html" />

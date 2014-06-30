@@ -19,7 +19,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
             :base(AccountNoPosition,AccountNoLength)
         {
             HasMultiDayComputation = true;
-            var dbLayer = new DbLayer.DbLayer();
+            var dbLayer = new DataLayer.DbLayer();
             //PreviousDayLiner = dbLayer.GetDataForPreviousDay<ELiner>(ColloSysEnums.FileAliasName.E_LINER_OD_SME,
             //    FileScheduler.FileDate, FileScheduler.FileDetail.FileCount);
         }

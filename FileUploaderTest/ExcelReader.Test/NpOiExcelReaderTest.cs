@@ -10,12 +10,14 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
     {
         private NpOiExcelReader _excel;
         private FileInfo _fileInfo;
-        private ICounter counter;
+        private ICounter _counter;
+
         [SetUp]
         public void Init()
         {
+            _counter = new ExcelRecordCounter();
             _fileInfo = new FileInfo("DrillDown_Txn_1.xls");
-            _excel = new NpOiExcelReader(_fileInfo,counter);
+            _excel = new NpOiExcelReader(_fileInfo, _counter);
         }
 
         #region:: ColumnWise Test Case ::
@@ -252,7 +254,7 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [Test]
         public void Test_Constructor_With_FileInfo()
         {
-            _excel = new NpOiExcelReader(_fileInfo,counter);
+            _excel = new NpOiExcelReader(_fileInfo, _counter);
             Assert.AreEqual(_excel.TotalRows, 6);
             Assert.AreEqual(_excel.TotalColumns, 11);
         }

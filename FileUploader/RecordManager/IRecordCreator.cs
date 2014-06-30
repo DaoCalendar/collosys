@@ -2,6 +2,7 @@
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
+using ColloSys.FileUploaderService.RowCounter;
 using ColloSys.FileUploaderService.Utilities;
 
 namespace ColloSys.FileUploaderService.RecordManager
@@ -17,8 +18,7 @@ namespace ColloSys.FileUploaderService.RecordManager
 
         bool EndOfFile();
 
-        uint CurrentRow { get; }
-
-        TEntity GetRecordForUpdate();
+        void Init(FileScheduler fileScheduler, ICounter counter);
+        void InitPreviousDayLiner   (FileScheduler fileScheduler);
     }
 }

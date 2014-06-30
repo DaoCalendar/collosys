@@ -214,7 +214,7 @@ namespace ColloSys.FileUploader.Reflection
             if (value == null)
                 return null;
 
-            if ( value==" - " || value.Trim()=="-")
+            if (value.Trim()=="-")
             {
                 return string.Empty;
             }
