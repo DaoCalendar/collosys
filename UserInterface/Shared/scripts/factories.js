@@ -203,7 +203,7 @@ csapp.factory('$csnotify', function () {
 });
 
 csapp.factory('$csStopWatch', ["$timeout", function ($timeout) {
-    var data = { value: 1, stringValue: '' };
+    var data = { value: 1,laps : [], stringValue: '' };
     var stopwatch = null;
 
     var start = function () {
@@ -223,12 +223,12 @@ csapp.factory('$csStopWatch', ["$timeout", function ($timeout) {
         stop();
         data.value = 0;
         data.stringValue = '';
-        //data.laps = [];
+        data.laps = [];
     };
 
-    //var lap = function () {
-    //    data.laps.push(data.value);
-    //};
+    var lap = function () {
+        data.laps.push(data.value);
+    };
 
     var getTime = function (totalTime) {
 
@@ -266,7 +266,7 @@ csapp.factory('$csStopWatch', ["$timeout", function ($timeout) {
         start: start,
         stop: stop,
         reset: reset,
-        //lap: lap
+        lap: lap
     };
 }]);
 
@@ -424,6 +424,7 @@ csapp.factory("loadingWidget", ["Logger", "$csStopWatch", function (logManager, 
     };
 
     var requestStarted = function () {
+        $csStopWatch.reset();
         requestCount++;
         params.showSpinner = params.enableSpinner === true && requestCount > 0;
         $csStopWatch.start();
@@ -434,7 +435,6 @@ csapp.factory("loadingWidget", ["Logger", "$csStopWatch", function (logManager, 
         params.showSpinner = params.showSpinner === true && requestCount > 0;
         params.enableSpinner = false;
         $csStopWatch.stop();
-        $csStopWatch.reset();
     };
 
     return {
