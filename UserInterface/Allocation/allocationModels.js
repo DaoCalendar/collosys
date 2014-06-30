@@ -40,6 +40,17 @@
         };
     };
 
+    var distributionPercentage = function() {
+        return {
+            Products: { type: "text",label:"Product" },
+            Percentage: { type: "number", template: "percentage",label:"Total" },
+            TelecallingInhouse: { type: "number", template: "percentage", label: "Telecalling Inhouse" },
+            TelecallingExternal: { type: "number", template: "percentage", label: "Telecalling External" },
+            FieldInhouse: { type: "number", template: "percentage", label: "Field Inhouse" },
+            FieldExternal: { type: "number", template: "percentage", label: "Field External" }
+        };
+    };
+
     var viewApprovePolicy = function () {
         return {
             Product: { label: "Product", type: "enum", valueList: [] },
@@ -82,6 +93,10 @@
         models.ViewApprovePolicy = {
             Table: "ViewApprovePolicy",
             Columns: viewApprovePolicy()
+        };
+        models.DistributionPerc = {
+            Table: "DistributionPerc",
+            Columns: distributionPercentage()
         };
 
         return models;

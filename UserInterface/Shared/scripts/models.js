@@ -81,6 +81,9 @@ csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csA
                 case "ViewApprovePolicy":
                     return angular.copy(models.Allocation.ViewApprovePolicy);
 
+                case "DistributionPerc":
+                    return angular.copy(models.Allocation.DistributionPerc);
+
                 case "BillAdhoc":
                     return angular.copy(models.Billing.BillAdhoc);
 

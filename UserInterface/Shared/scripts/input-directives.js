@@ -986,7 +986,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         };
     }]);
 
-csapp.directive("csDateToIso", function() {
+csapp.directive("csDateToIso", function () {
 
     var linkFunction = function (scope, element, attrs, ngModelCtrl) {
         ngModelCtrl.$parsers.push(function (datepickerValue) {
@@ -1023,7 +1023,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         var input = function (field, attr) {
             var html = '<p class="input-group">';
             html += '<input type="text" class="form-control" disabled="disabled"';
-            html += 'datepicker-popup="'+field.format+'" ng-model="$parent.' + attr.ngModel + '" ';//datepicker-popup="' + field.format + '"
+            html += 'datepicker-popup="' + field.format + '" ng-model="$parent.' + attr.ngModel + '" ';//datepicker-popup="' + field.format + '"
             html += 'is-open="field.opened" show-button-bar="field.showButtons"  datepicker-options="field.dateOptions"';
             html += (angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"');
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
@@ -1368,7 +1368,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
                 throw new "Invalid field exception";
             }
 
-            scope.mode = angular.isDefined(controllers.csFormCtrl) ? controllers.csFormCtrl.mode : '';
+            scope.mode = angular.isDefined(controllers.csFormCtrl) ? controllers.csFormCtrl.mode : 'view';
             setLayout(scope.field, controllers.csFormCtrl, attrs);
             setLayoutClasses(scope.field);
             setValidation(scope.field, attrs, controllers.csFormCtrl);
@@ -1394,7 +1394,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
         };
     }]);
 
-csapp.directive('csForm', function () {
+csapp.directive('csForm', ["$timeout", function ($timeout) {
 
     var cntrlFn = function ($scope, $element, $attrs) {
 
@@ -1410,11 +1410,21 @@ csapp.directive('csForm', function () {
         size.label = (isNaN(size.label) || size.label < 0 || size.label > 12) ? 4 : size.label;
         size.control = (isNaN(size.control) || size.control < 1 || size.control > 12) ? 8 : size.control;
 
-        this.mode = $scope.mode;
+        this.mode = $scope.mode || "view";
         this.validation = $attrs.validation;
         this.getSize = function () {
             return angular.copy(size);
         };
+
+        $scope.showForm = true;
+        $scope.$watch(function() {
+            return $scope.mode;
+        }, function() {
+            $scope.showForm = false;
+            $timeout(function() {
+                $scope.showForm = true;
+            }, 100);
+        });
     };
 
     var templateFn = function () {
@@ -1433,6 +1443,6 @@ csapp.directive('csForm', function () {
         controller: cntrlFn,
         require: '^form'
     };
-});
+}]);
 
 
