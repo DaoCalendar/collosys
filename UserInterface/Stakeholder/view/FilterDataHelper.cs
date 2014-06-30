@@ -18,7 +18,7 @@ namespace AngularUI.Stakeholder.view
             switch (filterParam)
             {
                 case "All":
-                    return StakeQuery.GetAll();
+                    return StakeQuery.GetAllStakeholders();
                 case "Approved":
                     return StakeQuery.GetAllApproved();
                 case "Unapproved":

@@ -49,9 +49,11 @@ csapp.controller('viewStake', [
             $timeout(function () {
                 datalayer.SearchStakeholder(param).then(function (data) {
                     $scope.stakeholders = data;
-                    if (data.length === 0) {
-                        $csnotify.success("stakeholders not found");
-                    }
+                    $timeout(function () {
+                        if ($scope.stakeholders.length === 0) {
+                            $csnotify.success("stakeholder not found");
+                        }
+                    }, 1400);
                 });
             }, 400);
         };
@@ -61,7 +63,7 @@ csapp.controller('viewStake', [
             datalayer.GetFilteredList(filterParam).then(function (data) {
                 $scope.stakeholders = data;
                 if (data.length === 0) {
-                    $csnotify.success("stakeholder not found");
+                    $csnotify.success("stakeholders not found");
                 }
             });
         };
