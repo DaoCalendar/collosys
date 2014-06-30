@@ -55,7 +55,7 @@ namespace ColloSys.AllocationService.AllocationLayer
                         IsAllocated = false,
                         StartDate = thisMonthStart,
                         EndDate = thisMonthEnd,
-                        Bucket = 7,
+                        Bucket = "7",
                         WithTelecalling = false
                     };
 
@@ -79,7 +79,7 @@ namespace ColloSys.AllocationService.AllocationLayer
         {
             var ralloc = alloc;
             ralloc.Info = dataObject;
-            ralloc.Bucket = (int)ralloc.Info.Bucket;
+            ralloc.Bucket = ralloc.Info.Bucket;
             accountno = ralloc.Info.AccountNo;
             ralloc.AmountDue = dataObject.TotalDue;
 

@@ -57,7 +57,7 @@ namespace ColloSys.AllocationService.AllocationLayer
                         StartDate = thisMonthStart,
                         EndDate = thisMonthEnd,
                         Stakeholder = relationCondition.AllocSubpolicy.Stakeholder,
-                        Bucket = 7,
+                        Bucket = "7",
                         WithTelecalling = false
                     };
 
@@ -83,7 +83,7 @@ namespace ColloSys.AllocationService.AllocationLayer
             ralloc.Info = dataObject;
             accno = ralloc.Info.AccountNo;
             ralloc.AmountDue = dataObject.TotalDue;
-            ralloc.Bucket = (int)ralloc.Info.Bucket;
+            ralloc.Bucket = ralloc.Info.Bucket;
             ralloc.Info.AllocEndDate = ralloc.EndDate;
             ralloc.Info.AllocStartDate = ralloc.StartDate;
             return ralloc;

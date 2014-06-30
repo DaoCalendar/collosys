@@ -83,7 +83,7 @@ namespace ColloSys.AllocationService.AllocationLayer
                         IsAllocated = true,
                         StartDate = thisMonthStart,
                         EndDate = thisMonthEnd,
-                        Bucket = 7,
+                        Bucket = "7",
                         WithTelecalling = false
                     };
 
@@ -182,7 +182,7 @@ namespace ColloSys.AllocationService.AllocationLayer
             
             accno = ralloc.Info.AccountNo;
             customerName = ralloc.Info.CustomerName;
-            ralloc.Bucket = (int)ralloc.Info.Bucket;
+            ralloc.Bucket = ralloc.Info.Bucket;
             ralloc.AmountDue =dataObject.TotalDue;
             ralloc.Info.AllocEndDate = ralloc.EndDate;
             ralloc.Info.AllocStartDate = ralloc.StartDate;
@@ -193,10 +193,12 @@ namespace ColloSys.AllocationService.AllocationLayer
             return ralloc;
         }
 
-        private static Stakeholders GetStakeholderForAllocation(Guid gpincodeId, List<StakePincodes> stakePincods, uint bucket)
+        private static Stakeholders GetStakeholderForAllocation(Guid gpincodeId, List<StakePincodes> stakePincods, string bucket)
         {
+            var bucketWthQu = string.Format("\"{0}\"", bucket);
             var list = stakePincods
-                    .Where(x => x.Pincodes.Any(y => y.Id == gpincodeId) && x.Stakeholders.StkhWorkings.Any(y=>y.BucketStart==bucket))
+                    .Where(x => x.Pincodes.Any(y => y.Id == gpincodeId)
+                        && x.Stakeholders.StkhWorkings.Any(y=>y.Buckets.Contains(bucketWthQu)))
                     .ToList();
           
             if (list.Count == 0)

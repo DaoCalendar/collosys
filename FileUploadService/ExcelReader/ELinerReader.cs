@@ -64,7 +64,7 @@ namespace ColloSys.FileUploadService.ExcelReader
                 //record.CurrentDue = record.CurrentBalance;
 
                 // bucket
-                record.Bucket = GetBucketForELiner(record);
+                record.Bucket = GetBucketForELiner(record).ToString(CultureInfo.InvariantCulture);
                 if (record.Product == ScbEnums.Products.AUTO_OD)
                 {
                     record.Bucket = record.Bucket + 1;
@@ -76,7 +76,7 @@ namespace ColloSys.FileUploadService.ExcelReader
                 {
                     record.TotalDue = record.CurrentDue;
                     record.PeakBucket = record.Bucket;
-                    record.DelqHistoryString = record.Bucket.ToString("000000000000");
+                    record.DelqHistoryString += record.Bucket;
                     record.Flag = ColloSysEnums.DelqFlag.N;
                     record.AccountStatus = ColloSysEnums.DelqAccountStatus.Norm;
                     errorDescription = string.Empty;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 
@@ -29,9 +30,8 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
             //record.CurrentDue = record.CurrentBalance;
 
             // buckets
-            entity.Bucket = GetBucketForELiner(entity);
+            entity.Bucket = GetBucketForELiner(entity).ToString(CultureInfo.InvariantCulture);
 
-            
             return true;
         }
 

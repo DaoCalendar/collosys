@@ -64,7 +64,7 @@ namespace ColloSys.FileUploadService.ExcelReader
         public override bool PopulateComputedValue(RLiner record, out string errorDescription)
         {
             record.FileDate = Reader.UploadedFile.FileDate;
-            record.Bucket = GetRLinerBucketNumber(record.AgeCode);
+            record.Bucket = GetRLinerBucketNumber(record.AgeCode).ToString(CultureInfo.InvariantCulture);
 
             if (Reader.UploadedFile.FileDetail.AliasName == ColloSysEnums.FileAliasName.R_LINER_BFS_LOAN)
             {
@@ -81,7 +81,7 @@ namespace ColloSys.FileUploadService.ExcelReader
                 var priviousLiner = _priviousDayLiner.SingleOrDefault(x => x.AccountNo == record.AccountNo);
                 if (priviousLiner == null)
                 {
-                    record.DelqHistoryString = record.Bucket.ToString("000000000000");
+                    record.DelqHistoryString += record.Bucket;
                     record.Flag = ColloSysEnums.DelqFlag.N;
                     errorDescription = string.Empty;
                     return true;

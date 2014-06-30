@@ -51,7 +51,7 @@ namespace ColloSys.DataLayer.SharedDomain
 
         public virtual uint Cycle { get; set; }
 
-        public virtual uint Bucket { get; set; }
+        public virtual string Bucket { get; set; }
 
         public virtual GPincode GPincode { get; set; }
 

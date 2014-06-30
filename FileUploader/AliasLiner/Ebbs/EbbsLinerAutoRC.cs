@@ -39,7 +39,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
             //entity.CurrentDue = entity.CurrentBalance;
 
             // bucket
-            entity.Bucket = GetBucketForELiner(entity) + 1;
+            entity.Bucket = (GetBucketForELiner(entity) + 1).ToString(CultureInfo.InvariantCulture);
 
             
 

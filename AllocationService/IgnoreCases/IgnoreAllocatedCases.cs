@@ -55,7 +55,7 @@ namespace ColloSys.AllocationService.IgnoreCases
                 {
                     AllocPolicy = cInfo.Allocs.First().AllocPolicy,
                     AllocSubpolicy = cInfo.Allocs.First().AllocSubpolicy,
-                    Bucket = (int)cInfo.Allocs.First().Bucket,
+                    Bucket = cInfo.Allocs.First().Bucket,
                     EndDate = cInfo.Allocs.First().EndDate,
                     StartDate = cInfo.Allocs.First().StartDate,
                     AmountDue = cInfo.Allocs.First().AmountDue,
