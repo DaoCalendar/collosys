@@ -133,7 +133,7 @@ csapp.factory("StakeholderAddNotificationFactory", ["Restangular", "$location", 
     };
 }]);
 
-csapp.factory("StakeholderWorkingNotificationFactory", ["Restangular", "$location", function (rest, $location) {
+csapp.factory("StakeholderWorkingNotificationFactory", ["Restangular", "$location", "$csnotify", function (rest, $location, $csnotify) {
 
     var restApi = rest.all("WorkingApi");
 
@@ -145,14 +145,19 @@ csapp.factory("StakeholderWorkingNotificationFactory", ["Restangular", "$locatio
         };
     };
 
+    var showError = function (response) {
+        $csnotify.error("Please approve/reject Stakeholder first");
+        return response;
+    };
+
     var approve = function (notification) {
         var stakeholder = { Id: notification.EntityId };
-        return restApi.customPOST(stakeholder, "ApproveWorking").then(function () { return; });
+        return restApi.customPOST(stakeholder, "ApproveWorking").then(function () { return; }, showError);
     };
 
     var reject = function (notification) {
         var stakeholder = { Id: notification.EntityId };
-        return restApi.customPOST(stakeholder, "RejectWorking").then(function () { return; });
+        return restApi.customPOST(stakeholder, "RejectWorking").then(function () { return; }, showError);
     };
 
     var details = function (notification) {
@@ -168,7 +173,8 @@ csapp.factory("StakeholderWorkingNotificationFactory", ["Restangular", "$locatio
 }]);
 
 
-csapp.factory("StakeholderPaymentNotificationFactory", ["Restangular", "$location", function (rest, $location) {
+csapp.factory("StakeholderPaymentNotificationFactory", ["Restangular", "$location", "$csnotify",
+    function (rest, $location, $csnotify) {
 
     var restApi = rest.all("WorkingApi");
 
@@ -180,14 +186,19 @@ csapp.factory("StakeholderPaymentNotificationFactory", ["Restangular", "$locatio
         };
     };
 
+    var showError = function (response) {
+        $csnotify.error("Please approve/reject Stakeholder first");
+        return response;
+    };
+
     var approve = function (notification) {
         var stakeholder = { Id: notification.EntityId };
-        return restApi.customPOST(stakeholder, "ApprovePayment").then(function () { return; });
+        return restApi.customPOST(stakeholder, "ApprovePayment").then(function () { return; }, showError);
     };
 
     var reject = function (notification) {
         var stakeholder = { Id: notification.EntityId };
-        return restApi.customPOST(stakeholder, "RejectPayment").then(function () { return; });
+        return restApi.customPOST(stakeholder, "RejectPayment").then(function () { return; }, showError);
     };
 
     var details = function (notification) {

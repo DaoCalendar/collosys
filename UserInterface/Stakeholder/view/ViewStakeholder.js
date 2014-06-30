@@ -27,6 +27,7 @@ csapp.controller('viewStake', [
                 filters: { type: 'enum', label: 'View' },
                 Search: { placeholder: "enter ID/Name to edit", type: 'text' }
             };
+            $scope.filter = {};
             $scope.filterList = ['All', 'Approved', 'Unapproved', "Search"];
         })();
 
@@ -46,6 +47,7 @@ csapp.controller('viewStake', [
 
         $scope.searchStake = function (param) {
             if (param.length < 3) { return; }
+            $scope.filter.name = "Search";
             $timeout(function () {
                 datalayer.SearchStakeholder(param).then(function (data) {
                     $scope.stakeholders = data;

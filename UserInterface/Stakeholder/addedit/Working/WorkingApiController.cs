@@ -141,6 +141,11 @@ namespace AngularUI.Stakeholder.addedit.Working
         [HttpPost]
         public HttpResponseMessage ApproveWorkingList(IList<StkhWorking> worklist)
         {
+
+            if (worklist[0].Stakeholder.ApprovalStatus != ColloSysEnums.ApproveStatus.Approved)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Stakeholder Not Approved");
+            }
             StakeWorkingQueryBuilder.Save(WorkingPaymentHelper.SetStatusForApprove(worklist));
 
             var manager = new StakeholderNotificationManager(GetUsername());
@@ -168,6 +173,11 @@ namespace AngularUI.Stakeholder.addedit.Working
         [HttpPost]
         public HttpResponseMessage RejectWorkingList(IList<StkhWorking> workList)
         {
+            if (workList[0].Stakeholder.ApprovalStatus != ColloSysEnums.ApproveStatus.Approved)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Stakeholder Not Approved");
+            }
+
             foreach (var stkhWorking in workList)
             {
                 switch (stkhWorking.ApprovalStatus)
@@ -249,6 +259,11 @@ namespace AngularUI.Stakeholder.addedit.Working
         public HttpResponseMessage ApprovePayment(StkhId stakeholder)
         {
             var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
+            if (stkh.ApprovalStatus != ColloSysEnums.ApproveStatus.Approved)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Stakeholder Not Approved");
+            }
+
             if (stkh.StkhPayments[0] != null &&
                 stkh.StkhPayments[0].ApprovalStatus == ColloSysEnums.ApproveStatus.Submitted)
             {
@@ -266,6 +281,10 @@ namespace AngularUI.Stakeholder.addedit.Working
         public HttpResponseMessage RejectPayment(StkhId stakeholder)
         {
             var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
+            if (stkh.ApprovalStatus != ColloSysEnums.ApproveStatus.Approved)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Stakeholder Not Approved");
+            }
             if (stkh.StkhPayments[0] != null)
             {
                 stkh.StkhPayments[0].ApprovalStatus = ColloSysEnums.ApproveStatus.Rejected;

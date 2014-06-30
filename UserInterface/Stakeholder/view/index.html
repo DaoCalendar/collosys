@@ -1,4 +1,4 @@
-﻿<cs-form>
+﻿<cs-form mode="'add'">
     <div data-ng-form="filterForm">
         <cs-field field="fields.filters" 
                   value-list="filterList" 
@@ -8,8 +8,7 @@
         <cs-field field="fields.Search"
                   layout="4.0.12"  
                   data-ng-model="filter.search"
-                  data-ng-change="searchStake(filter.search)"
-                  data-ng-show="filter.name === 'Search'"></cs-field>      
+                  data-ng-change="searchStake(filter.search)"></cs-field>      
     </div>
 </cs-form>
 

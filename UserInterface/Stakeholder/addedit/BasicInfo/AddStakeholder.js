@@ -15,8 +15,7 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
         };
 
 
-
-        var checkUser = function (userId) {
+        var checkUser = function(userId) {
             var deferred = $q.defer();
 
             if ($csfactory.isNullOrEmptyString(userId) || userId.length !== 7 || dldata.isAlreadyCheckingUser === true) {
@@ -24,20 +23,19 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
             } else {
                 dldata.isAlreadyCheckingUser = true;
                 apistake.customGET('CheckUserId', { id: userId })
-                    .then(function (data) {
+                    .then(function(data) {
                         if (data === "true") {
                             deferred.reject();
                         } else {
                             deferred.resolve();
                         }
-                    }).finally(function () {
+                    }).finally(function() {
                         dldata.isAlreadyCheckingUser = false;
                     });
             }
 
             return deferred.promise;
         };
-
         var getReportsToList = function (hierarchyId, level) {
             return apistake.customGET('GetReportsToList', { hierarchyId: hierarchyId, level: level });
         };

@@ -1368,7 +1368,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
                 throw new "Invalid field exception";
             }
 
-            scope.mode = angular.isDefined(controllers.csFormCtrl) ? controllers.csFormCtrl.mode : 'view';
+            scope.mode = angular.isDefined(controllers.csFormCtrl) ? controllers.csFormCtrl.mode : '';
             setLayout(scope.field, controllers.csFormCtrl, attrs);
             setLayoutClasses(scope.field);
             setValidation(scope.field, attrs, controllers.csFormCtrl);
@@ -1410,7 +1410,7 @@ csapp.directive('csForm', ["$timeout", function ($timeout) {
         size.label = (isNaN(size.label) || size.label < 0 || size.label > 12) ? 4 : size.label;
         size.control = (isNaN(size.control) || size.control < 1 || size.control > 12) ? 8 : size.control;
 
-        this.mode = $scope.mode || "view";
+        this.mode = $scope.mode;
         this.validation = $attrs.validation;
         this.getSize = function () {
             return angular.copy(size);

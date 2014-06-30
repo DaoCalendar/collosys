@@ -666,27 +666,24 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             });
         };
 
+        var showError = function () {
+            $csnotify.error("Please approve/reject Stakeholder first");
+        };
+
         $scope.approveWorkings = function (workList) {
-            if (factory.StakeApproved($scope.currStakeholder)) {
-                factory.SetWorkList($scope.currStakeholder, workList);
-                datalayer.ApproveWorkings(workList).then(function (data) {
-                    postWorkingApproval(data);
-                    $csnotify.success("Workings Approved");
-                });
-            } else {
-                $csnotify.success("Please Approve/Reject the Stakeholder");
-            }
+            factory.SetWorkList($scope.currStakeholder, workList);
+            datalayer.ApproveWorkings(workList).then(function (data) {
+                postWorkingApproval(data);
+                $csnotify.success("Workings Approved");
+            }, showError);
+
         };
         $scope.rejectWorking = function (worklist) {
-            if (factory.StakeApproved($scope.currStakeholder)) {
-                factory.SetWorkList($scope.currStakeholder, worklist);
-                datalayer.RejectWorkings(worklist).then(function (data) {
-                    postWorkingApproval(data);
-                    $csnotify.success("Workings Rejected");
-                });
-            } else {
-                $csnotify.success("Please Approve/Reject the Stakeholder");
-            }
+            factory.SetWorkList($scope.currStakeholder, worklist);
+            datalayer.RejectWorkings(worklist).then(function (data) {
+                postWorkingApproval(data);
+                $csnotify.success("Workings Rejected");
+            }, showError);
         };
         var postWorkingApproval = function (data) {
             $scope.workingDetailsList = data.WorkList;
@@ -696,28 +693,24 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         };
 
         $scope.approvePayment = function (id) {
-            if (factory.StakeApproved($scope.currStakeholder)) {
-                var stakeObj = {
-                    Id: id,
-                };
-                return datalayer.ApprovePayment(stakeObj).then(function (data) {
-                    postApprovalPayment(data);
-                });
-            } else {
-                $csnotify.success("Please Approve/Reject the Stakeholder");
-            }
+
+            var stakeObj = {
+                Id: id,
+            };
+            return datalayer.ApprovePayment(stakeObj).then(function (data) {
+                postApprovalPayment(data);
+            }, showError);
+
+
+
         };
-        $scope.RejectPayment = function (id) {
-            if (factory.StakeApproved($scope.currStakeholder)) {
-                var stakeObj = {
-                    Id: id,
-                };
-                return datalayer.RejectPayment(stakeObj).then(function (data) {
-                    return postApprovalPayment(data);
-                });
-            } else {
-                $csnotify.success("Please Approve/Reject the Stakeholder");
-            }
+        $scope.rejectPayment = function (id) {
+            var stakeObj = {
+                Id: id,
+            };
+            return datalayer.RejectPayment(stakeObj).then(function (data) {
+                return postApprovalPayment(data);
+            }, showError);
         };
         var postApprovalPayment = function (data) {
             $scope.Payment = data;
