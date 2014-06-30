@@ -1,7 +1,7 @@
 ﻿(
     csapp.controller("DbGenerationController", ["$scope", "Restangular", "$csnotify", "$location",
-        "modalService","$csfactory",
-        function ($scope, rest, $csnotify, $location, modalService, $csfactory) {
+        "modalService","$csfactory","$timeout","loadingWidget",
+        function ($scope, rest, $csnotify, $location, modalService, $csfactory, $timeout, loadingWidget) {
 
         var restApi = rest.all('DbGenerationApi');
 

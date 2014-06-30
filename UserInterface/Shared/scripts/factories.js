@@ -30,155 +30,156 @@ csapp.factory("$cslocation", [
     }
 ]);
 
-csapp.factory("$csfactory", ["$csConstants", "$csAuthFactory", "loadingWidget", function (consts, auth, loadingWidget) {
+csapp.factory("$csfactory", ["$csConstants", "$csAuthFactory", "loadingWidget",
+    function (consts, auth, loadingWidget) {
 
-    var enableSpinner = function () {
-        loadingWidget.params.enableSpinner = true;
-    };
-
-    var downloadFile = function (filename) {
-        enableSpinner();
-        var ifr = document.createElement('iframe');
-        ifr.style.display = 'none';
-        document.body.appendChild(ifr);
-        ifr.src = baseUrl + "api/GridApi/DownloadFile?filename='" + escape(filename) + "'";
-        ifr.onload = function () {
-            document.body.removeChild(ifr);
-            ifr = null;
+        var enableSpinner = function () {
+            loadingWidget.params.enableSpinner = true;
         };
-    };
 
-    var isNullOrEmptyString = function (val) {
-
-        if (angular.isUndefined(val)) {
-            return true;
-        }
-
-        if (val === null) {
-            return true;
-        }
-
-        if (val === "") {
-            return true;
-        }
-
-        if (val === 'null') {
-            return true;
-        }
-
-        return false;
-    };
-
-    var isEmptyObject = function (obj) {
-        var name;
-        // ReSharper disable AssignedValueIsNeverUsed
-        for (name in obj) {
-            return false;
-        }
-        // ReSharper restore AssignedValueIsNeverUsed
-        return true;
-    };
-
-    var doResetVal = function (key, except) {
-        if (angular.isUndefined(except)) return true;
-        var index = except.indexOf(key);
-        return index === -1;
-    };
-
-    var resetObject = function (obj, except) {
-
-        angular.forEach(obj, function (value, key) {
-            if (doResetVal(key, except)) {
-                switch (typeof value) {
-                    case 'object':
-                    case 'boolean':
-                    case 'number':
-                    case 'string':
-                        delete obj[key];
-                        break;
-                    default:
-                        console.log('cannot reset type : ' + typeof value);
-                }
+        var downloadFile = function (filename) {
+            enableSpinner();
+            var ifr = document.createElement('iframe');
+            ifr.style.display = 'none';
+            document.body.appendChild(ifr);
+            ifr.src = baseUrl + "api/GridApi/DownloadFile?filename='" + escape(filename) + "'";
+            ifr.onload = function () {
+                document.body.removeChild(ifr);
+                ifr = null;
             };
-        });
-    };
+        };
 
-    var isNullOrEmptyArray = function (val) {
-        if (isNullOrEmptyString(val)) {
-            return true;
-        }
+        var isNullOrEmptyString = function (val) {
 
-        if (angular.isArray(val) && (val.length === 0)) {
-            return true;
-        }
-
-        return false;
-    };
-
-    var isNullOrEmptyGuid = function (val) {
-        if (isNullOrEmptyString(val)) {
-            return true;
-        }
-
-        if (val === consts.GUID_EMPTY) {
-            return true;
-        }
-
-        return false;
-    };
-
-    var getDefaultGuid = function () {
-        return consts.GUID_EMPTY;
-    };
-
-    var getCurrentUserName = function () {
-        return auth.getUsername();
-    };
-
-    var findIndex = function (array, field, value) {
-        var index = _.indexOf(_.pluck(array, field), value);
-        return index;
-    };
-
-    var getPropertyValue = function (targetObj, keyPath) {
-        var keys = keyPath.split('.');
-        if (keys.length === 0) return undefined;
-        keys = keys.reverse();
-        var subObject = targetObj;
-        while (keys.length) {
-            var k = keys.pop();
-            if (!subObject.hasOwnProperty(k)) {
-                return undefined;
-            } else {
-                subObject = subObject[k];
+            if (angular.isUndefined(val)) {
+                return true;
             }
-        }
-        return subObject;
-    };
 
-    var getPropValFromListById = function (list, id, val) {
-        if (angular.isUndefined(list)) return undefined;
-        if (angular.isUndefined(id)) return undefined;
-        if (angular.isUndefined(val)) return undefined;
-        var data = _.find(list, { 'Id': id });
-        return data[val];
-    };
+            if (val === null) {
+                return true;
+            }
 
-    return {
-        isNullOrEmptyArray: isNullOrEmptyArray,
-        isNullOrEmptyString: isNullOrEmptyString,
-        isNullOrEmptyGuid: isNullOrEmptyGuid,
-        getDefaultGuid: getDefaultGuid,
-        isEmptyObject: isEmptyObject,
-        downloadFile: downloadFile,
-        getCurrentUserName: getCurrentUserName,
-        enableSpinner: enableSpinner,
-        findIndex: findIndex,
-        getPropertyValue: getPropertyValue,
-        ResetObject: resetObject,
-        GetPropertyById: getPropValFromListById
-    };
-}]);
+            if (val === "") {
+                return true;
+            }
+
+            if (val === 'null') {
+                return true;
+            }
+
+            return false;
+        };
+
+        var isEmptyObject = function (obj) {
+            var name;
+            // ReSharper disable AssignedValueIsNeverUsed
+            for (name in obj) {
+                return false;
+            }
+            // ReSharper restore AssignedValueIsNeverUsed
+            return true;
+        };
+
+        var doResetVal = function (key, except) {
+            if (angular.isUndefined(except)) return true;
+            var index = except.indexOf(key);
+            return index === -1;
+        };
+
+        var resetObject = function (obj, except) {
+
+            angular.forEach(obj, function (value, key) {
+                if (doResetVal(key, except)) {
+                    switch (typeof value) {
+                        case 'object':
+                        case 'boolean':
+                        case 'number':
+                        case 'string':
+                            delete obj[key];
+                            break;
+                        default:
+                            console.log('cannot reset type : ' + typeof value);
+                    }
+                };
+            });
+        };
+
+        var isNullOrEmptyArray = function (val) {
+            if (isNullOrEmptyString(val)) {
+                return true;
+            }
+
+            if (angular.isArray(val) && (val.length === 0)) {
+                return true;
+            }
+
+            return false;
+        };
+
+        var isNullOrEmptyGuid = function (val) {
+            if (isNullOrEmptyString(val)) {
+                return true;
+            }
+
+            if (val === consts.GUID_EMPTY) {
+                return true;
+            }
+
+            return false;
+        };
+
+        var getDefaultGuid = function () {
+            return consts.GUID_EMPTY;
+        };
+
+        var getCurrentUserName = function () {
+            return auth.getUsername();
+        };
+
+        var findIndex = function (array, field, value) {
+            var index = _.indexOf(_.pluck(array, field), value);
+            return index;
+        };
+
+        var getPropertyValue = function (targetObj, keyPath) {
+            var keys = keyPath.split('.');
+            if (keys.length === 0) return undefined;
+            keys = keys.reverse();
+            var subObject = targetObj;
+            while (keys.length) {
+                var k = keys.pop();
+                if (!subObject.hasOwnProperty(k)) {
+                    return undefined;
+                } else {
+                    subObject = subObject[k];
+                }
+            }
+            return subObject;
+        };
+
+        var getPropValFromListById = function (list, id, val) {
+            if (angular.isUndefined(list)) return undefined;
+            if (angular.isUndefined(id)) return undefined;
+            if (angular.isUndefined(val)) return undefined;
+            var data = _.find(list, { 'Id': id });
+            return data[val];
+        };
+
+        return {
+            isNullOrEmptyArray: isNullOrEmptyArray,
+            isNullOrEmptyString: isNullOrEmptyString,
+            isNullOrEmptyGuid: isNullOrEmptyGuid,
+            getDefaultGuid: getDefaultGuid,
+            isEmptyObject: isEmptyObject,
+            downloadFile: downloadFile,
+            getCurrentUserName: getCurrentUserName,
+            enableSpinner: enableSpinner,
+            findIndex: findIndex,
+            getPropertyValue: getPropertyValue,
+            ResetObject: resetObject,
+            GetPropertyById: getPropValFromListById
+        };
+    }]);
 
 csapp.factory('$csnotify', function () {
 
@@ -202,7 +203,7 @@ csapp.factory('$csnotify', function () {
 });
 
 csapp.factory('$csStopWatch', ["$timeout", function ($timeout) {
-    var data = { value: 1, laps: [], stringValue: '' };
+    var data = { value: 1, stringValue: '' };
     var stopwatch = null;
 
     var start = function () {
@@ -222,12 +223,12 @@ csapp.factory('$csStopWatch', ["$timeout", function ($timeout) {
         stop();
         data.value = 0;
         data.stringValue = '';
-        data.laps = [];
+        //data.laps = [];
     };
 
-    var lap = function () {
-        data.laps.push(data.value);
-    };
+    //var lap = function () {
+    //    data.laps.push(data.value);
+    //};
 
     var getTime = function (totalTime) {
 
@@ -265,7 +266,7 @@ csapp.factory('$csStopWatch', ["$timeout", function ($timeout) {
         start: start,
         stop: stop,
         reset: reset,
-        lap: lap
+        //lap: lap
     };
 }]);
 
@@ -409,29 +410,31 @@ csapp.service('modalService', ['$modal', function ($modal) {
 
 }]);
 
-csapp.factory("loadingWidget", ["Logger", function (logManager) {
+csapp.factory("loadingWidget", ["Logger", "$csStopWatch", function (logManager, $csStopWatch) {
 
     var requestCount = 0;
     // ReSharper disable once UnusedLocals
     var $log = logManager.getInstance("loadingWidget");
+
     var params = {
         enableSpinner: false,
-        showSpinner: false
+        showSpinner: false,
+        timer: $csStopWatch.data,
+
     };
 
     var requestStarted = function () {
         requestCount++;
         params.showSpinner = params.enableSpinner === true && requestCount > 0;
-        //params.showSpinner = true;
-        //$log.debug("showing spinner : " + params.showSpinner);
+        $csStopWatch.start();
     };
 
     var requestEnded = function () {
         requestCount--;
         params.showSpinner = params.showSpinner === true && requestCount > 0;
         params.enableSpinner = false;
-        //params.showSpinner = true;
-        //$log.debug("hding spinner : " + params.showSpinner);
+        $csStopWatch.stop();
+        $csStopWatch.reset();
     };
 
     return {
