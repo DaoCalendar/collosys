@@ -119,6 +119,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Allocation\distributionpercentage\DistributionPercentageApiController.cs" />
     <Compile Include="Allocation\policy\AllocationPolicyApiController.cs" />
     <Compile Include="Allocation\policy\PolicyDTO.cs" />
     <Compile Include="Allocation\policy\SubpolicyDTO.cs" />
@@ -252,6 +253,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Allocation\allocationModels.js" />
+    <Content Include="Allocation\distributionpercentage\DistributionPercentage.html" />
+    <Content Include="Allocation\distributionpercentage\DistributionPercentage.js" />
     <Content Include="Allocation\policy\allocation-policy-specs.js" />
     <Content Include="Allocation\policy\allocPolicyCtrl.js" />
     <Content Include="Allocation\policy\allocpolicy.html" />
@@ -506,6 +509,7 @@
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\release.pubxml" />
     <Content Include="Scripts\angular-ui-bootstrap\ui-bootstrap-tpls-0.11.0.min.js.map">
       <DependentUpon>ui-bootstrap-tpls-0.11.0.js</DependentUpon>

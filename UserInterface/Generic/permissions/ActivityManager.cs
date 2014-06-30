@@ -228,6 +228,9 @@ namespace AngularUI.Generic.permissions
             var chechAllocation = AddActivity(allocation, ColloSysEnums.Activities.CheckAllocation, desciption: "view/change allocation");
             AddActivity(chechAllocation, ColloSysEnums.Activities.AddEdit);
             AddActivity(chechAllocation, ColloSysEnums.Activities.Approve);
+
+            var distributionPercentage = AddActivity(allocation, ColloSysEnums.Activities.SpecifyAllocPercentage, desciption: "Specify Allocation Percentage");
+            AddActivity(distributionPercentage, ColloSysEnums.Activities.AddEdit);
         }
 
         private static void AddBillingActivities(GPermission billing)

@@ -1,0 +1,27 @@
+﻿<form name="distributionpercentageForm">
+    <cs-form mode="view">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <td>Product</td>
+                    <td>Tellecaling Inhouse</td>
+                    <td>Tellecaling External</td>
+                    <td>Field Inhouse</td>
+                    <td>Field External</td>
+                    <td>Total</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="product in productList">
+                    <td>{{product}}</td>
+                    <td><cs-field field="" ng-model="" no-label="true"></cs-field></td>
+                    <td><cs-field field="" ng-model="" no-label="true"></cs-field></td>
+                    <td><cs-field field="" ng-model="" no-label="true"></cs-field></td>
+                    <td><cs-field field="" ng-model="" no-label="true"></cs-field></td>
+                    <td><cs-field field="" ng-model="" no-label="true" validation="off"></cs-field></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </cs-form>
+</form>

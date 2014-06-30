@@ -60,6 +60,7 @@
     <Compile Include="AllocationBuilder\AllocPolicyBuilder.cs" />
     <Compile Include="AllocationBuilder\AllocRelationBuilder.cs" />
     <Compile Include="AllocationBuilder\AllocSubpolicyBuilder.cs" />
+    <Compile Include="AllocationBuilder\DistributionPercBuilder.cs" />
     <Compile Include="BaseTypes\IRepository.cs" />
     <Compile Include="BaseTypes\Repository.cs" />
     <Compile Include="BillingBuilder\ActivateHoldingPolicyBuilder.cs" />

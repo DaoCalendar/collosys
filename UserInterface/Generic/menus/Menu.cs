@@ -76,6 +76,7 @@ namespace AngularUI.Generic.Menu
             allocation.AddChild("Policy", new[] { ColloSysEnums.Activities.Allocation, ColloSysEnums.Activities.AllocationPolicy }, "#/allocation/policy");
             allocation.AddChild("Subpolicy", new[] { ColloSysEnums.Activities.Allocation, ColloSysEnums.Activities.AllocationSubpolicy }, "#/allocation/subpolicy");
             allocation.AddChild("View/Approve", new[] { ColloSysEnums.Activities.Allocation, ColloSysEnums.Activities.CheckAllocation }, "#/allocation/viewapprove");
+            allocation.AddChild("Distribution Percentage", new[] { ColloSysEnums.Activities.Allocation, ColloSysEnums.Activities.SpecifyAllocPercentage }, "#/allocation/distributionpercentage");
 
             var billing = menu.AddChild("Billing", new[] { ColloSysEnums.Activities.Billing }, "#", "fa-inr");
             billing.AddChild("Policy", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.BillingPolicy }, "#/billing/policy");

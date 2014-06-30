@@ -242,6 +242,7 @@ namespace ColloSys.DataLayer.Enumerations
             AllocationPolicy,
             AllocationSubpolicy,
             CheckAllocation,
+            SpecifyAllocPercentage,
             Billing,
             BillingPolicy,
             BillingSubpolicy,

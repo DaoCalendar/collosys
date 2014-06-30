@@ -77,6 +77,8 @@
     <Compile Include="Allocation\AllocSubpolicy.cs" />
     <Compile Include="Allocation\AllocSubpolicyMap.cs" />
     <Compile Include="Allocation\AllocationsMap.cs" />
+    <Compile Include="Allocation\DistributionPercentage.cs" />
+    <Compile Include="Allocation\DistributionPercentageMap.cs" />
     <Compile Include="Billing\BillingSubpolicy.cs">
       <SubType>Code</SubType>
     </Compile>

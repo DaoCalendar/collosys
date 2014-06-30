@@ -168,8 +168,11 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/allocation/viewapprove', {
                 templateUrl: baseUrl + 'Allocation/viewapprove/view-approve.html',
                 controller: 'approveViewCntrl'
+            }).when('/allocation/distributionpercentage', {
+                templateUrl: baseUrl + 'Allocation/distributionpercentage/DistributionPercentage.html',
+                controller: 'distributionPercentageCtrl'
             })
-
+             
             //billing
             .when('/billing/policy', {
                 templateUrl: baseUrl + 'Billing/policy/billingpolicy.html',
