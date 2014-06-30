@@ -38,7 +38,7 @@ namespace ColloSys.AllocationService.AllocationLastCode
                     AmountDue = cInfo.TotalDue,
                     AllocStatus = cInfo.AllocStatus,
                     NoAllocResons = cInfo.NoAllocResons,
-                    Bucket = (int) cInfo.Bucket,
+                    Bucket = cInfo.Bucket,
                     StartDate = cInfo.AllocStartDate.HasValue
                                     ? cInfo.AllocStartDate.Value
                                     : DateTime.Today,

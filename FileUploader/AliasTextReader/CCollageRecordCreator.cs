@@ -79,7 +79,7 @@ namespace ColloSys.FileUploaderService.AliasTextReader
             record.FileDate = FileScheduler.FileDate.Date;
             record.Product = ScbEnums.Products.CC;
             record.Flag = ColloSysEnums.DelqFlag.O;
-            record.DelqHistoryString = record.Bucket.ToString("00000000000");
+            record.DelqHistoryString += record.Bucket;
             record.AccountStatus = ColloSysEnums.DelqAccountStatus.Norm;
             PopulateComputed(record);
             //setZFlag(record);
@@ -87,7 +87,7 @@ namespace ColloSys.FileUploaderService.AliasTextReader
 
         private void PopulateComputed(CLiner record)
         {
-            record.Bucket = getBucketForCLiner(record);
+            record.Bucket = getBucketForCLiner(record).ToString(CultureInfo.InvariantCulture);
             record.Bucket5Due = record.Bucket5Due + record.Bucket6Due + record.Bucket7Due;// bucket 5 due is sum of all above due
             record.BucketAmount = getBucketAmountForCLiner(record);
 
@@ -97,7 +97,7 @@ namespace ColloSys.FileUploaderService.AliasTextReader
             record.PeakBucket = record.Bucket;
 
             //set account z flag
-            record.DelqHistoryString = record.Bucket.ToString("00000000000") + record.Bucket;
+            record.DelqHistoryString += record.Bucket;
             record.Flag = ColloSysEnums.DelqFlag.N;
             record.AccountStatus = ColloSysEnums.DelqAccountStatus.Norm;
             //SetAccountZFlag(record);

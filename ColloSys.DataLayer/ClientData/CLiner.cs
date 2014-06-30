@@ -25,9 +25,9 @@ namespace ColloSys.DataLayer.Domain
         public virtual decimal UnbilledDue { get; set; }
         public virtual decimal CurrentBalance { get; set; }
         public virtual decimal TotalDue { get; set; }
-        public virtual uint PeakBucket { get; set; }
+        public virtual string PeakBucket { get; set; }
         public virtual ColloSysEnums.DelqAccountStatus AccountStatus { get; set; }
-        public virtual uint Bucket { get; set; }
+        public virtual string Bucket { get; set; }
         public virtual decimal BucketAmount { get; set; }
         public virtual string Block { get; set; }
         public virtual string AltBlock { get; set; }

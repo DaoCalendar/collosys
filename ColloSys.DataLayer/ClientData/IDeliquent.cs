@@ -15,6 +15,6 @@ namespace ColloSys.DataLayer.ClientData
         //ColloSysEnums.NoAllocResons? NoAllocResons { get; set; }
         //string CustStatus { get; set; }
         uint Cycle { get; set; }
-        uint Bucket { get; set; }
+        string Bucket { get; set; }
     }
 }

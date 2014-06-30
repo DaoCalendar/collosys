@@ -179,7 +179,7 @@ namespace ColloSys.FileUploadService.TextReader
 
             // 150 DPD account becomes 'Z'
             var blockList = new string[] { "S", "F" };
-            var ztodayLinerby150Dbd = entities.Where(x => x.Bucket == 5 && x.Cycle <= Reader.UploadedFile.FileDate.Day
+            var ztodayLinerby150Dbd = entities.Where(x => x.Bucket == "5" && x.Cycle <= Reader.UploadedFile.FileDate.Day
                                                           && !blockList.Contains(x.Block)
                                                           && x.Flag != ColloSysEnums.DelqFlag.Z)
                                               .ToList();

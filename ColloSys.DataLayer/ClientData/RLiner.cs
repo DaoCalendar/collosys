@@ -47,7 +47,7 @@ namespace ColloSys.DataLayer.Domain
         public virtual string ProductName { get; set; }
         public virtual ScbEnums.Products Product { get; set; }
         public virtual string AgeCode { get; set; }
-        public virtual uint Bucket { get; set; }
+        public virtual string Bucket { get; set; }
         public virtual decimal LoanPrinDue { get; set; }
         public virtual uint Cycle { get; set; }
         public virtual bool IsImpaired { get; set; }

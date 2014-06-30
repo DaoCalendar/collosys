@@ -60,7 +60,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
             {
                 entity.TotalDue = entity.CurrentDue;
                 entity.PeakBucket = entity.Bucket;
-                entity.DelqHistoryString = entity.Bucket.ToString("000000000000");
+                entity.DelqHistoryString += entity.Bucket;
                 entity.Flag = ColloSysEnums.DelqFlag.N;
                 entity.AccountStatus = ColloSysEnums.DelqAccountStatus.Norm;
                 return true;

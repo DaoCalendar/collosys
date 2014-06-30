@@ -20,7 +20,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Rls
            entity.FileDate = FileScheduler.FileDate.Date;
            entity.AccountNo = ulong.Parse(Reader.GetValue(AccPos))
                .ToString("D" + AccountLength.ToString(CultureInfo.InvariantCulture));
-           entity.Bucket = GetRLinerBucketNumber(entity.AgeCode);
+           entity.Bucket = GetRLinerBucketNumber(entity.AgeCode).ToString(CultureInfo.InvariantCulture);
 
            entity.Product = DecodeScbProduct.GetRlsMORTProduct(entity.ProductCode);
 

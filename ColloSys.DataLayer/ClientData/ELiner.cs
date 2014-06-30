@@ -34,14 +34,14 @@ namespace ColloSys.DataLayer.Domain
         public virtual decimal FeeCharge { get; set; }
         public virtual decimal InterestPct { get; set; }
         public virtual decimal MinimumDue { get; set; }
-        public virtual uint Bucket { get; set; } //sd
+        public virtual string Bucket { get; set; } //sd
         public virtual decimal BucketDue { get; set; }
         public virtual decimal Bucket1Due { get; set; }
         public virtual decimal Bucket2Due { get; set; }
         public virtual decimal Bucket3Due { get; set; }
         public virtual decimal Bucket4Due { get; set; }
         public virtual decimal Bucket5Due { get; set; }
-        public virtual uint PeakBucket { get; set; }
+        public virtual string PeakBucket { get; set; }
         public virtual string DelqHistoryString { get; set; }
         public virtual ColloSysEnums.DelqAccountStatus AccountStatus { get; set; }
         public virtual string CustStatus { get; set; }

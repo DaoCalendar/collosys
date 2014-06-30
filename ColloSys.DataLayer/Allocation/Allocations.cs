@@ -22,7 +22,7 @@ namespace ColloSys.DataLayer.Allocation
         public virtual bool WithTelecalling { get; set; }
 
         public virtual bool IsAllocated { get; set; }
-        public virtual Int32 Bucket { get; set; }
+        public virtual string Bucket { get; set; }
         public virtual decimal AmountDue { get; set; }
         public virtual string ChangeReason { get; set; }
         public virtual ColloSysEnums.AllocStatus AllocStatus { get; set; }
