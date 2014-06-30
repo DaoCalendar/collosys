@@ -79,7 +79,7 @@
     };
 }]);
 
-csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
+csapp.factory("StakeWorkingFactory", ["$csnotify", "$csfactory", function ($csnotify, $csfactory) {
 
     //#region display manager
 
@@ -376,6 +376,10 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
 
     //#endregion
 
+    var stakeApproved = function (stakeholder) {
+        return stakeholder.ApprovalStatus === "Approved" ? true : false;
+    };
+
     return {
         GetFixedPayObj: getFixedPayObj,
         GetQueryFor: getQueryFor,
@@ -388,7 +392,8 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         CheckEndDate: checkEndDate,
         SetReportsToName: setReportsToName,
         SetWorkList: setWorkList,
-        Splice: safeSplice
+        Splice: safeSplice,
+        StakeApproved: stakeApproved
     };
 }]);
 
@@ -471,8 +476,6 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             datalayer.GetSalaryDetails(paymentIds).then(function (sal) {
                 $scope.SalDetails = $csfactory.isEmptyObject($scope.Payment) ? sal
                     : factory.ComputeSalary($scope.Payment.FixpayBasic, $scope.FixpayGross, sal);
-
-                console.log("salary details: ", $scope.SalDetails);
             });
         };
 
@@ -663,21 +666,27 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             });
         };
 
-        //TODO: separate into working payment part-done
-
         $scope.approveWorkings = function (workList) {
-            factory.SetWorkList($scope.currStakeholder, workList);
-            datalayer.ApproveWorkings(workList).then(function (data) {
-                postWorkingApproval(data);
-                $csnotify.success("Workings Approved");
-            });
+            if (factory.StakeApproved($scope.currStakeholder)) {
+                factory.SetWorkList($scope.currStakeholder, workList);
+                datalayer.ApproveWorkings(workList).then(function (data) {
+                    postWorkingApproval(data);
+                    $csnotify.success("Workings Approved");
+                });
+            } else {
+                $csnotify.success("Please Approve/Reject the Stakeholder");
+            }
         };
         $scope.rejectWorking = function (worklist) {
-            factory.SetWorkList($scope.currStakeholder, worklist);
-            datalayer.RejectWorkings(worklist).then(function (data) {
-                postWorkingApproval(data);
-                $csnotify.success("Workings Rejected");
-            });
+            if (factory.StakeApproved($scope.currStakeholder)) {
+                factory.SetWorkList($scope.currStakeholder, worklist);
+                datalayer.RejectWorkings(worklist).then(function (data) {
+                    postWorkingApproval(data);
+                    $csnotify.success("Workings Rejected");
+                });
+            } else {
+                $csnotify.success("Please Approve/Reject the Stakeholder");
+            }
         };
         var postWorkingApproval = function (data) {
             $scope.workingDetailsList = data.WorkList;
@@ -686,22 +695,29 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             return $scope.workingDetailsList;
         };
 
-
         $scope.approvePayment = function (id) {
-            var stakeObj = {
-                Id: id,
-            };
-            return datalayer.ApprovePayment(stakeObj).then(function (data) {
-                postApprovalPayment(data);
-            });
+            if (factory.StakeApproved($scope.currStakeholder)) {
+                var stakeObj = {
+                    Id: id,
+                };
+                return datalayer.ApprovePayment(stakeObj).then(function (data) {
+                    postApprovalPayment(data);
+                });
+            } else {
+                $csnotify.success("Please Approve/Reject the Stakeholder");
+            }
         };
         $scope.RejectPayment = function (id) {
-            var stakeObj = {
-                Id: id,
-            };
-            return datalayer.RejectPayment(stakeObj).then(function (data) {
-                return postApprovalPayment(data);
-            });
+            if (factory.StakeApproved($scope.currStakeholder)) {
+                var stakeObj = {
+                    Id: id,
+                };
+                return datalayer.RejectPayment(stakeObj).then(function (data) {
+                    return postApprovalPayment(data);
+                });
+            } else {
+                $csnotify.success("Please Approve/Reject the Stakeholder");
+            }
         };
         var postApprovalPayment = function (data) {
             $scope.Payment = data;
@@ -709,48 +725,6 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             $scope.gotoView();
             return $scope.Payment;
         };
-
-        //$scope.setApprovalStatus = function (param1, status, param) {
-
-        //    switch (status) {
-        //        case 'approve':
-        //            switch (param) {
-        //                case 'working':
-        //                    return approveWorking(param1, param);
-
-        //                case 'payment':
-        //                    return datalayer.ApprovePayment(stakeObj).then(function (data) {
-        //                        return postApproval(data, param);
-        //                    });
-        //            }
-        //        case 'reject':
-        //            switch (param) {
-        //                case 'working':
-        //                    return rejectWorking(param1, param);
-
-        //                case 'payment':
-        //                    return datalayer.RejectPayment(stakeObj).then(function (data) {
-        //                        return postApproval(data, param);
-        //                    });
-        //            }
-
-        //        default:
-        //            throw "invalid approval status";
-        //    }
-
-        //};
-
-        //TODO: separate into working payment part
-        //var postApproval = function (data, param) {
-        //    switch (param) {
-        //        case 'working':
-
-        //        case 'payment':
-
-        //        default:
-        //            throw "invalid param " + param;
-        //    }
-        //};
 
         //TODO: separate into working payment part
         $scope.changeMode = function (param) {
@@ -781,3 +755,44 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         //#endregion
     }
 ]);
+
+
+//$scope.setApprovalStatus = function (param1, status, param) {
+
+//    switch (status) {
+//        case 'approve':
+//            switch (param) {
+//                case 'working':
+//                    return approveWorking(param1, param);
+
+//                case 'payment':
+//                    return datalayer.ApprovePayment(stakeObj).then(function (data) {
+//                        return postApproval(data, param);
+//                    });
+//            }
+//        case 'reject':
+//            switch (param) {
+//                case 'working':
+//                    return rejectWorking(param1, param);
+
+//                case 'payment':
+//                    return datalayer.RejectPayment(stakeObj).then(function (data) {
+//                        return postApproval(data, param);
+//                    });
+//            }
+
+//        default:
+//            throw "invalid approval status";
+//    }
+
+//};
+//var postApproval = function (data, param) {
+//    switch (param) {
+//        case 'working':
+
+//        case 'payment':
+
+//        default:
+//            throw "invalid param " + param;
+//    }
+//};

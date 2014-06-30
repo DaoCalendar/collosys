@@ -19,15 +19,15 @@ csapp.factory('ViewStakeholderDatalayer', ["Restangular", function (rest) {
 }]);
 
 csapp.controller('viewStake', [
-    '$scope', '$log', 'ViewStakeholderDatalayer', '$location', "$timeout",
-    function ($scope, $log, datalayer, $location, $timeout) {
+    '$scope', '$log', 'ViewStakeholderDatalayer', '$location', "$timeout", "$csnotify",
+    function ($scope, $log, datalayer, $location, $timeout, $csnotify) {
 
         (function () {
             $scope.fields = {
                 filters: { type: 'enum', label: 'View' },
                 Search: { placeholder: "enter ID/Name to edit", type: 'text' }
             };
-            $scope.filterList = ['All','Approved', 'Unapproved', "Search"];
+            $scope.filterList = ['All', 'Approved', 'Unapproved', "Search"];
         })();
 
         $scope.switchPage = function (data, page) {
@@ -49,6 +49,9 @@ csapp.controller('viewStake', [
             $timeout(function () {
                 datalayer.SearchStakeholder(param).then(function (data) {
                     $scope.stakeholders = data;
+                    if (data.length === 0) {
+                        $csnotify.success("stakeholders not found");
+                    }
                 });
             }, 400);
         };
@@ -57,6 +60,9 @@ csapp.controller('viewStake', [
             if (filterParam === 'Search') return;
             datalayer.GetFilteredList(filterParam).then(function (data) {
                 $scope.stakeholders = data;
+                if (data.length === 0) {
+                    $csnotify.success("stakeholder not found");
+                }
             });
         };
     }

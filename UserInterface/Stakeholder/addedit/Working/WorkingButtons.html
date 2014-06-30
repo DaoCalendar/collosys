@@ -1,0 +1,45 @@
+﻿<div>
+    <span class="pull-left" data-ng-if="selectedWorkingList .length>0">
+        <cs-field layout="4.4.8"
+            data-ng-show="showEndDate(selectedWorkingList)"
+            field="workingModel.EndDate"
+            data-ng-model="EndDate"></cs-field>
+
+        <cs-button2 type="delete"
+            data-ng-disabled="disableDeleteBtn(selectedWorkingList ,EndDate)"
+            data-on-click="deleteSelectedWorking(EndDate)">
+                        </cs-button2>
+    </span>
+
+    <span class="pull-right">
+        <cs-button2 type="reset"
+            text="save"
+            data-ng-disabled="showSaveButton()"
+            permission="StakeholderAddEdit"
+            data-on-click="save(workingDetailsList)">
+                        </cs-button2>
+        <span data-ng-if="selectedWorkingList.length>0">
+            <cs-button2 type="approve"
+                permission="StakeholderApprove"
+                data-on-click="approveWorkings(selectedWorkingList)">
+                            </cs-button2>
+
+            <cs-button2 type="reject"
+                permission="StakeholderApprove"
+                data-on-click="rejectWorking(selectedWorkingList)">
+                            </cs-button2>
+        </span>
+        <cs-button2
+            type="cancel"
+            text="Close"
+            permission="StakeholderAddEdit"
+            data-on-click="gotoView()">
+                        </cs-button2>
+        <cs-button2
+            type="edit"
+            data-ng-show="formMode === 'view'"
+            permission="StakeholderAddEdit"
+            data-on-click="changeMode('working')">
+                        </cs-button2>
+    </span>
+</div>

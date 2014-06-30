@@ -1,0 +1,34 @@
+﻿<div class="pull-right">
+
+    <cs-button2 type="save"
+        permission="StakeholderAddEdit"
+        data-ng-disabled="paymentMode === 'view'"
+        data-on-click="savePayment(Payment,paymentForm)">
+                        </cs-button2>
+
+    <span data-ng-if="showPaymentApproval(Payment)">
+        <cs-button2 type="approve"
+            permission="StakeholderAddEdit"
+            data-on-click="approvePayment(currStakeholder.Id)">
+                            </cs-button2>
+
+        <cs-button2 type="reject"
+            permission="StakeholderAddEdit"
+            data-on-click="rejectPayment(currStakeholder.Id)">
+                            </cs-button2>
+    </span>
+
+    <cs-button2
+        type="cancel"
+        text="Close"
+        permission="StakeholderAddEdit"
+        data-on-click="gotoView()">
+                        </cs-button2>
+    <cs-button2
+        type="edit"
+        data-ng-show="paymentMode === 'view'"
+        permission="StakeholderAddEdit"
+        data-on-click="changeMode('payment')">
+                        </cs-button2>
+</div>
+

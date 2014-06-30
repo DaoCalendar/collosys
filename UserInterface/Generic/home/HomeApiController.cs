@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
+using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 
@@ -59,27 +60,47 @@ namespace AngularUI.Generic.home
         #endregion
 
         [HttpPost]
-        public HttpResponseMessage NotifyApproval(StkhNotification notification)
+        public HttpResponseMessage NotifyApproval(RceiveId notificationId)
         {
-            var repoNotify = new StakeholderNotificationManager(GetUsername());
-            repoNotify.NotifyApprove(notification);
+            var repo2Notify = new StkhNotificationRepository();
+            var notification = repo2Notify.Get(notificationId.Id);
+            if (!notification.IsResponse)
+            {
+                var repoNotify = new StakeholderNotificationManager(GetUsername());
+                repoNotify.NotifyApprove(notification);
+            }
+
             return Request.CreateResponse(HttpStatusCode.OK, "success");
         }
 
         [HttpPost]
-        public HttpResponseMessage NotifyRejection(StkhNotification notification)
+        public HttpResponseMessage NotifyRejection(RceiveId notificationId)
         {
-            var repoNotify = new StakeholderNotificationManager(GetUsername());
-            repoNotify.NotifyReject(notification);
+            var repo2Notify = new StkhNotificationRepository();
+            var notification = repo2Notify.Get(notificationId.Id);
+            if (!notification.IsResponse)
+            {
+                var repoNotify = new StakeholderNotificationManager(GetUsername());
+                repoNotify.NotifyReject(notification);
+            }
             return Request.CreateResponse(HttpStatusCode.OK, "success");
         }
 
         [HttpPost]
-        public HttpResponseMessage NotifyDissmiss(StkhNotification notification)
+        public HttpResponseMessage NotifyDissmiss(RceiveId notificationId)
         {
-            var repoNotify = new StakeholderNotificationManager(GetUsername());
-            repoNotify.NotifyDismiss(notification);
+            var repo2Notify = new StkhNotificationRepository();
+            var notification = repo2Notify.Get(notificationId.Id);
+            if (notification.NoteStatus != ColloSysEnums.NotificationStatus.Archived)
+            {
+                var repoNotify = new StakeholderNotificationManager(GetUsername());
+                repoNotify.NotifyDismiss(notification);
+            }
             return Request.CreateResponse(HttpStatusCode.OK, "success");
         }
+    }
+    public class RceiveId
+    {
+        public Guid Id { get; set; }
     }
 }

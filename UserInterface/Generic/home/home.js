@@ -11,15 +11,15 @@
     };
 
     var notifyApproval = function (notification) {
-        return restApi.customPOST(notification, "NotifyApproval");
+        return restApi.customPOST({ Id: notification.Id }, "NotifyApproval");
     };
 
     var notifyRejection = function (notification) {
-        return restApi.customPOST(notification, "NotifyRejection");
+        return restApi.customPOST({ Id: notification.Id }, "NotifyRejection");
     };
 
     var notifyDismiss = function (notification) {
-        return restApi.customPOST(notification, "NotifyDissmiss");
+        return restApi.customPOST({ Id: notification.Id }, "NotifyDissmiss");
     };
 
     return {
