@@ -560,8 +560,11 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
             case "FileUploadCustInfo":
                 perm = "FileUploader,UploadCustInfo";
                 break;
-            case "FileErrorCorrection":
+            case "FileErrorCorrectionAddEdit":
                 perm = "FileUploader,ErrorCorrection,AddEdit";
+                break;
+            case "FileErrorCorrectionApprove":
+                perm = "FileUploader,ErrorCorrection,Approve";
                 break;
 
                 //Allocation
