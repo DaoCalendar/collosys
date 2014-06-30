@@ -3,7 +3,6 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
     function ($csfactory, $csnotify, rest, $q) {
 
         var dldata = {};
-        var hierarchy = {};
 
         var apistake = rest.all('StakeholderApi');
 
@@ -79,8 +78,6 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
 
 csapp.factory("AddEditStakeholderFactory", function () {
 
-    var storedHierarchy = {};
-
     var setHierarchyModel = function (hierarchy, model) {
         if (hierarchy.IsUser) {
             model.stakeholder.MobileNo.required = true;
@@ -114,24 +111,13 @@ csapp.factory("AddEditStakeholderFactory", function () {
         }
     };
 
-    var setHierarchy = function (newHierarchy) {
-        storedHierarchy = angular.copy(newHierarchy);
-    };
-
-    var getHierarchy = function () {
-        console.log("returned: ", storedHierarchy);
-        return storedHierarchy;
-    };
-
     return {
         ResetHierarchyModel: setHierarchyModel,
-        SetHierarchy: setHierarchy,
-        GetHierarchy: getHierarchy
     };
 });
 
-csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$location", "$csModels", "AddEditStakeholderDatalayer", "AddEditStakeholderFactory", "$timeout", "$routeParams", "modalService",
-    function ($scope, $log, $csfactory, $location, $csModels, datalayer, factory, $timeout, $routeParams, modalService) {
+csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$location", "$csModels", "AddEditStakeholderDatalayer", "AddEditStakeholderFactory", "$timeout", "$routeParams",
+    function ($scope, $log, $csfactory, $location, $csModels, datalayer, factory, $timeout, $routeParams) {
 
         var getModels = function () {
             $scope.stakeholderModels = {
