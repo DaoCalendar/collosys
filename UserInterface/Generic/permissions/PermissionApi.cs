@@ -38,11 +38,8 @@ namespace AngularUI.Generic.permissions
         [HttpGet]
         public HttpResponseMessage GetPermission(Guid id)
         {
-            var stkhRepo = new StakeQueryBuilder();
-            var stkh = stkhRepo.GetStakeByExtId(GetUsername());
-
-            var hierarchy = Session.Get<StkhHierarchy>(id);
-            var devPermission = PermissionManager.GetPermission(hierarchy,stkh.ExternalId);
+           var hierarchy = Session.Get<StkhHierarchy>(id);
+            var devPermission = PermissionManager.GetPermission(hierarchy, GetUsername());
             return Request.CreateResponse(HttpStatusCode.OK, devPermission); 
         }
         #endregion
