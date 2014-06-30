@@ -33,17 +33,19 @@
     <link href="Content/Site.css" rel="stylesheet" />
 </head>
 <body id="ng-app"
-      ng-app="ui.collosys" data-ng-controller="RootCtrl" class="back-image" ng-cloak>
+    ng-app="ui.collosys" data-ng-controller="RootCtrl" class="back-image" ng-cloak>
     <!--[if lt IE 8]>
       <p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <!-- loading element -->
     <div class="row" style="padding: 0.7em;" data-ng-show="loadingWidgetParams.showSpinner">
-        <p class="loading-new-element">
-            <img alt="Loading  Content" src="Content/images/validation/loader.gif" />
-                        <br/>
-            <font color="green">Processing.....{{loadingWidgetParams.timer.stringValue}}</font>
-        </p>
+        <div class="loading-new-element">
+            <div class="back">
+                <img alt="Loading  Content" src="Content/images/validation/loader.gif" />
+                <br />
+                <span class="text-success">Processing.....{{loadingWidgetParams.timer.stringValue}}</span>
+            </div>
+        </div>
     </div>
 
     <!-- Add your site or application content here -->

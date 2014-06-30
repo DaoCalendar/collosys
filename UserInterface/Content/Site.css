@@ -257,6 +257,11 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
     padding: 200px 500px;
     position: absolute;
 }
+.loading-new-element .back {
+    background-color: white;
+    height: 100px;
+    width: 100px;
+}
 
 .centered {
     left: 50%;
