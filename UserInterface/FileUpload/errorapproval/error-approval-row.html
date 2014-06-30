@@ -7,10 +7,10 @@
             <div class="form-horizontal">
                 <div class="panel-body">
                     <div data-ng-repeat="c in serverNgGridOptions.columnDefs">
-                        <div class="form-group row">
-                            <label class="control-label">{{c.displayName}}</label>
-                            <div class="controls">
-                                <input type="text" data-ng-readonly="c.readOnly" data-ng-model="selectedRow[c.field]" />
+                        <div class="form-group col-md-12">
+                            <label class="col-md-4 control-label">{{c.displayName}}</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" data-ng-readonly="c.readOnly" data-ng-model="selectedRow[c.field]" />
                             </div>
                         </div>
                     </div>
@@ -18,10 +18,10 @@
 
                 <div class="text-right">
                     <label class="error">{{errorMessage}}</label>
-                    <cs-button type="submit" text="Prev" permission="FileUploader,ErrorCorrection,AddEdit" ng-click="changeSelectedRow(selectedRowIndex-1)" data-ng-disabled="selectedRowIndex===0"></cs-button>
-                    <cs-button type="save" text="Approve" permission="FileUploader,ErrorCorrection,Approve" ng-click="approveRejectErrorData(selectedRow,true,selectedRowIndex,false)"></cs-button>
-                    <cs-button type="Approve & Next" permission="FileUploader,ErrorCorrection,AddEdit" ng-click="approveRejectErrorData(selectedRow,true,selectedRowIndex,true)" data-ng-disabled="serverNgGridOptions.data.length === selectedRowIndex+1"></cs-button>
-                    <cs-button type="close" permission="FileUploader,ErrorCorrection,AddEdit" ng-click="closeModel()"></cs-button>
+                    <cs-button type="submit" text="Prev" permission="FileErrorCorrectionAddEdit" ng-click="changeSelectedRow(selectedRowIndex-1)" data-ng-disabled="selectedRowIndex===0"></cs-button>
+                    <cs-button type="save" text="Approve" permission="FileErrorCorrectionApprove" ng-click="approveRejectErrorData(selectedRow,true,selectedRowIndex,false)"></cs-button>
+                    <cs-button type="Approve & Next" permission="FileErrorCorrectionAddEdit" ng-click="approveRejectErrorData(selectedRow,true,selectedRowIndex,true)" data-ng-disabled="serverNgGridOptions.data.length === selectedRowIndex+1"></cs-button>
+                    <cs-button type="close" permission="FileErrorCorrectionAddEdit" ng-click="closeModel()"></cs-button>
                 </div>
             </div>
         </div>
