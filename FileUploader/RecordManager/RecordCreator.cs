@@ -9,7 +9,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploader.Reflection;
 using ColloSys.FileUploader.Utilities;
-using ColloSys.FileUploaderService.DbLayer;
+using ColloSys.FileUploaderService.DataLayer;
 using ColloSys.FileUploaderService.ExcelReader;
 using ColloSys.FileUploaderService.RowCounter;
 using ColloSys.FileUploaderService.Utilities;
@@ -27,7 +27,7 @@ namespace ColloSys.FileUploaderService.RecordManager
         protected IExcelReader Reader;
         protected ICounter Counter;
         protected FileScheduler FileScheduler;
-        protected readonly IDbLayer DbLayer = new DbLayer.DbLayer();
+        protected readonly IDbLayer DbLayer = new DbLayer();
         protected readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         protected RecordCreator()

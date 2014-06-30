@@ -11,13 +11,12 @@ using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.SessionMgr;
 using NHibernate.Linq;
-using NHibernate.Mapping;
 using NHibernate.Transform;
 
 #endregion
 
 
-namespace ColloSys.FileUploaderService.DbLayer
+namespace ColloSys.FileUploaderService.DataLayer
 {
     public class DbLayer : IDbLayer
     {

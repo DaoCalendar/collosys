@@ -3,7 +3,7 @@
 using System;
 using ColloSys.DataLayer.NhSetup;
 using ColloSys.DataLayer.SessionMgr;
-using ColloSys.FileUploaderService.DbLayer;
+using ColloSys.FileUploaderService.DataLayer;
 using ColloSys.FileUploaderService.FileReader;
 using ColloSys.Shared.ConfigSectionReader;
 using NLog;
@@ -45,7 +45,7 @@ namespace ColloSys.FileUploaderService
 
         public static void UploadFiles()
         {
-            IDbLayer dbLayer = new DbLayer.DbLayer();
+            IDbLayer dbLayer = new DataLayer.DbLayer();
             var file = dbLayer.GetNextFileForSchedule();
             if (file == null) return;
             AllFileUploader.UploadFile(file);

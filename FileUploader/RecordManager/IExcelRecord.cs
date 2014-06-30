@@ -28,10 +28,6 @@ namespace ColloSys.FileUploaderService.RecordManager
 
         bool CheckBasicField();
 
-        void Init(FileScheduler fileScheduler, ICounter counter);
-
         bool HasMultiDayComputation { get; set; }
-
-        void InitPreviousDayLiner(FileScheduler fileScheduler);
     }
 }

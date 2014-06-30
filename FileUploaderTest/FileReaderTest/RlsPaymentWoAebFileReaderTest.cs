@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
-using ColloSys.FileUploader.AliasFileReader;
 using ColloSys.FileUploaderService.AliasPayment;
 using ColloSys.FileUploaderService.FileReader;
 using NUnit.Framework;

@@ -4,7 +4,7 @@ using System.IO;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
-using ColloSys.FileUploaderService.DbLayer;
+using ColloSys.FileUploaderService.DataLayer;
 using ColloSys.FileUploaderService.RowCounter;
 using ColloSys.FileUploaderService.Utilities;
 using NLog;
@@ -17,7 +17,7 @@ namespace ColloSys.FileUploaderService.RecordManager
         public FileScheduler FileScheduler;
         public ICounter Counter;
         public StreamReader InpuStreamReader;
-        protected readonly IDbLayer DbLayer = new DbLayer.DbLayer();
+        protected readonly IDbLayer DbLayer = new DataLayer.DbLayer();
         public readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public void Init(FileScheduler fileScheduler, ICounter counter)
         {

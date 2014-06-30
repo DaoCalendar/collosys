@@ -2,17 +2,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
-using ColloSys.FileUploaderService.DbLayer;
+using ColloSys.FileUploaderService.DataLayer;
 using ColloSys.FileUploaderService.RecordManager;
 using ColloSys.FileUploaderService.RowCounter;
-using ColloSys.FileUploaderService.Utilities;
 using NLog;
 
 #endregion
@@ -26,16 +24,13 @@ namespace ColloSys.FileUploaderService.FileReader
         private readonly FileProcess _fileProcess;
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
         public IRecordCreator<T> RecordCreatorObj { get; private set; }
-        //public IExcelReader ExcelReader2 { get; private set; }
         public ICounter Counter { get; private set; }
-        private readonly uint _batchSize;
-        
+
         protected readonly IDbLayer DbLayer;
-        public readonly StreamReader InpuStreamReader;
 
         public FileScheduler FileScheduler { get; private set; }
 
-        protected FileReader(FileScheduler fileScheduler, IExcelRecord<T> recordCreator)
+        protected FileReader(FileScheduler fileScheduler, IRecordCreator<T> recordCreator)
         {
             FileScheduler = fileScheduler;
             Counter = new ExcelRecordCounter();
@@ -43,21 +38,7 @@ namespace ColloSys.FileUploaderService.FileReader
             recordCreator.InitPreviousDayLiner(FileScheduler);
             _fileProcess = new FileProcess();
             RecordCreatorObj = recordCreator;
-            _batchSize = 500;
-            DbLayer = new DbLayer.DbLayer();
-
-        }
-
-        protected FileReader(FileScheduler fileScheduler, ITextRecord<T> recordCreator)
-        {
-            FileScheduler = fileScheduler;
-            Counter = new ExcelRecordCounter();
-            recordCreator.Init(FileScheduler, Counter);
-            recordCreator.InitPreviousDayLiner(FileScheduler);
-            _fileProcess = new FileProcess();
-            RecordCreatorObj = recordCreator;
-            _batchSize = 500;
-            DbLayer = new DbLayer.DbLayer();
+            DbLayer = new DbLayer();
         }
 
         #endregion

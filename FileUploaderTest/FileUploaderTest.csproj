@@ -88,8 +88,6 @@
     <Compile Include="FileReaderTest\FileProcessesTest.cs" />
     <Compile Include="FileReaderTest\RlsPaymentLinerFileReaderTest.cs" />
     <Compile Include="FileReaderTest\RlsPaymentManualReversalFileReaderTest.cs" />
-    <Compile Include="FileReaderTest\RlsPaymentWoAebFileReaderTest.cs" />
-    <Compile Include="FileReaderTest\RlsPaymentWoPlpcFileReaderTest.cs" />
     <Compile Include="FileUploaderTest\FileUploaderServiceTest.cs" />
     <Compile Include="NSubstitude.Test\NsubstitudeDemo.cs" />
     <Compile Include="NSubstitude.Test\NSubstitudeTest.cs" />
