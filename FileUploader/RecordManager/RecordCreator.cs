@@ -30,12 +30,16 @@ namespace ColloSys.FileUploaderService.RecordManager
         protected readonly IDbLayer DbLayer = new DbLayer.DbLayer();
         protected readonly Logger Log = LogManager.GetCurrentClassLogger();
 
+        protected RecordCreator()
+        {
+            TodayRecordList = new MultiKeyEntityList<TEntity>(); 
+        } 
+
         public void Init(FileScheduler fileScheduler, ICounter counter)
         {
             FileScheduler = fileScheduler;
             Reader = SharedUtility.GetInstance(new FileInfo(FileScheduler.FileDirectory + @"\" + FileScheduler.FileName),counter);
             Counter = counter;
-            TodayRecordList = new MultiKeyEntityList<TEntity>();
         }
 
         public MultiKeyEntityList<TEntity> TodayRecordList { get; set; }

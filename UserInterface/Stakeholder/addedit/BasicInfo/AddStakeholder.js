@@ -13,7 +13,6 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
             }, function () {
                 $csnotify.error('Error loading hierarchies');
             });
-
         };
 
 
@@ -41,21 +40,15 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
         };
 
         var getReportsToList = function (hierarchyId, level) {
-            return apistake.customGET('GetReportsToList', { hierarchyId: hierarchyId, level: level }).then(function (data) {
-                return data;
-            });
+            return apistake.customGET('GetReportsToList', { hierarchyId: hierarchyId, level: level });
         };
 
         var getStakeholder = function (id) {
-            return apistake.customGET('GetStakeholder', { 'stakeholderId': id }).then(function (data) {
-                return data;
-            });
+            return apistake.customGET('GetStakeholder', { 'stakeholderId': id });
         };
 
         var save = function (data) {
-            return apistake.customPOST(data, 'SaveStakeholder').then(function (afterPostData) {
-                return afterPostData;
-            });
+            return apistake.customPOST(data, 'SaveStakeholder');
         };
 
         var approveStakeholder = function (stakeObj) {
@@ -71,7 +64,6 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
                 return data;
             });
         };
-
 
         return {
             CheckUser: checkUser,
@@ -112,16 +104,13 @@ csapp.factory("AddEditStakeholderFactory", function () {
             if (hierarchy.Hierarchy != 'External') {
                 model.stakeholder.ReportingManager.label = "Line Manager";
 
-            } else if (hierarchy.Hierarchy === 'External' && !(hierarchy.Designation === 'External Agency' || hierarchy.Designation === 'Manpower Agency')) {
-                model.stakeholder.ReportingManager.label = "Agency Name";
-
-            } else if (hierarchy.Designation == 'External Agency' || hierarchy.Designation == 'Manpower Agency') {
-                model.stakeholder.ReportingManager.label = "Reports To";
-
+            } else {
+                model.stakeholder.ReportingManager.label = hierarchy.IsIndividual == true
+                    ? "Agency Name" : "Reports To";
             }
             model.stakeholder.ReportingManager.required = true;
         } else {
-            model.label = 'Repoets To';
+            model.label = 'Reports To';
         }
     };
 
@@ -141,8 +130,6 @@ csapp.factory("AddEditStakeholderFactory", function () {
     };
 });
 
-//TODO: clean hierarchy designation variable name, why you complicated it so much
-//TODO: can you please not make it simple
 csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$location", "$csModels", "AddEditStakeholderDatalayer", "AddEditStakeholderFactory", "$timeout", "$routeParams", "modalService",
     function ($scope, $log, $csfactory, $location, $csModels, datalayer, factory, $timeout, $routeParams, modalService) {
 

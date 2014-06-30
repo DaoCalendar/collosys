@@ -34,6 +34,12 @@ namespace AngularUI.Generic.home
             notification.ResponseDateTime = DateTime.Now;
         }
 
+        public void NotifyApprove(ColloSysEnums.NotificationType type, Guid entityId)
+        {
+            var notice = NotificationRepository.GetNotification(type, entityId);
+            if (notice != null) NotifyApprove(notice);
+        }
+
         public void NotifyApprove(StkhNotification notification)
         {
             var loginStkh = NotificationRepository.GetLoginStakeholder(Username);
@@ -42,12 +48,24 @@ namespace AngularUI.Generic.home
             NotificationRepository.Save(notification);
         }
 
+        public void NotifyReject(ColloSysEnums.NotificationType type, Guid entityId)
+        {
+            var notice = NotificationRepository.GetNotification(type, entityId);
+            if (notice != null) NotifyReject(notice);
+        }
+
         public void NotifyReject(StkhNotification notification)
         {
             var loginStkh = NotificationRepository.GetLoginStakeholder(Username);
             SetResponseFields(notification, loginStkh);
             notification.ResponseType = "Rejected";
             NotificationRepository.Save(notification);
+        }
+
+        public void NotifyDismiss(ColloSysEnums.NotificationType type, Guid entityId)
+        {
+            var notice = NotificationRepository.GetNotification(type, entityId);
+            if (notice != null) NotifyDismiss(notice);
         }
 
         public void NotifyDismiss(StkhNotification notification)

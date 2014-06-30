@@ -18,7 +18,7 @@ csapp.factory("ProductsDatalayer", ["Restangular", "$csnotify", function (rest, 
 
     var saveProduct = function (productconfig) {
 
-        productconfig.CycleCodes = JSON.stringify(productconfig.CycleCodes);
+       // productconfig.CycleCodes = JSON.stringify(productconfig.CycleCodes);
         if (productconfig.Id) {
             return reatApi.customPUT(productconfig, 'Put', { id: productconfig.Id }).then(function (data) {
                 $csnotify.success('Product Configuration Updated Successfully.');
@@ -58,7 +58,6 @@ csapp.factory("ProductsDatalayer", ["Restangular", "$csnotify", function (rest, 
 csapp.factory("ProductFactory", [function () {
 
     var reset = function (dldata) {
-        dldata.isReadOnly = false;
         dldata.editIndex = -1;
         dldata.productconfig = {
             ProductName: "",
@@ -68,8 +67,8 @@ csapp.factory("ProductFactory", [function () {
             HasTelecalling: true,
             FrCutOffDaysCycle: 5,
             FrCutOffDaysMonth: 7,
-            CycleCodes: ["1", "5", "15", "25"],
-            Buckets: ["1", "5", "15", "25"]
+            CycleCodes: [],
+            Buckets: []
         };
     };
 
@@ -103,26 +102,14 @@ csapp.controller("ProductConfigController", ["$scope", '$csnotify', 'Restangular
       (function () {
             $scope.dldata = datalayer.dldata;
             datalayer.GetAll();
-
         })();
 
         $scope.openModelData = function (mode, productRow) {
             $scope.dldata.productconfig = {};
-            //if (readOnly === false) {
-            //    $scope.dldata.modelHeader = "Update Product Configuration";
-            //    $scope.dldata.isReadOnly = readOnly;
-            //} else {
-            //    $scope.dldata.modelHeader = "View Product Configuration";
-            //    $scope.dldata.isReadOnly = readOnly;
-            //}
             $scope.dldata.productconfig = angular.copy(productRow);
             $scope.dldata.productconfig.CycleCodes = JSON.parse($scope.dldata.productconfig.CycleCodes);
-            //$scope.dldata.editIndex = index;
-
-            //$modal.open({
-            //    templateUrl: baseUrl + 'Generic/product/updateViewConfiguration.html',
-            //    controller: 'updateView',
-            //});
+            $scope.dldata.productconfig.Buckets = JSON.parse($scope.dldata.productconfig.Buckets);
+           
             if (mode === "edit" || mode === "view") {
                 $location.path("/generic/product/addedit/" + mode + "/" + productRow.Id);
             }
@@ -131,11 +118,11 @@ csapp.controller("ProductConfigController", ["$scope", '$csnotify', 'Restangular
 
 
 csapp.controller("updateViewController", ["$scope", "ProductsDatalayer", "ProductFactory",
-    "$csModels", "$routeParams", "$location",
-    function ($scope, datalayer, factory, $csModels, $routeParams, $location) {
+    "$csModels", "$routeParams", "$location", "$csShared",
+    function ($scope, datalayer, factory, $csModels, $routeParams, $location, $csShared) {
 
         (function () {
-            $scope.datalayer = datalayer.dldata;
+            $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
             $scope.factory = factory;
             if (angular.isDefined($routeParams.id)) {
@@ -143,9 +130,8 @@ csapp.controller("updateViewController", ["$scope", "ProductsDatalayer", "Produc
                     $scope.productconfig = data;
                 });
             }
-            $scope.sourceTags = ["aaa", "bbb", "vvv"];
-            $scope.tags = "";
             $scope.Products = $csModels.getColumns("Product");
+            $scope.cyclecodeList = $csShared.enums.CycleCodes;
         })();
 
 
@@ -156,9 +142,6 @@ csapp.controller("updateViewController", ["$scope", "ProductsDatalayer", "Produc
                 return "btn btn-small btn-info";
             }
         };
-
-        //$scope.dldata.productconfig.AllocationResetStrategy.valueList = datalayer.dldata.AllocationResetStrategy;
-
         $scope.closeModel = function () {
             $location.path("/generic/product");
         };

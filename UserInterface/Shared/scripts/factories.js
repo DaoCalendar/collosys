@@ -1,4 +1,36 @@
-﻿csapp.factory("$csfactory", ["$csConstants", "$csAuthFactory", "loadingWidget", function (consts, auth, loadingWidget) {
+﻿
+csapp.factory("$cslocation", [
+    '$location', function () {
+        var getUrl = function (path, params) {
+            switch (path) {
+                case "stakeholder.add":
+                    return "/stakeholder/add";
+                case "stakeholder.edit":
+                    return "/stakeholder/edit/" + params;
+                default:
+                    throw 'invalid path';
+            }
+        };
+
+        var persistData = {};
+        var getSharedData = function () {
+            return persistData;
+        };
+
+        var changePath = function (url, params) {
+            persistData = params;
+            $location.path(url);
+        };
+
+        return {
+            GetUrl: getUrl,
+            Change: changePath,
+            GetData: getSharedData
+        };
+    }
+]);
+
+csapp.factory("$csfactory", ["$csConstants", "$csAuthFactory", "loadingWidget", function (consts, auth, loadingWidget) {
 
     var enableSpinner = function () {
         loadingWidget.params.enableSpinner = true;
@@ -122,7 +154,7 @@
             }
         }
         return subObject;
-    }
+    };
 
     var getPropValFromListById = function (list, id, val) {
         if (angular.isUndefined(list)) return undefined;
@@ -236,44 +268,6 @@ csapp.factory('$csStopWatch', ["$timeout", function ($timeout) {
         lap: lap
     };
 }]);
-
-csapp.filter("minLength", ["$csfactory", function ($csfactory) {
-    return function (array, value, length) {
-        if (angular.isUndefined(array)
-            || $csfactory.isNullOrEmptyString(value)
-            || $csfactory.isNullOrEmptyString(length)
-            || !angular.isNumber(length)) {
-            return [];
-        }
-
-        var filteredRow = _.where(array, function (row) { return (row[value].length > length); });
-        return filteredRow;
-    };
-}]);
-
-csapp.filter('csmakeRange', function () {
-    return function (input) {
-        var lowBound, highBound;
-        switch (input.length) {
-            case 1:
-                lowBound = 0;
-                highBound = parseInt(input[0]) - 1;
-                break;
-            case 2:
-                lowBound = parseInt(input[0]);
-                highBound = parseInt(input[1]);
-                break;
-            default:
-                return input;
-        }
-        if (highBound < lowBound)
-            highBound = lowBound;
-        var result = [];
-        for (var i = lowBound; i <= highBound; i++)
-            result.push(i);
-        return result;
-    };
-});
 
 csapp.filter('bytes', function () {
     return function (bytes, precision) {
@@ -499,7 +493,7 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
         var permission = root;
         for (var i = 0; i < perm.length; i++) {
             var permData = _.find(permission.Childrens, function (item) {
-                if (item.Activity.trim().toUpperCase() === perm[i].trim().toUpperCase()) return item;
+                return (item.Activity.trim().toUpperCase() === perm[i].trim().toUpperCase());
             });
             if ($csfactory.isEmptyObject(permData)) return false;
             if (permData.HasAccess === false) return false;
@@ -726,6 +720,4 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
         HasPermission: hasPermission2
     };
 }]);
-
-
 

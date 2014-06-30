@@ -141,6 +141,11 @@ namespace ColloSys.FileUploaderService
                     rWriteOffPlAeb.ProcessFile();
                     break;
 
+                case ColloSysEnums.FileAliasName.R_WRITEOFF_PL_SCB:
+                    var rWriteOffPlScb = new RWriteOffPlScbFR(scheduler);
+                    rWriteOffPlScb.ProcessFile();
+                    break;
+
                 case ColloSysEnums.FileAliasName.R_WRITEOFF_SME:
                     var rWriteOffSme = new RWriteOffSmeFR(scheduler);
                     rWriteOffSme.ProcessFile();

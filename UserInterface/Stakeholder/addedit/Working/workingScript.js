@@ -81,6 +81,10 @@
 
 csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
 
+    //#region display manager
+
+    //TODO: separate factory for display manager
+
     var displayManager = {
         showCountry: true,
         showRegion: false,
@@ -191,30 +195,6 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         }
     };
 
-    var getWorkingDetailsList = function (workingModel, locLevel, workingDetailsList) {
-        if (locLevel === 'Country') {
-            workingModel.SelectedPincodeData[locLevel] = [];
-            workingModel.SelectedPincodeData[locLevel].push('India');
-        }
-        checkSelectAll(workingModel, locLevel);
-        var multiSelectList = angular.copy(workingModel.SelectedPincodeData[locLevel]);
-        _.forEach(multiSelectList, function (location) {
-            workingModel.SelectedPincodeData[locLevel] = location;
-            workingDetailsList.push(angular.copy(workingModel.SelectedPincodeData));
-        });
-        return workingDetailsList;
-    };
-    var checkSelectAll = function (workingModel, locLevel) {
-        if (workingModel.SelectedPincodeData[locLevel].length === getLength(workingModel, locLevel)) {
-            workingModel.SelectedPincodeData[locLevel] = [];
-            workingModel.SelectedPincodeData[locLevel].push('ALL');
-        }
-    };
-    var getLength = function (workingModel, locLevel) {
-        var listName = getListName(locLevel);
-        if (angular.isUndefined(listName)) return 0;
-        return angular.isUndefined(workingModel[listName]) ? 0 : workingModel[listName].length;
-    };
     var getListName = function (locLevel) {
         switch (locLevel.toUpperCase()) {
             case "COUNTRY":
@@ -234,6 +214,43 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
             default:
                 throw "invalid location level";
         }
+    };
+
+    //#endregion
+
+    //#region working
+
+    var getWorkingDetailsList = function (workingModel, locLevel, workingDetailsList) {
+        if (locLevel === 'Country') {
+            workingModel.SelectedPincodeData[locLevel] = [];
+            workingModel.SelectedPincodeData[locLevel].push('India');
+        }
+        checkSelectAll(workingModel, locLevel);
+        var multiSelectList = angular.copy(workingModel.SelectedPincodeData[locLevel]);
+        _.forEach(multiSelectList, function (location) {
+            workingModel.SelectedPincodeData[locLevel] = location;
+            workingDetailsList.push(angular.copy(workingModel.SelectedPincodeData));
+        });
+        return workingDetailsList;
+    };
+
+    var checkSelectAll = function (workingModel, locLevel) {
+        if (workingModel.SelectedPincodeData[locLevel].length === getLength(workingModel, locLevel)) {
+            workingModel.SelectedPincodeData[locLevel] = [];
+            workingModel.SelectedPincodeData[locLevel].push('ALL');
+        }
+    };
+
+    var setProduct = function (obj, data) {
+        obj.SelectedPincodeData.Products = data.Products;
+        obj.SelectedPincodeData.ReportsTo = data.ReportsTo;
+    };
+
+    //TODO: change the name, get length of what??
+    var getLength = function (workingModel, locLevel) {
+        var listName = getListName(locLevel);
+        if (angular.isUndefined(listName)) return 0;
+        return angular.isUndefined(workingModel[listName]) ? 0 : workingModel[listName].length;
     };
 
     var getReportsToName = function (id, list) {
@@ -274,12 +291,15 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
     };
 
     var checkEndDate = function (endDate) {
-        if ($csfactory.isNullOrEmptyString(endDate))
-            return true;
+        if ($csfactory.isNullOrEmptyString(endDate)) return true;
         return moment().isBefore(moment(endDate));
     };
 
-    //dunno how it works, copy pasted for getting the amount with precision of 2 
+    //#endregion
+
+    //#region csfactory
+
+    //TODO: move to $csfactory
     var round = function (value, exp) {
         if (typeof exp === 'undefined' || +exp === 0)
             return Math.round(value);
@@ -287,7 +307,7 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         value = +value;
         exp = +exp;
 
-        if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
+        if (isNaN(value) || !(exp % 1 === 0))
             return NaN;
 
         // Shift
@@ -298,6 +318,35 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         value = value.toString().split('e');
         return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
     };
+
+    //TODO: move to $csfactory
+    var safeSplice = function (list, row, properties) {
+        var indx = list.indexOf(row);
+        if (indx !== -1) {
+            list.splice(indx, 1);
+            return;
+        }
+
+        if ($csfactory.isNullOrEmptyString(properties)) {
+            return;
+        }
+
+        var record = _.find(list, comparisons(row, properties));
+        var index = list.indexOf(record);
+        if (index !== -1) list.splice(index, 1);
+    };
+    var comparisons = function (row, properties) {
+        var comparison = {};
+        _.forEach(properties, function (property) {
+            comparison[property] = row[property];
+        });
+        return comparison;
+    };
+
+    //#endregion
+
+    //#region payment
+
     var computeSalary = function (basic, gross, salObj) {
         salObj.FixpayBasic = angular.isUndefined(basic) ? 0 : basic;
         salObj.FixpayGross = angular.isUndefined(gross) ? 0 : gross;
@@ -325,34 +374,7 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         return salObj;
     };
 
-    var setProduct = function (obj, data) {
-        obj.SelectedPincodeData.Products = data.Products;
-        obj.SelectedPincodeData.ReportsTo = data.ReportsTo;
-    };
-
-    //TODO: move to $csfactory, if it is generic
-    var safeSplice = function (list, row, properties) {
-        var indx = list.indexOf(row);
-        if (indx !== -1) {
-            list.splice(indx, 1);
-            return;
-        }
-
-        if ($csfactory.isNullOrEmptyString(properties)) {
-            return;
-        }
-
-        var record = _.find(list, comparisons(row, properties));
-        var index = list.indexOf(record);
-        if (index !== -1) list.splice(index, 1);
-    };
-    var comparisons = function (row, properties) {
-        var comparison = {};
-        _.forEach(properties, function (property) {
-            comparison[property] = row[property];
-        });
-        return comparison;
-    };
+    //#endregion
 
     return {
         GetFixedPayObj: getFixedPayObj,
@@ -372,6 +394,12 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
 
 csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDatalayer", "$csModels", "StakeWorkingFactory", "$csfactory", "$location", "$timeout", "$csnotify",
     function ($scope, $routeParams, datalayer, $csModels, factory, $csfactory, $location, $timeout, $csnotify) {
+
+        //#region init
+
+        $scope.gotoView = function () {
+            $location.path('/stakeholder/view');
+        };
 
         var getPaymentData = function (hierarchy) {
             if (hierarchy.HasFixedIndividual) {
@@ -409,7 +437,8 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         };
 
         var getStakeData = function () {
-            return angular.isDefined($routeParams.editStakeId) ? getStakeholderData($routeParams.editStakeId)
+            return angular.isDefined($routeParams.editStakeId)
+                ? getStakeholderData($routeParams.editStakeId)
               : getStakeholderData($routeParams.stakeId);
         };
 
@@ -431,6 +460,9 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             $scope.selectedWorkingList = [];
         })();
 
+        //#endregion
+
+        //#region api calls
         $scope.getSalaryDetails = function () {
             var paymentIds = {
                 ReportingId: $scope.currStakeholder.ReportingManager,
@@ -444,33 +476,38 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             });
         };
 
-        $scope.computeSalary = function (basic, gross) {
-            $scope.SalDetails = factory.ComputeSalary(basic, gross, $scope.SalDetails);
-            console.log("salObj : ", $scope.SalDetails);
-        };
-
         $scope.getReportsTo = function (product) {
             datalayer.GetReportsTo($scope.currStakeholder, product).then(function (reportsToList) {
                 $scope.reportsToList = reportsToList;
                 autoSelect($scope.reportsToList);
             });
         };
+
+        //TODO: rename save working
+        $scope.save = function (workList) {
+            factory.SetWorkList($scope.currStakeholder, workList);
+            return datalayer.SaveWorking(workList).then(function (data) {
+                $scope.workingDetailsList = data.WorkList;
+                if (!$scope.selectedHierarchy.HasPayment) {
+                    $scope.gotoView();
+                } else {
+                    if ($scope.selectedHierarchy.HasBuckets)
+                        factory.ParseBuckets($scope.workingDetailsList);
+                    factory.SetReportsToName($scope.workingDetailsList, data.ReportsToList);
+                }
+                return data;
+            });
+        };
+
+        //#endregion
+
+        //#region working
+        //TODO:move to working factory
         var autoSelect = function (reportsToList) {
             if (reportsToList.length === 1) {
                 $scope.WorkingModel.SelectedPincodeData.ReportsTo = reportsToList[0].Id;
                 $scope.getPincodeData($scope.WorkingModel);
             }
-        };
-
-        $scope.savePayment = function (paymentData) {
-            paymentData.Stakeholder = $scope.currStakeholder;
-            paymentData.Stakeholder.StkhPayments = [];
-            paymentData.Stakeholder.StkhWorkings = [];
-            paymentData.ApprovalStatus = factory.GetApprovalStatus(paymentData.ApprovalStatus);
-            datalayer.SavePayment(paymentData).then(function (data) {
-                $scope.Payment = data;
-                $scope.gotoView();
-            });
         };
 
         $scope.getPincodeData = function (workingModel, selected) {
@@ -488,6 +525,8 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                 factory.SetProduct($scope.WorkingModel, temp);
             });
         };
+
+        //TODO: rename, move it to display manager model factory
         var clearArray = function (workingModel, locLevel) {
             if (workingModel.QueryFor !== locLevel) {
                 workingModel.SelectedPincodeData[locLevel] = [];
@@ -506,21 +545,6 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             workingModel.SelectedPincodeData.Buckets = [];
         };
 
-        $scope.save = function (workList) {
-            factory.SetWorkList($scope.currStakeholder, workList);
-            return datalayer.SaveWorking(workList).then(function (data) {
-                $scope.workingDetailsList = data.WorkList;
-                if (!$scope.selectedHierarchy.HasPayment) {
-                    $scope.gotoView();
-                } else {
-                    if ($scope.selectedHierarchy.HasBuckets)
-                        factory.ParseBuckets($scope.workingDetailsList);
-                    factory.SetReportsToName($scope.workingDetailsList, data.ReportsToList);
-                }
-                return data;
-            });
-        };
-
         $scope.addWorkingToList = function (data) {
             var selected = _.find($scope.selectedWorkingList, function (working) { return working === data; });
             if ($csfactory.isEmptyObject(selected)) {
@@ -530,6 +554,132 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             }
         };
 
+        var approveWorking = function (workList, param) {
+            factory.SetWorkList($scope.currStakeholder, workList);
+            datalayer.ApproveWorkings(workList).then(function (data) {
+                postApproval(data, param);
+                $csnotify.success("Workings Approved");
+            });
+        };
+
+        var rejectWorking = function (worklist, param) {
+            factory.SetWorkList($scope.currStakeholder, worklist);
+            datalayer.RejectWorkings(worklist).then(function (data) {
+                postApproval(data, param);
+                $csnotify.success("Workings Rejected");
+            });
+        };
+
+        $scope.deleteSelectedWorking = function (endDate) {
+            var remainingData = angular.copy(deleteData());
+            factory.SetEndDate($scope.selectedWorkingList, endDate);
+            factory.SetWorkList($scope.currStakeholder, $scope.selectedWorkingList);
+            datalayer.DeleteWorkingList($scope.selectedWorkingList).then(function () {
+                getStakeData().then(function (data) { addUnsavedDataToList(data.Stakeholder, remainingData); });
+            });
+            $scope.selectedWorkingList = [];
+        };
+
+        var deleteData = function () {
+            _.forEach($scope.selectedWorkingList, function (workingToBeDeleted) {
+                if ($csfactory.isNullOrEmptyGuid(workingToBeDeleted.Id)) {
+                    factory.Splice($scope.workingDetailsList, workingToBeDeleted, ["ReportsTo", "Products", "EndDate", $scope.selectedHierarchy.LocationLevel]);
+                }
+            });
+
+            _.forEach(angular.copy($scope.workingDetailsList), function (work) {
+                if (!$csfactory.isNullOrEmptyGuid(work.Id)) {
+                    factory.Splice($scope.workingDetailsList, work, ["ReportsTo", "Products", "EndDate", $scope.selectedHierarchy.LocationLevel]);
+                }
+            });
+
+            return $scope.workingDetailsList;
+        };
+
+        var addUnsavedDataToList = function (stakedata, unsavedList) {
+            _.forEach(unsavedList, function (unsavedData) {
+                stakedata.StkhWorkings.push(unsavedData);
+            });
+            $scope.workingDetailsList = stakedata.StkhWorkings;
+        };
+
+        $scope.getEndDate = function (data) {
+            if (data.ApprovalStatus === 'Changed') {
+                if ($csfactory.isNullOrEmptyString(data.EndDate)) return undefined;
+                else {
+                    return 'End Date: ' + moment(data.EndDate).format('YYYY-MM-DD');
+                }
+            }
+            return undefined;
+        };
+
+        $scope.disableDeleteBtn = function (deleteList, endDate) {
+            if ($scope.showEndDate(deleteList)) {
+                return $csfactory.isNullOrEmptyString(endDate);
+            } else {
+                return false;
+            }
+        };
+
+        $scope.showEndDate = function (deleteList) {
+            var showEndDt = false;
+            _.forEach(deleteList, function (working) {
+                if (working.ApprovalStatus === 'Approved')
+                    showEndDt = true;
+            });
+            return showEndDt;
+        };
+
+        $scope.disableDeleteBtn = function (deleteList, endDate) {
+            if ($scope.showEndDate(deleteList)) {
+                return $csfactory.isNullOrEmptyString(endDate);
+            } else {
+                return false;
+            }
+        };
+
+        $scope.showEndDate = function (deleteList) {
+            var showEndDt = false;
+            _.forEach(deleteList, function (working) {
+                if (working.ApprovalStatus === 'Approved')
+                    showEndDt = true;
+            });
+            return showEndDt;
+        };
+
+        $scope.showApproveButtons = function (workList) {
+            var showApproveBtn = false;
+            _.forEach(workList, function (work) {
+                if (work.ApprovalStatus == 'Submitted') {
+                    showApproveBtn = true;
+                }
+            });
+
+            return showApproveBtn;
+        };
+
+        //#endregion
+
+        //#region payment
+        //TODO: move to payment factory
+
+        $scope.computeSalary = function (basic, gross) {
+            $scope.SalDetails = factory.ComputeSalary(basic, gross, $scope.SalDetails);
+            console.log("salObj : ", $scope.SalDetails);
+        };
+
+        $scope.savePayment = function (paymentData) {
+            paymentData.Stakeholder = $scope.currStakeholder;
+            paymentData.Stakeholder.StkhPayments = [];
+            paymentData.Stakeholder.StkhWorkings = [];
+            paymentData.ApprovalStatus = factory.GetApprovalStatus(paymentData.ApprovalStatus);
+            datalayer.SavePayment(paymentData).then(function (data) {
+                $scope.Payment = data;
+                $scope.gotoView();
+            });
+        };
+
+        //TODO: separate into working payment part
         $scope.setApprovalStatus = function (param1, status, param) {
             var stakeObj = {
                 Id: param1,
@@ -561,20 +711,8 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             }
 
         };
-        var approveWorking = function (workList, param) {
-            factory.SetWorkList($scope.currStakeholder, workList);
-            datalayer.ApproveWorkings(workList).then(function (data) {
-                postApproval(data, param);
-                $csnotify.success("Workings Approved");
-            });
-        };
-        var rejectWorking = function (worklist, param) {
-            factory.SetWorkList($scope.currStakeholder, worklist);
-            datalayer.RejectWorkings(worklist).then(function (data) {
-                postApproval(data, param);
-                $csnotify.success("Workings Rejected");
-            });
-        };
+
+        //TODO: separate into working payment part
         var postApproval = function (data, param) {
             switch (param) {
                 case 'working':
@@ -592,41 +730,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             }
         };
 
-        //TODO: why seperate logic for splicing it when it can maintained as is
-        $scope.deleteSelectedWorking = function (endDate) {
-            var remainingData = angular.copy(deleteData());
-            factory.SetEndDate($scope.selectedWorkingList, endDate);
-            factory.SetWorkList($scope.currStakeholder, $scope.selectedWorkingList);
-            datalayer.DeleteWorkingList($scope.selectedWorkingList).then(function () {
-                getStakeData().then(function (data) { addUnsavedDataToList(data.Stakeholder, remainingData); });
-            });
-            $scope.selectedWorkingList = [];
-        };
-        var deleteData = function () {
-            _.forEach($scope.selectedWorkingList, function (workingToBeDeleted) {
-                if ($csfactory.isNullOrEmptyGuid(workingToBeDeleted.Id)) {
-                    factory.Splice($scope.workingDetailsList, workingToBeDeleted, ["ReportsTo", "Products", "EndDate", $scope.selectedHierarchy.LocationLevel]);
-                }
-            });
-
-            _.forEach(angular.copy($scope.workingDetailsList), function (work) {
-                if (!$csfactory.isNullOrEmptyGuid(work.Id)) {
-                    factory.Splice($scope.workingDetailsList, work, ["ReportsTo", "Products", "EndDate", $scope.selectedHierarchy.LocationLevel]);
-                }
-            });
-            return $scope.workingDetailsList;
-        };
-        var addUnsavedDataToList = function (stakedata, unsavedList) {
-            _.forEach(unsavedList, function (unsavedData) {
-                stakedata.StkhWorkings.push(unsavedData);
-            });
-            $scope.workingDetailsList = stakedata.StkhWorkings;
-        };
-
-        $scope.gotoView = function () {
-            $location.path('/stakeholder/view');
-        };
-
+        //TODO: separate into working payment part
         $scope.changeMode = function (param) {
             switch (param) {
                 case 'working':
@@ -643,102 +747,15 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
 
         };
 
-        $scope.getEndDate = function (data) {
-            if (data.ApprovalStatus === 'Changed') {
-                if ($csfactory.isNullOrEmptyString(data.EndDate)) return "";
-                else {
-                    return 'End Date: ' + moment(data.EndDate).format('YYYY-MM-DD');
-                }
-            }
+        $scope.showPaymentApproval = function () {
+            return $scope.Payment.ApprovalStatus === 'Submitted';
         };
 
-        $scope.disableDeleteBtn = function (deleteList, endDate) {
-            if ($scope.showEndDate(deleteList)) {
-                return $csfactory.isNullOrEmptyString(endDate);
-            } else {
-                return false;
-            }
-        };
-
-        $scope.showEndDate = function (deleteList) {
-            var showEndDt = false;
-            _.forEach(deleteList, function (working) {
-                if (working.ApprovalStatus === 'Approved')
-                    showEndDt = true;
-            });
-            return showEndDt;
-        };
-
-        $scope.showApproveButtons = function (workList) {
-            var showApproveBtn = false;
-            _.forEach(workList, function (work) {
-                if (work.ApprovalStatus == 'Submitted') {
-                    showApproveBtn = true;
-                }
-            });
-
-            return showApproveBtn;
-        };
-
+        //TODO: rename
         $scope.showDropdown = function (locLevel) {
             if ($csfactory.isEmptyObject($scope.selectedHierarchy)) return false;
             return $scope.selectedHierarchy.LocationLevel === locLevel;
         };
-
-        $scope.showSaveButton = function () {
-            if (angular.isUndefined($scope.workingDetailsList)) return true;
-            return $scope.workingDetailsList.length == 0;
-        };
-
-        $scope.showPaymentApproval = function () {
-            return $scope.Payment.ApprovalStatus === 'Submitted';
-        };
+        //#endregion
     }
 ]);
-
-//$scope.disableAddBtn = function (workModel, form) {
-//    if (form.$invalid) return true;
-//    if (angular.isUndefined(workModel)) return true;
-//    if (angular.isUndefined($scope.selectedHierarchy)) return true;
-//    if ($scope.selectedHierarchy.HasBuckets)//isDefined check required because the multiselect component keeps the model undefined untill selected
-//        return !(angular.isDefined(workModel.SelectedPincodeData.Buckets) && workModel.SelectedPincodeData.Buckets.length > 0);
-//    if ($scope.selectedHierarchy.LocationLevel === 'Country') return false;
-//    return !(angular.isDefined(workModel.SelectedPincodeData[$scope.selectedHierarchy.LocationLevel]) && workModel.SelectedPincodeData[$scope.selectedHierarchy.LocationLevel].length > 0);
-//};
-
-//var getStakeholderForEdit = function (stakeId) {
-//    datalayer.GetStakeholder(stakeId).then(function (data) {
-//        setData(data);
-
-
-//    });
-//};
-
-
-
-//delete workings
-
-//_.forEach(remainingWorking, function(workingToBeDeleted) {
-//    if (workingToBeDeleted.Status === 'Approved' || workingToBeDeleted.Status === 'Changed') {
-//        if (!factory.CheckEndDate(workingToBeDeleted.EndDate))
-//            factory.Splice($scope.workingDetailsList, workingToBeDeleted, $scope.selectedHierarchy.LocationLevel);
-//    } else {
-//        factory.Splice($scope.workingDetailsList, workingToBeDeleted, $scope.selectedHierarchy.LocationLevel);
-//    }
-//});
-
-
-
-//$scope.workingChecked = function (data2) {
-//    return $scope.deleteWorkingList.indexOf(data2) !== -1;
-//};
-
-//$scope.assignEndDate = function (data3, endDate) {
-//    data3.EndDate = endDate;
-//};
-
-//$scope.getReportsToName = function (reportsToId) {
-//    if ($csfactory.isNullOrEmptyArray($scope.reportsToList)) return "";
-//    var data = _.find($scope.reportsToList, { 'Id': reportsToId });
-//    return data.Name;
-//};

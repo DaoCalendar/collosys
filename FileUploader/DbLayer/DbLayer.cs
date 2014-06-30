@@ -11,6 +11,7 @@ using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.SessionMgr;
 using NHibernate.Linq;
+using NHibernate.Mapping;
 using NHibernate.Transform;
 
 #endregion
@@ -38,6 +39,7 @@ namespace ColloSys.FileUploaderService.DbLayer
                                      .Fetch(x => x.FileDetail).Eager
                                      .Fetch(x => x.FileStatuss).Eager
                                      .Fetch(x => x.FileDetail.FileColumns).Eager
+                                     .Fetch( x=> x.FileDetail.FileMappings).Eager
                                      .TransformUsing(Transformers.DistinctRootEntity)
                                      .OrderBy(x => x.FileDate).Asc
                                      .ThenBy(x => x.CreatedOn).Asc
@@ -48,12 +50,12 @@ namespace ColloSys.FileUploaderService.DbLayer
                     IList<FileScheduler> filesWaiting = new List<FileScheduler>();
                     foreach (var fileScheduler in obj)
                     {
-                        var fileDetailId = fileScheduler.FileDetail.Id;
-                        var mappings =
-                            session.Query<FileMapping>()
-                                .Where(x => x.FileDetail.Id == fileDetailId)
-                                .ToList();
-                        fileScheduler.FileDetail.FileMappings = mappings;
+                        //var fileDetailId = fileScheduler.FileDetail.Id;
+                        //var mappings = session.Query<FileMapping>()
+                        //        .Where(x => x.FileDetail.Id == fileDetailId)
+                        //        .ToList();
+                        //fileScheduler.FileDetail.FileMappings = mappings;
+                        //mappings.Count();
 
                         // if no depend alias then continue with upload
                         var dependAlias = fileScheduler.FileDetail.DependsOnAlias;
@@ -65,7 +67,7 @@ namespace ColloSys.FileUploaderService.DbLayer
 
                         var schedulerDate = fileScheduler.FileDate.Date;
                         var fileDetailOnAlias = session.Query<FileDetail>()
-                            .Single(x => x.AliasName == dependAlias.Value);
+                            .SingleOrDefault(x => x.AliasName == dependAlias.Value);
 
                         var dependFileScheduler = session.QueryOver<FileScheduler>()
                             .Where(x => x.FileDate == schedulerDate)

@@ -22,6 +22,8 @@ namespace AngularUI.Stakeholder.addedit.BasicInfo
     {
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
 
+        #region get
+
         [HttpGet]
         public HttpResponseMessage GetAllHierarchies()
         {
@@ -50,6 +52,10 @@ namespace AngularUI.Stakeholder.addedit.BasicInfo
             return Request.CreateResponse(HttpStatusCode.OK, StakeQuery.OnId(stakeholderId));
         }
 
+        #endregion
+
+        #region post
+
         [HttpPost]
         public HttpResponseMessage SaveStakeholder(Stakeholders data)
         {
@@ -69,7 +75,8 @@ namespace AngularUI.Stakeholder.addedit.BasicInfo
         public HttpResponseMessage ApproveStakeholder(StkhId stakeholder)
         {
             var stkh = StakeQuery.Get(stakeholder.Id);
-            if (stkh.ApprovalStatus == ColloSysEnums.ApproveStatus.Approved || stkh.ApprovalStatus == ColloSysEnums.ApproveStatus.Changed)
+            if (stkh.ApprovalStatus == ColloSysEnums.ApproveStatus.Approved ||
+                stkh.ApprovalStatus == ColloSysEnums.ApproveStatus.Changed)
             {
                 stkh.ApprovalStatus = ColloSysEnums.ApproveStatus.Changed;
                 StakeQuery.Save(stkh);
@@ -104,6 +111,7 @@ namespace AngularUI.Stakeholder.addedit.BasicInfo
                 stkh);
         }
 
+        #endregion
     }
 }
 

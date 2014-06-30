@@ -19,10 +19,7 @@ namespace AngularUI.Developer.generatedb.Excel2Db
     {
         public static void InsertData()
         {
-            //InsertIntoStakeHierarchy2();
-            //InsertIntoGPermission();
             InsertIntoUsers();
-            // InsertPincodes();
             InsertAllocPolicies();
             InsertNofications();
         }

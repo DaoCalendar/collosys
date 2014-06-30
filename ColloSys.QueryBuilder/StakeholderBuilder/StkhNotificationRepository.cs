@@ -68,12 +68,20 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             return reponse;
         }
 
-        public bool DoesNotificationExist(ColloSysEnums.NotificationType type, Guid EntityId)
+        public bool DoesNotificationExist(ColloSysEnums.NotificationType type, Guid entityId)
         {
             var session = SessionManager.GetCurrentSession();
             var count = session.Query<StkhNotification>()
-                .Count(x => x.NoteType == type && x.EntityId == EntityId);
+                .Count(x => x.NoteType == type && x.EntityId == entityId);
             return count != 0;
+        }
+
+        public StkhNotification GetNotification(ColloSysEnums.NotificationType type, Guid entityId)
+        {
+            var session = SessionManager.GetCurrentSession();
+            var notice = session.Query<StkhNotification>()
+                .SingleOrDefault(x => x.NoteType == type && x.EntityId == entityId);
+            return notice;
         }
 
         #endregion
