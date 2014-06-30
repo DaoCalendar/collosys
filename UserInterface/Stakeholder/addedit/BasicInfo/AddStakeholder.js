@@ -260,7 +260,14 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
                         ? $location.path('/stakeholder/working/' + savedStakeholder.Id)
                         : $location.path('/stakeholder/working/edit/' + data.Id);
                 } else {
-                    $location.path('/stakeholder/view');
+                    $scope.formMode = "view";
+                    $scope.showForm = false;
+                    $scope.Stakeholder = savedStakeholder;
+                    initdata(savedStakeholder);
+                    $timeout(function () {
+                        $scope.showForm = true;
+                    }, 200);
+                    //$location.path('/stakeholder/view');
                 }
             });
         };

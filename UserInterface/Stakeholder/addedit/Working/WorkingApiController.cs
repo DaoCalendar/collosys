@@ -143,8 +143,8 @@ namespace AngularUI.Stakeholder.addedit.Working
         {
             StakeWorkingQueryBuilder.Save(WorkingPaymentHelper.SetStatusForApprove(worklist));
 
-            //var manager = new StakeholderNotificationManager(GetUsername());
-            //manager.NotifyApprove(ColloSysEnums.NotificationType.StakeholderWorkingChange, worklist[0].Stakeholder.Id);
+            var manager = new StakeholderNotificationManager(GetUsername());
+            manager.NotifyApprove(ColloSysEnums.NotificationType.StakeholderWorkingChange, worklist[0].Stakeholder.Id);
 
             var reportsToIds = worklist.Select(stkhWorking => stkhWorking.ReportsTo).ToList();
             var reportsToStakeholders = StakeQueryBuilder.GetByIdList(reportsToIds);
@@ -188,8 +188,8 @@ namespace AngularUI.Stakeholder.addedit.Working
                 }
             }
 
-            //var manager = new StakeholderNotificationManager(GetUsername());
-            //manager.NotifyReject(ColloSysEnums.NotificationType.StakeholderWorkingChange, workList[0].Stakeholder.Id);
+            var manager = new StakeholderNotificationManager(GetUsername());
+            manager.NotifyReject(ColloSysEnums.NotificationType.StakeholderWorkingChange, workList[0].Stakeholder.Id);
 
             var reportsToIds = workList.Select(stkhWorking => stkhWorking.ReportsTo).ToList();
             var reportsToStakeholders = StakeQueryBuilder.GetByIdList(reportsToIds);
@@ -256,8 +256,8 @@ namespace AngularUI.Stakeholder.addedit.Working
                 StakePaymentBuilder.Save(stkh.StkhPayments[0]);
             }
 
-            //var manager = new StakeholderNotificationManager(GetUsername());
-            //manager.NotifyApprove(ColloSysEnums.NotificationType.StakeholderPaymentChange, stakeholder.Id);
+            var manager = new StakeholderNotificationManager(GetUsername());
+            manager.NotifyApprove(ColloSysEnums.NotificationType.StakeholderPaymentChange, stakeholder.Id);
 
             return Request.CreateResponse(HttpStatusCode.OK, stkh.StkhPayments[0]);
         }
@@ -272,8 +272,8 @@ namespace AngularUI.Stakeholder.addedit.Working
             }
             StakePaymentBuilder.Save(stkh.StkhPayments[0]);
 
-            //var manager = new StakeholderNotificationManager(GetUsername());
-            //manager.NotifyReject(ColloSysEnums.NotificationType.StakeholderPaymentChange, stakeholder.Id);
+            var manager = new StakeholderNotificationManager(GetUsername());
+            manager.NotifyReject(ColloSysEnums.NotificationType.StakeholderPaymentChange, stakeholder.Id);
 
             return Request.CreateResponse(HttpStatusCode.OK, stkh.StkhPayments[0]);
         }

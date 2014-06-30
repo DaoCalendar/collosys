@@ -49,11 +49,6 @@ csapp.controller('viewStake', [
             $timeout(function () {
                 datalayer.SearchStakeholder(param).then(function (data) {
                     $scope.stakeholders = data;
-                    $timeout(function () {
-                        if ($scope.stakeholders.length === 0) {
-                            $csnotify.success("stakeholder not found");
-                        }
-                    }, 1400);
                 });
             }, 400);
         };
