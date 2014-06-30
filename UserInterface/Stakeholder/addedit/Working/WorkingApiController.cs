@@ -132,7 +132,7 @@ namespace AngularUI.Stakeholder.addedit.Working
         }
 
         [HttpPost]
-        public HttpResponseMessage ApproveWorkingList(StkhId stakeholder)
+        public HttpResponseMessage ApproveWorking(StkhId stakeholder)
         {
             var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
             return ApproveWorkingList(stkh.StkhWorkings);
@@ -159,7 +159,7 @@ namespace AngularUI.Stakeholder.addedit.Working
         }
 
         [HttpPost]
-        public HttpResponseMessage RejectWorkingList(StkhId stakeholder)
+        public HttpResponseMessage RejectWorking(StkhId stakeholder)
         {
             var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
             return RejectWorkingList(stkh.StkhWorkings);

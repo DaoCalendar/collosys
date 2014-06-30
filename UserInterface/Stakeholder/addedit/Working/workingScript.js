@@ -47,20 +47,20 @@
         return restApi.customPOST(list, "DeleteWorking");
     };
 
-    var approveWorkings = function (stakeObj) {
-        return restApi.customPOST(stakeObj, 'ApproveWorkingList');
+    var approveWorkings = function (list) {
+        return restApi.customPOST(list, 'ApproveWorkingList');
     };
 
-    var approvePayment = function (list) {
-        return restApi.customPOST(list, 'ApprovePayment');
+    var approvePayment = function (stakeObj) {
+        return restApi.customPOST(stakeObj, 'ApprovePayment');
     };
 
-    var rejectWorkings = function (stakeObj) {
-        return restApi.customPOST(stakeObj, 'RejectWorkingList');
+    var rejectWorkings = function (list) {
+        return restApi.customPOST(list, 'RejectWorkingList');
     };
 
-    var rejectPayment = function (list) {
-        return restApi.customPOST(list, 'RejectWorking');
+    var rejectPayment = function (stakeObj) {
+        return restApi.customPOST(stakeObj, 'RejectPayment');
     };
 
     return {
@@ -278,7 +278,7 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         _.forEach(worklist, function (workdata) {
             workdata.Stakeholder = stakeholder;
             workdata.StartDate = stakeholder.JoiningDate;
-            workdata.Buckets = JSON.stringify(workdata.Buckets);
+            //workdata.Buckets = JSON.stringify(workdata.Buckets);
             workdata.LocationLevel = stakeholder.Hierarchy.LocationLevel;
         });
     };
@@ -554,10 +554,6 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             }
         };
 
-
-
-
-
         $scope.deleteSelectedWorking = function (endDate) {
             var remainingData = angular.copy(deleteData());
             factory.SetEndDate($scope.selectedWorkingList, endDate);
@@ -714,47 +710,47 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             return $scope.Payment;
         };
 
-        $scope.setApprovalStatus = function (param1, status, param) {
+        //$scope.setApprovalStatus = function (param1, status, param) {
 
-            switch (status) {
-                case 'approve':
-                    switch (param) {
-                        case 'working':
-                            return approveWorking(param1, param);
+        //    switch (status) {
+        //        case 'approve':
+        //            switch (param) {
+        //                case 'working':
+        //                    return approveWorking(param1, param);
 
-                        case 'payment':
-                            return datalayer.ApprovePayment(stakeObj).then(function (data) {
-                                return postApproval(data, param);
-                            });
-                    }
-                case 'reject':
-                    switch (param) {
-                        case 'working':
-                            return rejectWorking(param1, param);
+        //                case 'payment':
+        //                    return datalayer.ApprovePayment(stakeObj).then(function (data) {
+        //                        return postApproval(data, param);
+        //                    });
+        //            }
+        //        case 'reject':
+        //            switch (param) {
+        //                case 'working':
+        //                    return rejectWorking(param1, param);
 
-                        case 'payment':
-                            return datalayer.RejectPayment(stakeObj).then(function (data) {
-                                return postApproval(data, param);
-                            });
-                    }
+        //                case 'payment':
+        //                    return datalayer.RejectPayment(stakeObj).then(function (data) {
+        //                        return postApproval(data, param);
+        //                    });
+        //            }
 
-                default:
-                    throw "invalid approval status";
-            }
+        //        default:
+        //            throw "invalid approval status";
+        //    }
 
-        };
+        //};
 
         //TODO: separate into working payment part
-        var postApproval = function (data, param) {
-            switch (param) {
-                case 'working':
+        //var postApproval = function (data, param) {
+        //    switch (param) {
+        //        case 'working':
 
-                case 'payment':
+        //        case 'payment':
 
-                default:
-                    throw "invalid param " + param;
-            }
-        };
+        //        default:
+        //            throw "invalid param " + param;
+        //    }
+        //};
 
         //TODO: separate into working payment part
         $scope.changeMode = function (param) {
