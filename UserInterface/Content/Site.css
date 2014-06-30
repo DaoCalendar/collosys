@@ -259,8 +259,8 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
 }
 .loading-new-element .back {
     background-color: white;
-    height: 100px;
-    width: 100px;
+    height: 150px;
+    width: 200px;
 }
 
 .centered {
