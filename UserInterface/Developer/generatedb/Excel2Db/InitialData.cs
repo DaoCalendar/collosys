@@ -21,6 +21,7 @@ namespace AngularUI.Developer.generatedb.Excel2Db
         {
             InsertIntoUsers();
             InsertAllocPolicies();
+            InsertAllocationSubpolicy();
             InsertNofications();
         }
 
@@ -75,6 +76,62 @@ namespace AngularUI.Developer.generatedb.Excel2Db
             }
         }
 
+        public static void InsertAllocationSubpolicy()
+        {
+            foreach (ScbEnums.Products products in Enum.GetValues(typeof(ScbEnums.Products)))
+            {
+                if (products == ScbEnums.Products.UNKNOWN)
+                    continue;
+                var allocCondition = new AllocCondition()
+                {
+                    ColumnName = "Products",
+                    Operator = ColloSysEnums.Operators.EqualTo,
+                    Value = products.ToString(),
+                    Priority = 0,
+                };
+
+                var subpolicy = new AllocSubpolicy()
+                {
+                    AllocateType = ColloSysEnums.AllocationType.AllocateAsPerPolicy,
+                    IsActive = true,
+                    IsInUse = true,
+                    Products = products,
+                    Category = ScbEnums.Category.Liner,
+                };
+                var allocRelation = new AllocRelation()
+                {
+                    AllocPolicy = GetAllocPolicy(products),
+                    AllocSubpolicy = subpolicy,
+                    Priority = 100,
+                    StartDate = DateTime.Now,
+                    Status = ColloSysEnums.ApproveStatus.Approved,
+                };
+                subpolicy.AllocRelations.Add(allocRelation);
+                subpolicy.Conditions.Add(allocCondition);
+                allocCondition.AllocSubpolicy = subpolicy;
+                using (var session = SessionManager.GetNewSession())
+                {
+                    using (var tx = session.BeginTransaction())
+                    {
+                        session.SaveOrUpdate(subpolicy);
+                        session.SaveOrUpdate(allocRelation);
+                        tx.Commit();
+                    }
+                    
+                }
+            }
+        }
+
+        private static AllocPolicy GetAllocPolicy(ScbEnums.Products products)
+        {
+            using (var session = SessionManager.GetNewSession())
+            {
+                using (var tx = session.BeginTransaction())
+                {
+                    return session.QueryOver<AllocPolicy>().Where(x => x.Products == products).SingleOrDefault();
+                }
+            }
+        }
         private static void InsertIntoUsers()
         {
             var session = SessionManager.GetCurrentSession();
