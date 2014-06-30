@@ -554,21 +554,9 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             }
         };
 
-        var approveWorking = function (workList, param) {
-            factory.SetWorkList($scope.currStakeholder, workList);
-            datalayer.ApproveWorkings(workList).then(function (data) {
-                postApproval(data, param);
-                $csnotify.success("Workings Approved");
-            });
-        };
 
-        var rejectWorking = function (worklist, param) {
-            factory.SetWorkList($scope.currStakeholder, worklist);
-            datalayer.RejectWorkings(worklist).then(function (data) {
-                postApproval(data, param);
-                $csnotify.success("Workings Rejected");
-            });
-        };
+
+
 
         $scope.deleteSelectedWorking = function (endDate) {
             var remainingData = angular.copy(deleteData());
@@ -665,7 +653,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
 
         $scope.computeSalary = function (basic, gross) {
             $scope.SalDetails = factory.ComputeSalary(basic, gross, $scope.SalDetails);
-            console.log("salObj : ", $scope.SalDetails);
+
         };
 
         $scope.savePayment = function (paymentData) {
@@ -680,10 +668,57 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         };
 
         //TODO: separate into working payment part
-        $scope.setApprovalStatus = function (param1, status, param) {
+
+        $scope.approveWorkings = function (workList) {
+            factory.SetWorkList($scope.currStakeholder, workList);
+            datalayer.ApproveWorkings(workList).then(function (data) {
+                postWorkingApproval(data);
+                $csnotify.success("Workings Approved");
+            });
+        };
+        $scope.rejectWorking = function (worklist) {
+            factory.SetWorkList($scope.currStakeholder, worklist);
+            datalayer.RejectWorkings(worklist).then(function (data) {
+                postWorkingApproval(data);
+                $csnotify.success("Workings Rejected");
+            });
+        };
+        var postWorkingApproval = function (data) {
+            $scope.workingDetailsList = data.WorkList;
+            factory.SetReportsToName($scope.workingDetailsList, data.ReportsToList);
+            $scope.selectedWorkingList = [];
+            return $scope.workingDetailsList;
+        };
+
+
+        $scope.approvePayment = function (id) {
             var stakeObj = {
-                Id: param1,
+                Id: id,
             };
+            return datalayer.ApprovePayment(stakeObj).then(function (data) {
+                postApprovalPayment(data);
+            });
+        };
+        $scope.RejectPayment = function (id) {
+            var stakeObj = {
+                Id: id,
+            };
+            return datalayer.RejectPayment(stakeObj).then(function (data) {
+                return postApprovalPayment(data);
+            });
+        };
+        var postApprovalPayment = function (data) {
+            $scope.Payment = data;
+            $csnotify.success("Payment Approved");
+            $scope.gotoView();
+            return $scope.Payment;
+        };
+
+
+
+
+        $scope.setApprovalStatus = function (param1, status, param) {
+
             switch (status) {
                 case 'approve':
                     switch (param) {
@@ -716,15 +751,9 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         var postApproval = function (data, param) {
             switch (param) {
                 case 'working':
-                    $scope.workingDetailsList = data.WorkList;
-                    factory.SetReportsToName($scope.workingDetailsList, data.ReportsToList);
-                    $scope.selectedWorkingList = [];
-                    return $scope.workingDetailsList;
+
                 case 'payment':
-                    $scope.Payment = data;
-                    $csnotify.success("Payment Approved");
-                    $scope.gotoView();
-                    return $scope.Payment;
+
                 default:
                     throw "invalid param " + param;
             }

@@ -208,12 +208,12 @@
                         <span data-ng-if="selectedWorkingList.length>0">
                             <cs-button2 type="approve"
                                         permission="StakeholderApprove"
-                                        data-on-click="setApprovalStatus(selectedWorkingList,'approve','working')">
+                                        data-on-click="approveWorkings(selectedWorkingList)">
                             </cs-button2> 
 
                             <cs-button2 type="reject"
                                         permission="StakeholderApprove"
-                                        data-on-click="setApprovalStatus(selectedWorkingList,'reject','working')">
+                                        data-on-click="rejectWorking(selectedWorkingList)">
                             </cs-button2>
                         </span>
                         <cs-button2
@@ -298,12 +298,12 @@
                          <span data-ng-if="showPaymentApproval(Payment)">
                             <cs-button2 type="approve"
                                         permission="StakeholderAddEdit"
-                                        data-on-click="setApprovalStatus(currStakeholder.Id,'approve','payment')">
+                                        data-on-click="approvePayment(currStakeholder.Id)">
                             </cs-button2> 
 
                             <cs-button2 type="reject"
                                         permission="StakeholderAddEdit"
-                                        data-on-click="setApprovalStatus(currStakeholder.Id,'reject','payment')">
+                                        data-on-click="rejectPayment(currStakeholder.Id)">
                             </cs-button2>
                         </span>
 

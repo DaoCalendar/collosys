@@ -78,6 +78,8 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
 
 csapp.factory("AddEditStakeholderFactory", function () {
 
+    var externalId;
+
     var setHierarchyModel = function (hierarchy, model) {
         if (hierarchy.IsUser) {
             model.stakeholder.MobileNo.required = true;
@@ -111,8 +113,18 @@ csapp.factory("AddEditStakeholderFactory", function () {
         }
     };
 
+    var setExternalIdForEdit = function (extId) {
+        externalId = angular.copy(extId);
+    };
+
+    var getExternalId = function () {
+        return externalId;
+    };
+
     return {
         ResetHierarchyModel: setHierarchyModel,
+        SetExternalIdForEdit: setExternalIdForEdit,
+        GetExternalId: getExternalId
     };
 });
 
@@ -138,12 +150,11 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
                 ? {}
                 : data.StkhRegistrations[0];
             $scope.selectedHierarchy = data.Hierarchy;
-            factory.SetHierarchy($scope.selectedHierarchy);
 
 
             //if edit mode
             $scope.selectedHier.Hierarchy = $scope.selectedHierarchy.Hierarchy;
-
+            factory.SetExternalIdForEdit(data.ExternalId);
             $scope.changeInHierarchy($scope.selectedHierarchy.Hierarchy);
             $scope.selectedHier.Designation = $scope.selectedHierarchy.Id;
             $scope.assignSelectedHier($scope.selectedHierarchy.Id);
@@ -202,6 +213,7 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
         };
 
         $scope.validate = function (userId) {
+            if (userId === factory.GetExternalId()) return true;
             return datalayer.CheckUser(userId);
         };
 
