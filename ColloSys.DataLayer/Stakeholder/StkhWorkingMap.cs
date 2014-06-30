@@ -27,6 +27,7 @@ namespace ColloSys.DataLayer.Stakeholder
 
             ManyToOne(x => x.Stakeholder);
             ManyToOne(x => x.GPincode);
+            Bag(x => x.Allocations, colmap => { }, map => map.OneToMany(x => { }));
         }
     }
 }

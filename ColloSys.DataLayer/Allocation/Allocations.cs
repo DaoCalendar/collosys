@@ -16,6 +16,8 @@ namespace ColloSys.DataLayer.Allocation
         public virtual AllocPolicy AllocPolicy { get; set; }
         public virtual AllocSubpolicy AllocSubpolicy { get; set; }
         public virtual Stakeholders Stakeholder { get; set; }
+        public virtual StkhWorking Working { get; set; }
+        public virtual Stakeholders ReportingStakeholder { get; set; }
         public virtual CustomerInfo Info { get; set; }
         public virtual DateTime StartDate { get; set; }
         public virtual DateTime? EndDate { get; set; }

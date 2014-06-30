@@ -27,6 +27,12 @@ namespace ColloSys.DataLayer.Allocation
             ManyToOne(x => x.AllocSubpolicy, map => map.NotNullable(false));
             ManyToOne(x => x.Stakeholder, map => map.NotNullable(false));
             ManyToOne(x => x.Info, map => map.NotNullable(true));
+            ManyToOne(x => x.Working, map => map.NotNullable(false));
+            ManyToOne(x => x.ReportingStakeholder, map =>
+            {
+                map.Column("ReportingStakeholderId");
+                map.NotNullable(false);
+            });
         }
     }
 }

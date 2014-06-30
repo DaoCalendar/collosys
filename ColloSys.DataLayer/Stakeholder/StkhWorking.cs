@@ -1,6 +1,8 @@
 ﻿#region references
 
 using System;
+using System.Collections.Generic;
+using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Generic;
@@ -12,6 +14,7 @@ namespace ColloSys.DataLayer.Stakeholder
     public class StkhWorking : Entity
     {
         public virtual Stakeholders Stakeholder { get; set; }
+        public virtual IList<Allocations> Allocations { get; set; }
         public virtual GPincode GPincode { get; set; }
 
         public virtual Guid ReportsTo { get; set; }
