@@ -50,7 +50,8 @@ csapp.controller("HomeCtrl", ['$scope', 'HomeDatalayer', 'StakeholderAddNotifica
         };
 
         var reduceCount = function (notification) {
-            $scope.userNotifications.splice(notification, 1);
+            var index = _.indexOf($scope.userNotifications, notification);
+            $scope.userNotifications.splice(index, 1);
             $scope.selectedUser.NotifyCount--;
         };
 

@@ -93,6 +93,9 @@ namespace AngularUI.Stakeholder.addedit.BasicInfo
                 repo.Save(user);
             }
 
+            var manager = new StakeholderNotificationManager(GetUsername());
+            manager.NotifyApprove(ColloSysEnums.NotificationType.StakeholderChange, stkh.Id);
+
             return Request.CreateResponse(HttpStatusCode.OK, stkh);
         }
 
@@ -107,8 +110,11 @@ namespace AngularUI.Stakeholder.addedit.BasicInfo
             }
             stkh.ApprovalStatus = ColloSysEnums.ApproveStatus.Rejected;
             StakeQuery.Save(stkh);
-            return Request.CreateResponse(HttpStatusCode.OK,
-                stkh);
+
+            var manager = new StakeholderNotificationManager(GetUsername());
+            manager.NotifyReject(ColloSysEnums.NotificationType.StakeholderChange, stkh.Id);
+
+            return Request.CreateResponse(HttpStatusCode.OK, stkh);
         }
 
         #endregion
