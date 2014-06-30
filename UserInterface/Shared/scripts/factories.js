@@ -49,6 +49,29 @@ csapp.factory("$csfactory", ["$csConstants", "$csAuthFactory", "loadingWidget",
             };
         };
 
+        var safeSplice = function (list, row, properties) {
+            var indx = list.indexOf(row);
+            if (indx !== -1) {
+                list.splice(indx, 1);
+                return;
+            }
+
+            if ($csfactory.isNullOrEmptyString(properties)) {
+                return;
+            }
+
+            var record = _.find(list, comparisons(row, properties));
+            var index = list.indexOf(record);
+            if (index !== -1) list.splice(index, 1);
+        };
+        var comparisons = function (row, properties) {
+            var comparison = {};
+            _.forEach(properties, function (property) {
+                comparison[property] = row[property];
+            });
+            return comparison;
+        };
+
         var isNullOrEmptyString = function (val) {
 
             if (angular.isUndefined(val)) {
@@ -177,7 +200,8 @@ csapp.factory("$csfactory", ["$csConstants", "$csAuthFactory", "loadingWidget",
             findIndex: findIndex,
             getPropertyValue: getPropertyValue,
             ResetObject: resetObject,
-            GetPropertyById: getPropValFromListById
+            GetPropertyById: getPropValFromListById,
+            Splice: safeSplice
         };
     }]);
 
