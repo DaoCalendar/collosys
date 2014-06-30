@@ -54,7 +54,6 @@ csapp.factory("$csAuthFactory", ["$cookieStore", "Logger",
             authInfo.isAuthorized = true;
             authInfo.username = user;
             authInfo.loginTime = moment().format();
-            $cookieStore.remove("authInfo");
             $cookieStore.put("authInfo", authInfo);
             $log.info(authInfo.username + " has logged in from ui.");
         };

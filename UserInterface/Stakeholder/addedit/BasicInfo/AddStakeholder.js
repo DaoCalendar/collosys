@@ -3,6 +3,7 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
     function ($csfactory, $csnotify, rest, $q) {
 
         var dldata = {};
+        var hierarchy = {};
 
         var apistake = rest.all('StakeholderApi');
 
@@ -14,6 +15,8 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
             });
 
         };
+
+
 
         var checkUser = function (userId) {
             var deferred = $q.defer();
@@ -77,11 +80,14 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
             GetStakeholder: getStakeholder,
             SaveStakeholder: save,
             RejectStakeholder: rejectStakeholder,
-            ApproveStakeholder: approveStakeholder
+            ApproveStakeholder: approveStakeholder,
+
         };
     }]);
 
 csapp.factory("AddEditStakeholderFactory", function () {
+
+    var storedHierarchy = {};
 
     var setHierarchyModel = function (hierarchy, model) {
         if (hierarchy.IsUser) {
@@ -119,15 +125,26 @@ csapp.factory("AddEditStakeholderFactory", function () {
         }
     };
 
+    var setHierarchy = function (newHierarchy) {
+        storedHierarchy = angular.copy(newHierarchy);
+    };
+
+    var getHierarchy = function () {
+        console.log("returned: ", storedHierarchy);
+        return storedHierarchy;
+    };
+
     return {
         ResetHierarchyModel: setHierarchyModel,
+        SetHierarchy: setHierarchy,
+        GetHierarchy: getHierarchy
     };
 });
 
 //TODO: clean hierarchy designation variable name, why you complicated it so much
 //TODO: can you please not make it simple
-csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$location", "$csModels", "AddEditStakeholderDatalayer", "AddEditStakeholderFactory", "$timeout", "$routeParams",
-    function ($scope, $log, $csfactory, $location, $csModels, datalayer, factory, $timeout, $routeParams) {
+csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$location", "$csModels", "AddEditStakeholderDatalayer", "AddEditStakeholderFactory", "$timeout", "$routeParams", "modalService",
+    function ($scope, $log, $csfactory, $location, $csModels, datalayer, factory, $timeout, $routeParams, modalService) {
 
         var getModels = function () {
             $scope.stakeholderModels = {
@@ -148,9 +165,12 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
                 ? {}
                 : data.StkhRegistrations[0];
             $scope.selectedHierarchy = data.Hierarchy;
+            factory.SetHierarchy($scope.selectedHierarchy);
+
 
             //if edit mode
             $scope.selectedHier.Hierarchy = $scope.selectedHierarchy.Hierarchy;
+
             $scope.changeInHierarchy($scope.selectedHierarchy.Hierarchy);
             $scope.selectedHier.Designation = $scope.selectedHierarchy.Id;
             $scope.assignSelectedHier($scope.selectedHierarchy.Id);
@@ -233,7 +253,6 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
             }
 
             $scope.selectedHierarchy = _.find($scope.HierarchyList, { 'Id': designation });
-
             factory.ResetHierarchyModel($scope.selectedHierarchy, $scope.stakeholderModels);
             datalayer.GetReportsToList($scope.selectedHierarchy.Id, $scope.selectedHierarchy.ReportingLevel)
                 .then(function (data) {
