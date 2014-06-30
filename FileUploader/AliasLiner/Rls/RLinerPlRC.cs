@@ -30,7 +30,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Rls
        {
            if (preEntity == null)
            {
-               entity.DelqHistoryString = entity.Bucket.ToString("000000000000");
+               entity.DelqHistoryString += entity.Bucket;
                entity.Flag = ColloSysEnums.DelqFlag.N;
                return true;
            }
