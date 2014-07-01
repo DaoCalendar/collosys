@@ -19,8 +19,47 @@ csapp.factory('ViewStakeholderDatalayer', ["Restangular", function (rest) {
 }]);
 
 csapp.controller('viewStake', [
-    '$scope', '$log', 'ViewStakeholderDatalayer', '$location', "$timeout", "$csnotify",
-    function ($scope, $log, datalayer, $location, $timeout, $csnotify) {
+    '$scope', '$log', 'ViewStakeholderDatalayer', '$location', "$timeout", "$csnotify", 'ngTableParams', "$filter",
+    function ($scope, $log, datalayer, $location, $timeout, $csnotify, ngTableParams, $filter) {
+
+        var getPagedData = function () {
+            var params = {
+                page: $scope.tableParams.page,
+                size: $scope.tableParams.count,
+                name: $scope.filter.name,
+                filter: $scope.filter.search
+            };
+
+            return datalayer.GetFilteredList("All").then(function (data) {
+                $scope.stakeholders = data;
+                if (data.length === 0) {
+                    $csnotify.success("stakeholders not found");
+                };
+                return data;
+            });
+
+        };
+
+        $scope.tableParams = new ngTableParams({
+            page: 1,            // show first page
+            count: 10,          // count per page
+            sorting: {
+                name: 'asc'     // initial sorting
+            }
+        }, {
+            total: function () { return getData().length; }, // length of data
+            getData: function ($defer, params) {
+                getPagedData().then(function (data) {
+                    params.total(200);
+                    var orderedData = params.sorting() ?
+                                   $filter('orderBy')(data, params.orderBy()) :
+                                   data;
+                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(),
+                        params.page() * params.count()));
+                });
+            },
+            $scope: { $data: {} }
+        });
 
         (function () {
             $scope.fields = {
@@ -56,13 +95,16 @@ csapp.controller('viewStake', [
         };
 
         $scope.getStakeholders = function (filterParam) {
-            if (filterParam === 'Search') return;
-            datalayer.GetFilteredList(filterParam).then(function (data) {
-                $scope.stakeholders = data;
-                if (data.length === 0) {
-                    $csnotify.success("stakeholders not found");
-                }
-            });
+            $scope.tableParams.reload();
+            //if (filterParam === 'Search') return;
+            //datalayer.GetFilteredList(filterParam).then(function (data) {
+            //    $scope.stakeholders = data;
+            //    if (data.length === 0) {
+            //        $csnotify.success("stakeholders not found");
+            //    } else {
+            //        $scope.tableParams.reload();
+            //    }
+            //});
         };
     }
 ]);

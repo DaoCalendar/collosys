@@ -15,7 +15,7 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
         };
 
 
-        var checkUser = function(userId) {
+        var checkUser = function (userId) {
             var deferred = $q.defer();
 
             if ($csfactory.isNullOrEmptyString(userId) || userId.length !== 7 || dldata.isAlreadyCheckingUser === true) {
@@ -23,13 +23,13 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
             } else {
                 dldata.isAlreadyCheckingUser = true;
                 apistake.customGET('CheckUserId', { id: userId })
-                    .then(function(data) {
+                    .then(function (data) {
                         if (data === "true") {
                             deferred.reject();
                         } else {
                             deferred.resolve();
                         }
-                    }).finally(function() {
+                    }).finally(function () {
                         dldata.isAlreadyCheckingUser = false;
                     });
             }
@@ -258,13 +258,14 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
                         ? $location.path('/stakeholder/working/' + savedStakeholder.Id)
                         : $location.path('/stakeholder/working/edit/' + data.Id);
                 } else {
-                    $scope.formMode = "view";
-                    $scope.showForm = false;
-                    $scope.Stakeholder = savedStakeholder;
-                    initdata(savedStakeholder);
-                    $timeout(function () {
-                        $scope.showForm = true;
-                    }, 200);
+                    //$scope.formMode = "view";
+                    //$scope.showForm = false;
+                    //$scope.Stakeholder = savedStakeholder;
+                    //initdata(savedStakeholder);
+                    //$timeout(function () {
+                    //    $scope.showForm = true;
+                    //}, 200);
+                    $location.path('/stakeholder/add/' + savedStakeholder.Id);
                     //$location.path('/stakeholder/view');
                 }
             });

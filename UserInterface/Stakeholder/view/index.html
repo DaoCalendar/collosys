@@ -12,8 +12,8 @@
     </div>
 </cs-form>
 
-<div class="col-md-12" data-ng-show="stakeholders.length>0">
-    <table class="table table-bordered table-condensed table-hover table-striped">
+<div class="col-md-12">
+    <table data-ng-table="tableParams" class="table table-bordered table-condensed table-hover table-striped">
         <thead>
             <th class="col-md-2">Name</th>
             <th class="col-md-3">Designation</th>
@@ -22,7 +22,7 @@
             <th class="col-md-1"></th>
         </thead>
         <tbody>
-            <tr data-ng-repeat="data in stakeholders">
+            <tr data-ng-repeat="data in $data">
                 <td>{{data.Name}}</td>
                 <td>{{data.Hierarchy.Designation}}, {{data.Hierarchy.Hierarchy}}</td>
                 <td>{{data.ExternalId}}</td>

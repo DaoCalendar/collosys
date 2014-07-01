@@ -4,7 +4,7 @@ var csapp = angular.module("ui.collosys",
     'ui.bootstrap', 'ngGrid', 'restangular',
     'ngRoute', 'angularFileUpload', //'ngAnimate',
     'ngCookies', 'chieffancypants.loadingBar',
-    'ui.utils', 'ui.multiselect', 'ngStorage', 'decipher.tags'
+    'ui.utils', 'ui.multiselect', 'ngStorage', 'decipher.tags', 'ngTable'
 ]);
 
 csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
@@ -172,7 +172,7 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
                 templateUrl: baseUrl + 'Allocation/distributionpercentage/DistributionPercentage.html',
                 controller: 'distributionPercentageCtrl'
             })
-             
+
             //billing
             .when('/billing/policy', {
                 templateUrl: baseUrl + 'Billing/policy/billingpolicy.html',
