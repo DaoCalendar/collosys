@@ -23,14 +23,13 @@ csapp.controller("PerformanaceParameterCtrl", ["$scope", "PerformanceManagemnetD
             Product: { type: "enum", label: "Product" },
             Weightage: { type: "number", template: "percentage" },
             Param: { type: "text" },
-            Total: {type:"number"}
+            Total: { type: "number" }
         };
         $scope.PerformanceModel.Product.valueList = $csShared.enums.Products;
-        $scope.ParamList = $csShared.enums.PerformanceParam;
         $scope.performanceMgt = [];
         $scope.PerformParam = {
             total: 0,
-            Products:""
+            Products: ""
         };
     })();
 
@@ -55,16 +54,6 @@ csapp.controller("PerformanaceParameterCtrl", ["$scope", "PerformanceManagemnetD
     $scope.fetchParams = function (product) {
         datalayer.fetchParams(product).then(function (data) {
             $scope.performanceMgt = data;
-            if ($scope.performanceMgt.length === 0) {
-                for (var i = 0; i < $scope.ParamList.length; i++) {
-                    var item = {
-                        Param: $scope.ParamList[i],
-                        Weightage: 0,
-                        Products: product
-                    };
-                    $scope.performanceMgt.push(item);
-                }
-            }
             $scope.totalWeightage($scope.performanceMgt);
         });
     };

@@ -29,10 +29,24 @@ namespace AngularUI.Performance.performanceparameter
         [HttpGet]
         public IEnumerable<PerformanceParams> FetchParams(ScbEnums.Products products)
         {
-            var data= SessionManager.GetCurrentSession()
+            var data = SessionManager.GetCurrentSession()
                                 .QueryOver<PerformanceParams>()
-                               .Where(x => x.Products== products)
+                               .Where(x => x.Products == products)
                                 .List();
+            if (data.Count == 0)
+            {
+                var paramlist = Enum.GetValues(typeof(ColloSysEnums.PerformanceParam)).OfType<ColloSysEnums.PerformanceParam>().ToList();
+                foreach (var param in paramlist)
+                {
+                    var paramObj = new PerformanceParams
+                    {
+                        Param = param,
+                        Weightage = 0,
+                        Products = products
+                    };
+                    data.Add(paramObj);
+                }
+            }
             return data;
         }
     }
