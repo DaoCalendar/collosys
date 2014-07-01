@@ -586,7 +586,9 @@ csapp.directive('cspagination', function () {
     };
 });
 
-csapp.directive('csList2', function () {
+csapp.directive('csList2', ['$csfactory', 'Logger', function ($csfactory, logManager) {
+
+    var $log = logManager.getInstance('csList2');
 
     var templateFn = function (element, attrs) {
         var template = '<div class="row">';
@@ -595,7 +597,7 @@ csapp.directive('csList2', function () {
         template += '<ul class="list-group">';
         template += '<li class="list-group-item" ng-repeat="row in valueList" style="cursor: pointer"';
         template += ' ng-click="onChange(row, $index)' + (angular.isDefined(attrs.onClick) ? ';onClick()' : ' ') + '"';
-        template += ' ng-model="ngModel" ng-class="{active : isSelected($index) }">';
+        template += ' ng-class="{active : isSelected($index) }" ng-model="ngModel" >';
         template += ' {{row.' + attrs.textField + '}}';
         if (angular.isDefined(attrs.subtextField))
             template += '<span class="badge">{{row.' + attrs.subtextField + '}}</span>';
@@ -607,27 +609,43 @@ csapp.directive('csList2', function () {
     };
 
     var linkFn = function (scope, element, attrs) {
+        if (angular.isUndefined(scope.selectedIndex)) scope.selectedIndex = -1;
+
         scope.onChange = function (row, index) {
             if (angular.isUndefined(row)) return;
-            scope.$parent[attrs.ngModel] = row;
+            scope.$parent[attrs.selectedIndex] = index;
             scope.selectedIndex = index;
+            scope.$parent[attrs.ngModel] = row;
         };
 
         scope.isSelected = function (index) {
+            console.log('chddccking is selected ' + scope.selectedIndex + ' - ' + index);
             return (scope.selectedIndex === index);
         };
+
+        scope.$watch('valueList', function () {
+            if ($csfactory.isNullOrEmptyArray(scope.valueList)) return;
+            if (angular.isUndefined(attrs.defaultIndex)) return;
+            var index = angular.isDefined(scope.selectedIndex) && scope.selectedIndex !== -1
+                ? scope.selectedIndex
+                : parseFloat(attrs.defaultIndex);
+            if (index === NaN || index >= scope.valueList.length) index = 0;
+            var item = scope.valueList[index];
+            scope.onChange(item, index);
+            $log.info('updating selected item as per default index');
+            scope.$parent.$eval(attrs.onClick);
+        });
     };
 
     return {
         restrict: 'E',
         replace: true,
-        scope: { valueList: '=', ngModel: '=', onClick: '&', selectedIndex: '=' },
-        //list-heading, text-field
+        scope: { valueList: '=', ngModel: '=', onClick: '&' }, // selectedIndex , list-heading, text-field, subtext-field
         template: templateFn,
         link: linkFn,
         require: 'ngModel'
     };
-});
+}]);
 
 csapp.directive('csDualList', function () {
     var templateFunction = function (element, attrs) {
