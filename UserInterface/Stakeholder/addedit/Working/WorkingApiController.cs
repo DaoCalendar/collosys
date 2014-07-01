@@ -87,7 +87,7 @@ namespace AngularUI.Stakeholder.addedit.Working
 
             var data = new
             {
-                WorkList = unsavedList,
+                WorkList = workingData,
                 ReportsToList = reportsToStakeholders
             };
 

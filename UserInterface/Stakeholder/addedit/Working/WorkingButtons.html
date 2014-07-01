@@ -1,5 +1,5 @@
 ﻿<div>
-    <span class="pull-left" data-ng-if="selectedWorkingList .length>0">
+    <div class="pull-left" data-ng-if="selectedWorkingList .length>0">
         <cs-field layout="4.4.8"
             data-ng-show="showEndDate(selectedWorkingList)"
             field="workingModel.EndDate"
@@ -9,8 +9,12 @@
             data-ng-disabled="disableDeleteBtn(selectedWorkingList ,EndDate)"
             data-on-click="deleteSelectedWorking(EndDate)">
                         </cs-button2>
-    </span>
-
+    </div>
+    <div class="pull-left">
+        <cs-button2 type="edit"
+            text="Back To View"
+            data-on-click="gotoView()"></cs-button2>
+    </div>
     <span class="pull-right">
         <cs-button2 type="reset"
             text="save"
@@ -31,9 +35,8 @@
         </span>
         <cs-button2
             type="cancel"
-            text="Close"
             permission="StakeholderAddEdit"
-            data-on-click="gotoView()">
+            data-on-click="cancelChanges()">
                         </cs-button2>
         <cs-button2
             type="edit"

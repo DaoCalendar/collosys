@@ -260,7 +260,8 @@ csapp.factory("StakeWorkingFactory", ["$csnotify", "$csfactory", function ($csno
 
     var setReportsToName = function (workList, reportsToList) {
         _.forEach(workList, function (item) {
-            item.ReportsToName = getReportsToName(item.ReportsTo, reportsToList);
+            if ($csfactory.isNullOrEmptyString(item.ReportsToName))
+                item.ReportsToName = getReportsToName(item.ReportsTo, reportsToList);
         });
     };
 
@@ -403,6 +404,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         //#region init
 
         $scope.gotoView = function () {
+            console.log("called");
             $location.path('/stakeholder/view');
         };
 
@@ -493,6 +495,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                 $scope.workingDetailsList = data.WorkList;
                 factory.ParseBuckets($scope.workingDetailsList);
                 factory.SetReportsToName($scope.workingDetailsList, data.ReportsToList);
+                $scope.formMode = 'view';
                 return data;
             });
         };
@@ -652,7 +655,6 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             paymentData.Stakeholder = $scope.currStakeholder;
             paymentData.Stakeholder.StkhPayments = [];
             paymentData.Stakeholder.StkhWorkings = [];
-            paymentData.ApprovalStatus = factory.GetApprovalStatus(paymentData.ApprovalStatus);
             datalayer.SavePayment(paymentData).then(function (data) {
                 $scope.Payment = data;
             });
@@ -725,7 +727,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                     break;
                 case 'payment':
                     $scope.showPayment = false;
-                    $scope.paymentMode = 'add';
+                    $scope.paymentMode = 'edit';
                     $timeout(function () { $scope.showPayment = true; }, 100);
                     break;
                 default:
@@ -744,6 +746,10 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             return $scope.selectedHierarchy.LocationLevel === locLevel;
         };
         //#endregion
+
+        $scope.cancelChanges = function () {
+            getStakeData();
+        };
     }
 ]);
 
