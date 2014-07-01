@@ -233,7 +233,6 @@ namespace AngularUI.Stakeholder.addedit.Working
         public HttpResponseMessage SavePayment(StkhPayment paymentData)
         {
             paymentData.StartDate = paymentData.Stakeholder.JoiningDate;
-            paymentData.Stakeholder = Session.Load<Stakeholders>(paymentData.Stakeholder.Id);
 
             switch (paymentData.ApprovalStatus)
             {
