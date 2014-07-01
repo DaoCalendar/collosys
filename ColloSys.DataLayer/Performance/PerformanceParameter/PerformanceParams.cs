@@ -16,5 +16,9 @@ namespace ColloSys.DataLayer.Performance.PerformanceParameter
        public virtual bool Ischeck { get; set; }
        public virtual ColloSysEnums.ParameterType ParameterType { get; set; }
        public virtual ColloSysEnums.TargetOn TargetOn { get; set; }
+       public virtual ColloSysEnums.PolicyOn ParamsOn { get; set; }
+       public virtual string ParamOnvalue { get; set; }
+       public virtual DateTime StartDate { get; set; }
+       public virtual DateTime EndDate { get; set; }
     }
 }

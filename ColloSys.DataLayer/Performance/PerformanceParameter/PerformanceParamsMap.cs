@@ -18,6 +18,10 @@ namespace ColloSys.DataLayer.Performance.PerformanceParameter
            Property(x => x.Ischeck);
            Property(x => x.ParameterType);
            Property(x => x.TargetOn);
+           Property(x => x.ParamsOn);
+           Property(x => x.ParamOnvalue);
+           Property(x => x.StartDate);
+           Property(x => x.EndDate);
 
        }
    }

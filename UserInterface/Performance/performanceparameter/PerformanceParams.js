@@ -10,9 +10,14 @@
         return restapi.customGET("FetchParams", { 'Products': product });
     };
 
+    var fetchStakeholderAndHierarchy = function() {
+        return restapi.customGET("FetchStkhAndHierarchy");
+    };
+
     return {
         Save: save,
-        fetchParams: fetchParams
+        fetchParams: fetchParams,
+        fetchStakeholderAndHierarchy: fetchStakeholderAndHierarchy
     };
 }]);
 
@@ -39,7 +44,16 @@ csapp.controller("PerformanaceParameterCtrl", ["$scope", "PerformanceManagemnetD
     $scope.setTargetOn = function (index) {
         $scope.performanceMgt[index].TargetOn = 'Default';
     };
-
+    $scope.onParamChange = function(product) {
+        if ($scope.PerformParam.ParamsOn === 'Product') {
+            $scope.fetchParams(product);
+        } else {
+            datalayer.fetchStakeholderAndHierarchy().then(function(data) {
+                $scope.PerformanceModel.ParamsForStatkeholder.valueList = data.StakeholderList;
+                $scope.PerformanceModel.ParamsForHierarchy.valueList = data.HierarchyList;
+            });
+        }
+    };
     $scope.save = function (performanceParam) {
         if ($scope.PerformParam.total === 100) {
             return datalayer.Save(performanceParam).then(function () {
@@ -48,6 +62,10 @@ csapp.controller("PerformanaceParameterCtrl", ["$scope", "PerformanceManagemnetD
         } else {
             $csnotify.error("Total weightage should be exact 100%");
         }
+    };
+
+    $scope.productChange = function() {
+        $scope.PerformParam.ParamsOn = "";
     };
 
     $scope.fetchParams = function (product) {

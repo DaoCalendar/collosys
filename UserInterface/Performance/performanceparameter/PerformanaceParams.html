@@ -1,8 +1,27 @@
 ﻿<form name="performancemanagementForm">
     <cs-form>
-        <cs-field field="PerformanceModel.Product" ng-model="PerformParam.Products" ng-change="fetchParams(PerformParam.Products)" ng-required="true"></cs-field>
-        <div class="col-md-7" data-ng-show="PerformParam.Products">
-            <table class="table table-bordered table-hover">
+        <div class="col-md-10">
+            <cs-field field="PerformanceModel.Product" ng-model="PerformParam.Products" ng-change="productChange()" ng-required="true"></cs-field>
+            <cs-field field="PerformanceModel.ParamsOn" ng-model="PerformParam.ParamsOn" ng-change="onParamChange(PerformParam.Products)" ng-required="true"></cs-field>
+
+            <div data-ng-if="PerformParam.ParamsOn == 'Product'" data-ng-init="PerformParam.ParamsOnvalue = PerformParam.Products">
+                <cs-field field="PerformanceModel.ParamsForProduct" ng-model="PerformParam.ParamsOnvalue" ng-change="fetchParams(PerformParam.Products)" ng-required="true"></cs-field>
+
+            </div>
+            <div data-ng-if="PerformParam.ParamsOn == 'Stakeholder' && PerformParam.Products ">
+                <cs-field field="PerformanceModel.ParamsForStatkeholder" ng-model="PerformParam.ParamsOnvalue" ng-change="fetchParams(PerformParam.Products)" ng-required="true"></cs-field>
+
+            </div>
+            <div data-ng-if="PerformParam.ParamsOn == 'Hierarchy' && PerformParam.Products ">
+                <cs-field field="PerformanceModel.ParamsForHierarchy" ng-model="PerformParam.ParamsOnvalue" ng-change="fetchParams(PerformParam.Products)" ng-required="true"></cs-field>
+
+            </div>
+            <cs-field field="PerformanceModel.StartDate" ng-model="PerformParam.StartDate" ng-change="PerformParam.EndDate == null" ng-required="true"></cs-field>
+            <cs-field field="PerformanceModel.EndDate" ng-model="PerformParam.EndDate"></cs-field>
+
+        </div>
+        <div class="col-md-10" data-ng-show="PerformParam.ParamsOnvalue">
+            <table class="table table-bordered table-hover table-condensed ">
                 <thead>
                     <tr>
                         <td>select</td>
@@ -15,7 +34,7 @@
                 <tbody>
                     <tr data-ng-repeat="row in performanceMgt">
                         <td>
-                            <cs-field field="PerformanceModel.SelectParam" ng-model="performanceMgt[$index].Ischeck"  no-label="true"></cs-field>
+                            <cs-field field="PerformanceModel.SelectParam" ng-model="performanceMgt[$index].Ischeck" no-label="true"></cs-field>
                         </td>
                         <td>
                             <cs-field field="PerformanceModel.Param" no-label="true" ng-model="performanceMgt[$index].Param"
@@ -27,11 +46,11 @@
                         </td>
                         <td>
                             <cs-field field="PerformanceModel.ParameterType" no-label="true" ng-model="performanceMgt[$index].ParameterType" ng-change="setTargetOn($index)"
-                                       ng-disabled="!performanceMgt[$index].Ischeck"></cs-field>
+                                      ng-disabled="!performanceMgt[$index].Ischeck"></cs-field>
                         </td>
                         <td>
                             <cs-field field="PerformanceModel.TargetOn" no-label="true" ng-model="performanceMgt[$index].TargetOn"
-                                       ng-disabled="!performanceMgt[$index].Ischeck || performanceMgt[$index].ParameterType === 'RankBased'"></cs-field>
+                                      ng-disabled="!performanceMgt[$index].Ischeck || performanceMgt[$index].ParameterType === 'RankBased'"></cs-field>
                         </td>
                     </tr>
                     <tr class="text-center">
@@ -44,7 +63,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-md-7 text-right" data-ng-show="PerformParam.Products">
+        <div class="col-md-10 text-right" data-ng-show="PerformParam.ParamsOnvalue">
             <cs-button2 type="save" permission="all" on-click="save(performanceMgt)"></cs-button2>
             <cs-button2 type="cancel" permission="all" on-click="cancel()"></cs-button2>
         </div>

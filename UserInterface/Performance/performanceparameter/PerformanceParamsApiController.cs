@@ -10,13 +10,25 @@ using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Performance;
 using ColloSys.DataLayer.Performance.PerformanceParameter;
 using ColloSys.DataLayer.SessionMgr;
+using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.PerformanceBuilder;
+using ColloSys.QueryBuilder.StakeholderBuilder;
+using NHibernate.Linq;
 
 namespace AngularUI.Performance.performanceparameter
 {
+    public class StkhandHiearachy
+    {
+        public virtual IList<Stakeholders> StakeholderList { get; set; }
+        public virtual IList<StkhHierarchy> HierarchyList { get; set; }
+    }
+
     public class PerformanceManagementApiController : BaseApiController<PerformanceParams>
     {
+        private static readonly PerformanceParamBuilder PerformanceParamBuilder = new PerformanceParamBuilder();
+        private static readonly StakeQueryBuilder StakeholderQuery = new StakeQueryBuilder();
+
         private static readonly PerformanceParamBuilder Performance = new PerformanceParamBuilder();
 
         [HttpPost]
@@ -45,12 +57,22 @@ namespace AngularUI.Performance.performanceparameter
                         Products = products,
                         Ischeck = false,
                         ParameterType = ColloSysEnums.ParameterType.RankBased,
-                        TargetOn =ColloSysEnums.TargetOn.Default
+                        TargetOn = ColloSysEnums.TargetOn.Default
                     };
                     data.Add(paramObj);
                 }
             }
             return data;
         }
-    }
+
+        [HttpGet]
+        public HttpResponseMessage FetchStkhAndHierarchy()
+        {
+            var data = new StkhandHiearachy();
+            data.HierarchyList = PerformanceParamBuilder.GetAllHierarchy();
+            data.StakeholderList = PerformanceParamBuilder.GetAllStakeholders();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+       }
 }
