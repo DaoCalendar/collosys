@@ -125,35 +125,27 @@ namespace ColloSys.AllocationService.AllocationLayer
                         break;
                     case "Cluster":
                         stkhpincodes.AddRange(
-                            pincodeData.Where(x => x.Region.Trim().ToUpperInvariant() == stkhWorking.Region.Trim().ToUpperInvariant() &&
-                                x.State.Trim().ToUpperInvariant() == stkhWorking.State.Trim().ToUpperInvariant() &&
+                            pincodeData.Where(x=>
                             x.Cluster.Trim().ToUpperInvariant() == stkhWorking.Cluster.Trim().ToUpperInvariant()));
                         break;
                     case "State":
                         stkhpincodes.AddRange(
-                           pincodeData.Where(x => x.Region.Trim().ToUpperInvariant() == stkhWorking.Region.Trim().ToUpperInvariant() &&
+                           pincodeData.Where(x =>
                            x.State.Trim().ToUpperInvariant() == stkhWorking.State.Trim().ToUpperInvariant()));
                         break;
                     case "District":
                         stkhpincodes.AddRange(
-                            pincodeData.Where(x => x.Region.Trim().ToUpperInvariant() == stkhWorking.Region.Trim().ToUpperInvariant() &&
-                            x.Cluster.Trim().ToUpperInvariant() == stkhWorking.Cluster.Trim().ToUpperInvariant() &&
-                            x.State.Trim().ToUpperInvariant() == stkhWorking.State.Trim().ToUpperInvariant() &&
+                            pincodeData.Where(x => 
                             x.District.Trim().ToUpperInvariant() == stkhWorking.District.Trim().ToUpperInvariant()));
                         break;
                     case "City":
                         stkhpincodes.AddRange(
-                            pincodeData.Where(x => x.Region.Trim().ToUpperInvariant() == stkhWorking.Region.Trim().ToUpperInvariant() &&
-                            x.Cluster.Trim().ToUpperInvariant() == stkhWorking.Cluster.Trim().ToUpperInvariant() &&
-                            x.State.Trim().ToUpperInvariant() == stkhWorking.State.Trim().ToUpperInvariant() &&
+                            pincodeData.Where(x => 
                             x.City.Trim().ToUpperInvariant() == stkhWorking.City.Trim().ToUpperInvariant()));
                         break;
                     case "Area":
                         stkhpincodes.AddRange(
-                            pincodeData.Where(x => x.Region.Trim().ToUpperInvariant() == stkhWorking.Region.Trim().ToUpperInvariant() &&
-                            x.Cluster.Trim().ToUpperInvariant() == stkhWorking.Cluster.Trim().ToUpperInvariant() &&
-                            x.State.Trim().ToUpperInvariant() == stkhWorking.State.Trim().ToUpperInvariant() &&
-                            x.City.Trim().ToUpperInvariant() == stkhWorking.City.Trim().ToUpperInvariant() &&
+                            pincodeData.Where(x=>
                             x.Area.Trim().ToUpperInvariant() == stkhWorking.Area.Trim().ToUpperInvariant()));
                         break;
                 }
@@ -232,6 +224,60 @@ namespace ColloSys.AllocationService.AllocationLayer
 
     }
 }
+
+ //private static List<GPincode> GeneratePincodeList(Stakeholders stakeholders
+ //           , IList<GPincode> pincodeData)
+ //       {
+ //           var stkhpincodes = new List<GPincode>();
+ //           foreach (var stkhWorking in stakeholders.StkhWorkings)
+ //           {
+ //               switch (stkhWorking.LocationLevel)
+ //               {
+ //                   case "Country":
+ //                       stkhpincodes.AddRange(
+ //                           pincodeData.Where(x => x.Country.Trim().ToUpperInvariant() == stkhWorking.Country.Trim().ToUpperInvariant()));
+ //                       break;
+ //                   case "Region":
+ //                       stkhpincodes.AddRange(
+ //                           pincodeData.Where(x => x.Region.Trim().ToUpperInvariant() == stkhWorking.Region.Trim().ToUpperInvariant()));
+ //                       break;
+ //                   case "Cluster":
+ //                       stkhpincodes.AddRange(
+ //                           pincodeData.Where(x => x.Region.Trim().ToUpperInvariant() == stkhWorking.Region.Trim().ToUpperInvariant() &&
+ //                               x.State.Trim().ToUpperInvariant() == stkhWorking.State.Trim().ToUpperInvariant() &&
+ //                           x.Cluster.Trim().ToUpperInvariant() == stkhWorking.Cluster.Trim().ToUpperInvariant()));
+ //                       break;
+ //                   case "State":
+ //                       stkhpincodes.AddRange(
+ //                          pincodeData.Where(x => x.Region.Trim().ToUpperInvariant() == stkhWorking.Region.Trim().ToUpperInvariant() &&
+ //                          x.State.Trim().ToUpperInvariant() == stkhWorking.State.Trim().ToUpperInvariant()));
+ //                       break;
+ //                   case "District":
+ //                       stkhpincodes.AddRange(
+ //                           pincodeData.Where(x => x.Region.Trim().ToUpperInvariant() == stkhWorking.Region.Trim().ToUpperInvariant() &&
+ //                           x.Cluster.Trim().ToUpperInvariant() == stkhWorking.Cluster.Trim().ToUpperInvariant() &&
+ //                           x.State.Trim().ToUpperInvariant() == stkhWorking.State.Trim().ToUpperInvariant() &&
+ //                           x.District.Trim().ToUpperInvariant() == stkhWorking.District.Trim().ToUpperInvariant()));
+ //                       break;
+ //                   case "City":
+ //                       stkhpincodes.AddRange(
+ //                           pincodeData.Where(x => x.Region.Trim().ToUpperInvariant() == stkhWorking.Region.Trim().ToUpperInvariant() &&
+ //                           x.Cluster.Trim().ToUpperInvariant() == stkhWorking.Cluster.Trim().ToUpperInvariant() &&
+ //                           x.State.Trim().ToUpperInvariant() == stkhWorking.State.Trim().ToUpperInvariant() &&
+ //                           x.City.Trim().ToUpperInvariant() == stkhWorking.City.Trim().ToUpperInvariant()));
+ //                       break;
+ //                   case "Area":
+ //                       stkhpincodes.AddRange(
+ //                           pincodeData.Where(x => x.Region.Trim().ToUpperInvariant() == stkhWorking.Region.Trim().ToUpperInvariant() &&
+ //                           x.Cluster.Trim().ToUpperInvariant() == stkhWorking.Cluster.Trim().ToUpperInvariant() &&
+ //                           x.State.Trim().ToUpperInvariant() == stkhWorking.State.Trim().ToUpperInvariant() &&
+ //                           x.City.Trim().ToUpperInvariant() == stkhWorking.City.Trim().ToUpperInvariant() &&
+ //                           x.Area.Trim().ToUpperInvariant() == stkhWorking.Area.Trim().ToUpperInvariant()));
+ //                       break;
+ //               }
+ //           }
+ //           return stkhpincodes;
+ //       }
 
 //set RAlloc object
 //if (obj.GetType().IsAssignableFrom(typeof(RAlloc)))

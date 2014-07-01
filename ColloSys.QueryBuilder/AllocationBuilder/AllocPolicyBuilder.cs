@@ -44,11 +44,13 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
                                  .JoinAlias(() => relation.AllocSubpolicy, () => subpolicy, JoinType.LeftOuterJoin)
                                  .JoinAlias(() => subpolicy.Conditions, () => condition, JoinType.LeftOuterJoin)
                                  .JoinAlias(() => subpolicy.Stakeholder, () => stakeholder, JoinType.LeftOuterJoin)
+
                                  .Where(() => policy.Products == products)
                                  .And(() => relation.Status == ColloSysEnums.ApproveStatus.Approved)
                                  .And(() => relation.StartDate <= Util.GetTodayDate() &&
                                             (relation.EndDate == null ||
                                              relation.EndDate.Value >= Util.GetTodayDate()))
+                                             .TransformUsing(Transformers.DistinctRootEntity)
                                  .SingleOrDefault();
         }
 

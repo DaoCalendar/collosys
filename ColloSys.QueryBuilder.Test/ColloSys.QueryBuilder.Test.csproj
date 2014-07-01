@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Allocation\AllocationService.cs" />
     <Compile Include="Allocation\EmailTest.cs" />
     <Compile Include="FileUploader\FileSchedulerTests.cs" />
     <Compile Include="GenerateDb\CreateDatabase.cs" />

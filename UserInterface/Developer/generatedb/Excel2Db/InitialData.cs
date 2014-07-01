@@ -84,7 +84,7 @@ namespace AngularUI.Developer.generatedb.Excel2Db
                     continue;
                 var allocCondition = new AllocCondition()
                 {
-                    ColumnName = "Products",
+                    ColumnName = "CustomerInfo.Product",
                     Operator = ColloSysEnums.Operators.EqualTo,
                     Value = products.ToString(),
                     Priority = 0,

@@ -1,4 +1,5 @@
-﻿using ColloSys.DataLayer.Generic;
+﻿using System.Security.Cryptography.X509Certificates;
+using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Stakeholder;
 
 #region references
@@ -23,10 +24,12 @@ namespace ColloSys.AllocationService.DBLayer
         private static readonly GPincodeBuilder GPincodeBuilder = new GPincodeBuilder();
         private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder();
         private static readonly AllocPolicyBuilder AllocPolicyBuilder = new AllocPolicyBuilder();
-        
+
         public static AllocPolicy GetAllocationPolicy(ScbEnums.Products product, ScbEnums.Category category)
         {
-            return AllocPolicyBuilder.OnProductAndSystem(product, category);
+            var policy = AllocPolicyBuilder.OnProductAndSystem(product, category);
+            policy.AllocRelations = policy.AllocRelations.Distinct().ToList();
+            return policy;
         }
 
         public static bool IsMonthWiseReset(ScbEnums.Products products)
