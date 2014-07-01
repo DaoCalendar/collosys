@@ -1,4 +1,10 @@
-﻿<div class="pull-right">
+﻿<div class="pull-left">
+    <cs-button2 type="edit"
+        text="Back To View"
+        permission="All"
+        data-on-click="gotoView()"></cs-button2>
+</div>
+<div class="pull-right">
 
     <cs-button2 type="save"
         permission="StakeholderAddEdit"
@@ -20,9 +26,8 @@
 
     <cs-button2
         type="cancel"
-        text="Close"
         permission="StakeholderAddEdit"
-        data-on-click="gotoView()">
+        data-on-click="cancelChanges()">
                         </cs-button2>
     <cs-button2
         type="edit"

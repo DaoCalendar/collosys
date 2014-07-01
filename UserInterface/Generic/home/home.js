@@ -31,8 +31,8 @@
     };
 }]);
 
-csapp.controller("HomeCtrl", ['$scope', 'HomeDatalayer', 'StakeholderAddNotificationFactory', 'StakeholderWorkingNotificationFactory', 'StakeholderPaymentNotificationFactory',
-    function ($scope, datalayer, stkhAddFactory, stkhWorkFactory, stkhPayFactory) {
+csapp.controller("HomeCtrl", ['$scope', 'HomeDatalayer', '$csfactory', 'StakeholderAddNotificationFactory', 'StakeholderWorkingNotificationFactory', 'StakeholderPaymentNotificationFactory',
+    function ($scope, datalayer, $csfactory, stkhAddFactory, stkhWorkFactory, stkhPayFactory) {
         (function () {
             datalayer.GetNotifications().then(function (data) {
                 $scope.userNotifyCount = data;
@@ -172,43 +172,42 @@ csapp.factory("StakeholderWorkingNotificationFactory", ["Restangular", "$locatio
     };
 }]);
 
-
 csapp.factory("StakeholderPaymentNotificationFactory", ["Restangular", "$location", "$csnotify",
     function (rest, $location, $csnotify) {
 
-    var restApi = rest.all("WorkingApi");
+        var restApi = rest.all("WorkingApi");
 
-    var buttons = function () {
-        return {
-            showApprove: true,
-            showReject: true,
-            showDetails: true
+        var buttons = function () {
+            return {
+                showApprove: true,
+                showReject: true,
+                showDetails: true
+            };
         };
-    };
 
-    var showError = function (response) {
-        $csnotify.error("Please approve/reject Stakeholder first");
-        return response;
-    };
+        var showError = function (response) {
+            $csnotify.error("Please approve/reject Stakeholder first");
+            return response;
+        };
 
-    var approve = function (notification) {
-        var stakeholder = { Id: notification.EntityId };
-        return restApi.customPOST(stakeholder, "ApprovePayment").then(function () { return; }, showError);
-    };
+        var approve = function (notification) {
+            var stakeholder = { Id: notification.EntityId };
+            return restApi.customPOST(stakeholder, "ApprovePayment").then(function () { return; }, showError);
+        };
 
-    var reject = function (notification) {
-        var stakeholder = { Id: notification.EntityId };
-        return restApi.customPOST(stakeholder, "RejectPayment").then(function () { return; }, showError);
-    };
+        var reject = function (notification) {
+            var stakeholder = { Id: notification.EntityId };
+            return restApi.customPOST(stakeholder, "RejectPayment").then(function () { return; }, showError);
+        };
 
-    var details = function (notification) {
-        $location.path('/stakeholder/working/edit/' + notification.EntityId);
-    };
+        var details = function (notification) {
+            $location.path('/stakeholder/working/edit/' + notification.EntityId);
+        };
 
-    return {
-        Buttons: buttons,
-        Approve: approve,
-        Reject: reject,
-        Details: details
-    };
-}]);
+        return {
+            Buttons: buttons,
+            Approve: approve,
+            Reject: reject,
+            Details: details
+        };
+    }]);

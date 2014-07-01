@@ -79,9 +79,10 @@ namespace AngularUI.Stakeholder.addedit.Working
         [HttpPost]
         public HttpResponseMessage SaveWorking(List<StkhWorking> workingData)
         {
-            workingData = WorkingPaymentHelper.SetStatusForSave(workingData);
-            StakeWorkingQueryBuilder.Save(workingData);
-            var reportsToIds = workingData.Select(stkhWorking => stkhWorking.ReportsTo).ToList();
+            var unsavedList = WorkingPaymentHelper.SetStatusForSave(workingData);
+            StakeWorkingQueryBuilder.Save(unsavedList);
+
+            var reportsToIds = unsavedList.Select(stkhWorking => stkhWorking.ReportsTo).ToList();
             var reportsToStakeholders = StakeQueryBuilder.GetByIdList(reportsToIds);
 
             var data = new
