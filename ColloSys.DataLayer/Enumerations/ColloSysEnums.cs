@@ -494,14 +494,26 @@ namespace ColloSys.DataLayer.Enumerations
 
         [Serializable]
         public enum PerformanceParam
-        { 
-         Param_1,   
-         Param_2,   
-         Param_3,   
-         Param_4,   
-         Param_5,   
+        {
+            Param_1,
+            Param_2,
+            Param_3,
+            Param_4,
+            Param_5,
         }
 
+        [Serializable]
+        public enum ParameterType
+        {
+            RankBased,
+            TargetBased
+        }
+        [Serializable]
+        public enum TargetOn
+        {
+            Bucket,
+            Default
+        }
 
         #region Billing
 
@@ -550,7 +562,7 @@ namespace ColloSys.DataLayer.Enumerations
             Count,
             Average
         }
-     
+
         [Serializable]
         public enum OutputType
         {
