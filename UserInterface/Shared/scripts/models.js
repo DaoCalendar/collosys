@@ -127,6 +127,9 @@ csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csA
                 case "Pincode":
                     return angular.copy(models.Generic.Pincode);
 
+                case "Profile":
+                    return angular.copy(models.Generic.Profile);
+                    
                 case "Custbill":
                     return angular.copy(models.Generic.Custbill);
 

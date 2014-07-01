@@ -9,78 +9,115 @@
         </div>
         <div class="panel-body">
             <div data-ng-show="dldata.profile">
-                <div class="row">
-                    <!-- Name -->
-                    <div class="col-md-11" style="margin-bottom: 7px">
-                        <label class="col-md-3 text-right">Name</label>
-                        <div class="col-md-5">
-                            <input type="text" class="form-control" data-ng-model="dldata.profile.Name" readonly="readonly" />
-                        </div>
-                    </div>
+                <cs-form layout="8.4.8">
+                        
+                    <cs-field data-ng-model="dldata.profile.Name" field="profile.Name" data-ng-disabled="true"></cs-field>
 
-                    <!-- User Id -->
-                    <div class="col-md-11" style="margin-bottom: 7px">
-                        <label class="col-md-3 text-right">User Id</label>
-                        <div class="col-md-5">
-                            <input type="text" class="form-control" data-ng-model="dldata.profile.ExternalId" readonly="readonly" />
-                        </div>
-                    </div>
+                    <cs-field data-ng-model="dldata.profile.ExternalId" field="profile.ExternalId" data-ng-disabled="true"></cs-field>
 
-                    <!-- Joining Date -->
-                    <div class="col-md-11" style="margin-bottom: 7px">
-                        <label class="col-md-3 text-right">Joining Date</label>
-                        <span class="col-md-5">
-                            <input type="text" class="form-control" name="DateOfJoining" class="input-medium"
-                                data-ng-disabled="true" value="{{dldata.profile.JoiningDate|date:'dd-MM-yyyy'}}" bs-datepicker />
-                        </span>
-                        <!--                        <icon-btn type="calendar" class="btn btn-default" data-toggle="datepicker"></icon-btn>-->
-                    </div>
+                    <cs-field data-ng-model="dldata.profile.JoiningDate" field="profile.JoiningDate" data-ng-disabled="true"></cs-field>
 
-                    <!-- StkhType -->
-                    <div class="col-md-11" style="margin-bottom: 7px">
-                        <label class="col-md-3 text-right">Hierarchy</label>
-                        <div class="col-md-5">
-                            <input type="text" class="form-control" data-ng-model="dldata.profile.Hierarchy.Hierarchy" readonly="readonly" />
-                        </div>
-                    </div>
+                    <cs-field data-ng-model="dldata.profile.Hierarchy.Hierarchy" field="profile.Hierarchy" data-ng-disabled="true"></cs-field>
 
-                    <!-- StkhSubtype -->
-                    <div class="col-md-11" style="margin-bottom: 7px">
-                        <label class="col-md-3 text-right">Designation</label>
-                        <div class="col-md-5">
-                            <input type="text" class="form-control" data-ng-model="dldata.profile.Hierarchy.Designation" readonly="readonly" />
-                        </div>
-                    </div>
+                    <cs-field data-ng-model="dldata.profile.Hierarchy.Designation" field="profile.Designation" data-ng-disabled="true"></cs-field>
 
-                    <!-- Email -->
-                    <div class="col-md-11" style="margin-bottom: 7px">
-                        <label class="col-md-3 text-right">Email Id</label>
-                        <div class="col-md-5">
-                            <input type="email" class="form-control" data-ng-model="dldata.profile.EmailId" readonly="readonly" />
+                    <cs-field data-ng-model="dldata.profile.EmailId" field="profile.EmailId" data-ng-disabled="true"></cs-field>
+                     
+                    <div>
+                        <div data-ng-if="!isChangingMobile">
+                            <cs-field data-ng-model="dldata.profile.MobileNo" field="profile.MobileNo" data-ng-disabled="!isChangingMobile"></cs-field>
                         </div>
-                    </div>
+                         
+                        <div data-ng-if="isChangingMobile">
+                            <cs-field data-ng-model="dldata.profile.MobileNo" field="profile.MobileNo"></cs-field>
+                        </div>
 
-                    <!-- Mobile No -->
-                    <div class="col-md-11" style="margin-bottom: 7px" data-ng-form="mobileNoForm">
-                        <label class="col-md-3 text-right">Mobile Number</label>
-                        <div class="col-md-5">
-                            <input type="text" class="form-control" name="mobileNo" data-ng-model="dldata.profile.MobileNo" data-ng-minlength="10"
-                                data-ng-maxlength="11" data-ng-readonly="!isChangingMobile" />
-                        </div>
-                        <div class="col-md-2">
-                            <cs-button type="save" permission="UserProfile" data-ng-show="isChangingMobile" data-ng-disabled="mobileNoForm.mobileNo.$invalid || mobileNoForm.mobileNo.$pristine"
-                                data-ng-click="saveMobile()"></cs-button>
-                            <cs-button type="cancel" permission="UserProfile" data-ng-show="isChangingMobile" data-ng-click="resetMobile()"
-                                class="btn btn-warning"></cs-button>
-                            <cs-button type="add" text="Change" permission="UserProfile" data-ng-hide="isChangingMobile" data-ng-click="isChangingMobile = !isChangingMobile"></cs-button>
-                        </div>
-                        <div data-ng-show="mobileNoForm.mobileNo.$dirty && mobileNoForm.mobileNo.$invalid">
-                            <div data-ng-show="mobileNoForm.mobileNo.$error.minlength">Phone Number must be of min 10 digits</div>
-                            <div data-ng-show="mobileNoForm.mobileNo.$error.maxlength">Phone Number can have max 11 digits</div>
+                         
+                        <div class="col-md-2"  style="margin-bottom: 7px">
+                            <cs-button type="save" permission="UserProfile" data-ng-show="isChangingMobile" data-ng-click="saveMobile()"></cs-button>
+
+                            <cs-button type="cancel" permission="UserProfile" data-ng-show="isChangingMobile" data-ng-click="resetMobile()"></cs-button>
+
+                            <cs-button type="add" text="Change" permission="UserProfile" data-ng-hide="isChangingMobile" data-ng-click="change()"></cs-button>
                         </div>
                     </div>
-                </div>
+                </cs-form>
             </div>
         </div>
     </div>
 </form>
+
+
+
+
+
+<!-- <div class="row">
+         <div class="col-md-11" style="margin-bottom: 7px">
+             <label class="col-md-3 text-right">Name</label>
+             <div class="col-md-5">
+                 <input type="text" class="form-control" data-ng-model="dldata.profile.Name" readonly="readonly" />
+             </div>
+         </div>
+
+         <div class="col-md-11" style="margin-bottom: 7px">
+             <label class="col-md-3 text-right">User Id</label>
+             <div class="col-md-5">
+                 <input type="text" class="form-control" data-ng-model="dldata.profile.ExternalId" readonly="readonly" />
+             </div>
+         </div>
+
+         <div class="col-md-11" style="margin-bottom: 7px">
+             <label class="col-md-3 text-right">Joining Date</label>
+             <span class="col-md-5">
+                 <input type="text" class="form-control" name="DateOfJoining" class="input-medium"
+                        data-ng-disabled="true" value="{{dldata.profile.JoiningDate|date:'dd-MM-yyyy'}}" bs-datepicker />
+             </span>
+         </div>
+
+         <div class="col-md-11" style="margin-bottom: 7px">
+             <label class="col-md-3 text-right">Hierarchy</label>
+             <div class="col-md-5">
+                 <input type="text" class="form-control" data-ng-model="dldata.profile.Hierarchy.Hierarchy" readonly="readonly" />
+             </div>
+         </div>
+
+         <div class="col-md-11" style="margin-bottom: 7px">
+             <label class="col-md-3 text-right">Designation</label>
+             <div class="col-md-5">
+                 <input type="text" class="form-control" data-ng-model="dldata.profile.Hierarchy.Designation" readonly="readonly" />
+             </div>
+         </div>
+
+         <div class="col-md-11" style="margin-bottom: 7px">
+             <label class="col-md-3 text-right">Email Id</label>
+             <div class="col-md-5">
+                 <input type="email" class="form-control" data-ng-model="dldata.profile.EmailId" readonly="readonly" />
+             </div>
+         </div>
+
+         <div class="col-md-11" style="margin-bottom: 7px" data-ng-form="mobileNoForm">
+             <label class="col-md-3 text-right">Mobile Number</label>
+             <div class="col-md-5">
+                 <input type="text" class="form-control" name="mobileNo" data-ng-model="dldata.profile.MobileNo" data-ng-minlength="10"
+                        data-ng-maxlength="11" data-ng-readonly="!isChangingMobile" />
+             </div>
+             <div class="col-md-2">
+                 <cs-button type="save" permission="UserProfile" data-ng-show="isChangingMobile" data-ng-disabled="mobileNoForm.mobileNo.$invalid || mobileNoForm.mobileNo.$pristine"
+                            data-ng-click="saveMobile()"></cs-button>
+                 <cs-button type="cancel" permission="UserProfile" data-ng-show="isChangingMobile" data-ng-click="resetMobile()"
+                            class="btn btn-warning"></cs-button>
+                 <cs-button type="add" text="Change" permission="UserProfile" data-ng-hide="isChangingMobile" data-ng-click="isChangingMobile = !isChangingMobile"></cs-button>
+             </div>
+             <div data-ng-show="mobileNoForm.mobileNo.$dirty && mobileNoForm.mobileNo.$invalid">
+                 <div data-ng-show="mobileNoForm.mobileNo.$error.minlength">Phone Number must be of min 10 digits</div>
+                 <div data-ng-show="mobileNoForm.mobileNo.$error.maxlength">Phone Number can have max 11 digits</div>
+             </div>
+         </div>
+     </div>-->
+<!-- <div class="col-md-8">
+         <label class="col-md-4" style="padding-top: 8px">Mobile No</label>
+         <div class="col-md-8">
+             <input type="text" class="form-control" data-ng-maxlength="11" data-ng-model="dldata.profile.MobileNo"/>
+         </div>
+     </div>-->
+

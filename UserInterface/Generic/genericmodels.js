@@ -143,6 +143,18 @@
         };
     };
 
+    var profile = function() {
+        return {
+            Name: { label: 'Name',type:'text',editable:false },
+            ExternalId: { label: 'User Id', type: 'text', editable: false },
+            JoiningDate: { label: 'Joining Date', type: 'date', editable: false },
+            Hierarchy: { label: 'Hierarchy', type: 'text', editable: false },
+            Designation: { label: 'Designation', type: 'text', editable: false },
+            EmailId: { label: 'Email Id', type: 'text', editable: false },
+            MobileNo: { label: 'MobileNo', type:'text',template:'phone', editable: false},
+        };
+    };
+
     var init = function () {
         var models = {};
 
@@ -194,6 +206,11 @@
         models.StkhLeave = {
             Table: "StkhLeave",
             Columns: stkhLeave(),
+        };
+
+        models.Profile = {
+            Table: "Profile",
+            Columns: profile(),
         };
 
         return models;

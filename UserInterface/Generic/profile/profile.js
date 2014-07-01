@@ -31,6 +31,7 @@ csapp.factory("profileDataLayer", ["$csnotify", 'Restangular', "$csAuthFactory",
                 .then(function (data) {
                     $csnotify.success("Mobile Number updated successfully.");
                     dldata.profile = data;
+                    return data;
                 }, function (response) {
                     $csnotify.error(response.Message);
                 });
@@ -46,12 +47,13 @@ csapp.factory("profileDataLayer", ["$csnotify", 'Restangular', "$csAuthFactory",
     }
 ]);
 
-csapp.controller("profileController", ["$scope", "profileDataLayer",
-    function ($scope, datalayer) {
+csapp.controller("profileController", ["$scope", "profileDataLayer","$csModels",
+    function ($scope, datalayer, $csModels) {
         'use strict';
         (function () {
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
+            $scope.profile = $csModels.getColumns("Profile");
             datalayer.Get().then(function () {
                 $scope.origMobile = angular.copy($scope.dldata.profile.MobileNo);
                 datalayer.GetManager();
@@ -61,6 +63,7 @@ csapp.controller("profileController", ["$scope", "profileDataLayer",
 
         $scope.saveMobile = function () {
             if ($scope.origMobile === $scope.dldata.profile.MobileNo) {
+                $scope.isChangingMobile = false;
                 return;
             }
 
@@ -70,6 +73,10 @@ csapp.controller("profileController", ["$scope", "profileDataLayer",
             });
         };
 
+        $scope.change = function() {
+            $scope.isChangingMobile = true;
+        };
+        
         $scope.resetMobile = function () {
             $scope.isChangingMobile = false;
             $scope.dldata.profile.MobileNo = $scope.origMobile;
