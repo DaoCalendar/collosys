@@ -129,7 +129,8 @@ namespace AngularUI.Shared.webapis
             list.AddToList(typeof(ColloSysEnums.PolicyType));
             list.AddToList(typeof(ColloSysEnums.PolicyOn));
             list.AddToList(typeof(ColloSysEnums.PerformanceParam));
-
+            list.AddToList(typeof(ColloSysEnums.ParameterType));
+            list.AddToList(typeof(ColloSysEnums.TargetOn));
         }
     }
 }

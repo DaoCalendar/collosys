@@ -8,6 +8,8 @@
                         <td>select</td>
                         <td>Params</td>
                         <td>Weightage</td>
+                        <td>Parametar Type</td>
+                        <td>Target On</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,11 +25,18 @@
                             <cs-field field="PerformanceModel.Weightage" no-label="true" ng-model="performanceMgt[$index].Weightage"
                                       ng-change="totalWeightage(performanceMgt)" ng-disabled="!performanceMgt[$index].Ischeck"></cs-field>
                         </td>
+                        <td>
+                            <cs-field field="PerformanceModel.ParameterType" no-label="true" ng-model="performanceMgt[$index].ParameterType" ng-change="setTargetOn($index)"
+                                       ng-disabled="!performanceMgt[$index].Ischeck"></cs-field>
+                        </td>
+                        <td>
+                            <cs-field field="PerformanceModel.TargetOn" no-label="true" ng-model="performanceMgt[$index].TargetOn"
+                                       ng-disabled="!performanceMgt[$index].Ischeck || performanceMgt[$index].ParameterType === 'RankBased'"></cs-field>
+                        </td>
                     </tr>
                     <tr class="text-center">
-                        <td></td>
-                        <td>Total</td>
-                        <td>
+                        <td colspan="2">Total</td>
+                        <td colspan="3">
                             <cs-field field="PerformanceModel.Weightage" no-label="true" ng-model="PerformParam.total"
                                       ng-disabled="true" validation="off"></cs-field>
                         </td>

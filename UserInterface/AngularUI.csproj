@@ -563,8 +563,13 @@
     <Content Include="Shared\templates\output-directive.html" />
     <Content Include="Stakeholder\addedit\BasicInfo\AddStakeholder.js" />
     <Content Include="Stakeholder\addedit\BasicInfo\basic.html" />
+    <Content Include="Stakeholder\addedit\Working\AddWorkingTable.html" />
+    <Content Include="Stakeholder\addedit\Working\FixedPayFields.html" />
+    <Content Include="Stakeholder\addedit\Working\MobileTravelFields.html" />
+    <Content Include="Stakeholder\addedit\Working\PaymentButtons.html" />
     <Content Include="Stakeholder\addedit\Working\SalaryDetails.html" />
     <Content Include="Stakeholder\addedit\Working\Working.html" />
+    <Content Include="Stakeholder\addedit\Working\WorkingButtons.html" />
     <Content Include="Stakeholder\addedit\Working\workingScript.js" />
     <Content Include="Stakeholder\hierarchy\hierarchy-add.html" />
     <Content Include="Stakeholder\hierarchy\hierarchy-edit.html" />

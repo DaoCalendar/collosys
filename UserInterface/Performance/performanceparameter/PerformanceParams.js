@@ -36,12 +36,13 @@ csapp.controller("PerformanaceParameterCtrl", ["$scope", "PerformanceManagemnetD
             $csnotify.error("Total weightage should be exact 100%");
         }
     };
-   
+    $scope.setTargetOn = function (index) {
+        $scope.performanceMgt[index].TargetOn = 'Default';
+    };
+
     $scope.save = function (performanceParam) {
         if ($scope.PerformParam.total === 100) {
             return datalayer.Save(performanceParam).then(function () {
-                $scope.performanceMgt = [];
-                $scope.PerformParam = {};
                 $csnotify.success("Performance Saved.....!!");
             });
         } else {
