@@ -19,12 +19,16 @@ namespace ColloSys.FileUploaderService.RecordManager
         public StreamReader InpuStreamReader;
         protected readonly IDbLayer DbLayer = new DataLayer.DbLayer();
         public readonly Logger Logger = LogManager.GetCurrentClassLogger();
+         
+
         public void Init(FileScheduler fileScheduler, ICounter counter)
         {
             var info = new FileInfo(fileScheduler.FileDirectory + @"\" + fileScheduler.FileName);
             FileScheduler = fileScheduler;
             Counter = counter;
             InpuStreamReader = new StreamReader(info.FullName);
+            TodayRecordList=new MultiKeyEntityList<TEntity>();
+            //YesterdayRecords=new TEntity[];
         }
 
         public abstract bool CreateRecord( out TEntity obj);

@@ -21,6 +21,7 @@ namespace ColloSys.FileUploaderService.AliasTextReader
         string _secondLine = string.Empty;
         string _thirdLine = string.Empty;
 
+
         public override bool CreateRecord(out CLiner obj)
         {
 
