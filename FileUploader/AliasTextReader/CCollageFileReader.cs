@@ -18,7 +18,7 @@ namespace ColloSys.FileUploaderService.AliasTextReader
 
         public override bool PostProcessing()
         {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }
