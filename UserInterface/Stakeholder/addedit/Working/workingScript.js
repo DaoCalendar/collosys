@@ -132,7 +132,7 @@ csapp.factory("StakeWorkingFactory", ["$csnotify", "$csfactory", function ($csno
             case "DISTRICT":
                 return "State";
             case "CITY":
-                return "State";
+                return "City";
             case "AREA":
                 return "State";
             default:
@@ -182,7 +182,7 @@ csapp.factory("StakeWorkingFactory", ["$csnotify", "$csfactory", function ($csno
                 displayManager.showDistrict = true;
                 return displayManager;
             case "CITY":
-                displayManager.showState = true;
+                //displayManager.showState = true;
                 displayManager.showCity = true;
                 return displayManager;
             case "AREA":
@@ -279,7 +279,8 @@ csapp.factory("StakeWorkingFactory", ["$csnotify", "$csfactory", function ($csno
         _.forEach(worklist, function (workdata) {
             workdata.Stakeholder = stakeholder;
             workdata.StartDate = stakeholder.JoiningDate;
-            //workdata.Buckets = JSON.stringify(workdata.Buckets);
+            if (!$csfactory.isNullOrEmptyString(workdata.Buckets))
+                workdata.Buckets = JSON.stringify(workdata.Buckets);
             workdata.LocationLevel = stakeholder.Hierarchy.LocationLevel;
         });
     };
