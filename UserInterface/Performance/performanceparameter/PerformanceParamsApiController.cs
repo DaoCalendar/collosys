@@ -43,7 +43,9 @@ namespace AngularUI.Performance.performanceparameter
                         Param = param,
                         Weightage = 0,
                         Products = products,
-                        Ischeck = false
+                        Ischeck = false,
+                        ParameterType = ColloSysEnums.ParameterType.RankBased,
+                        TargetOn =ColloSysEnums.TargetOn.Default
                     };
                     data.Add(paramObj);
                 }

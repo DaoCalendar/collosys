@@ -619,7 +619,6 @@ csapp.directive('csList2', ['$csfactory', 'Logger', function ($csfactory, logMan
         };
 
         scope.isSelected = function (index) {
-            console.log('chddccking is selected ' + scope.selectedIndex + ' - ' + index);
             return (scope.selectedIndex === index);
         };
 

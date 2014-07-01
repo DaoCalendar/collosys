@@ -14,5 +14,7 @@ namespace ColloSys.DataLayer.Performance.PerformanceParameter
        public virtual decimal Weightage { get; set; }
        public virtual ScbEnums.Products Products { get; set; }
        public virtual bool Ischeck { get; set; }
+       public virtual ColloSysEnums.ParameterType ParameterType { get; set; }
+       public virtual ColloSysEnums.TargetOn TargetOn { get; set; }
     }
 }
