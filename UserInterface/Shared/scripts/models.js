@@ -10,8 +10,8 @@ csapp.factory("$csShared", function () {
     };
 });
 
-csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csAllocationModels", '$csBillingModels', '$csGenericModels', '$csLegalModels',
-    function ($csFileUploadModels, $csStakeholderModels, $csAllocationModels, $csBillingModels, $csGenericModels, $csLegalModels) {
+csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csAllocationModels", '$csBillingModels', '$csGenericModels', '$csLegalModels', '$csPerformanceModels',
+    function ($csFileUploadModels, $csStakeholderModels, $csAllocationModels, $csBillingModels, $csGenericModels, $csLegalModels, $csPerformanceModels) {
 
         var models = {};
 
@@ -22,6 +22,7 @@ csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csA
             models.Billing = $csBillingModels.init();
             models.Generic = $csGenericModels.init();
             models.Legal = $csLegalModels.init();
+            models.Performance = $csPerformanceModels.init();
             return;
         };
 
@@ -158,6 +159,9 @@ csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csA
 
                 case "StkhLeave":
                     return angular.copy(models.Generic.StkhLeave);
+
+                case "PerformanceParam":
+                    return angular.copy(models.Performance.PerformanceParam);
 
                 default:
                     throw "Invalid Table Name : " + tableName + ".";

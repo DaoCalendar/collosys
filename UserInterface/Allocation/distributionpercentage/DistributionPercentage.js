@@ -17,8 +17,8 @@
 
 }]);
 
-csapp.controller("distributionPercentageCtrl", ["$scope", "distributionPercentageDatalayer", "$csShared", "$csModels", "$timeout",
-    function ($scope, datalayer, $csShared, $csModels, $timeout) {
+csapp.controller("distributionPercentageCtrl", ["$scope", "distributionPercentageDatalayer", "$csShared", "$csModels", "$timeout","$csnotify",
+    function ($scope, datalayer, $csShared, $csModels, $timeout, $csnotify) {
 
         var getallData = function () {
             datalayer.fetchProductWithPerc().then(function (data) {
@@ -54,14 +54,20 @@ csapp.controller("distributionPercentageCtrl", ["$scope", "distributionPercentag
         };
 
         $scope.save = function (row) {
-            return datalayer.save(row).then(function () {
-                getallData();
-
-            });
+            if ($scope.Distribution.Total === 100) {
+                return datalayer.save(row).then(function () {
+                    getallData();
+                });
+            } else {
+                $csnotify.error("Total should be exact 100");
+            }
         };
 
         $scope.totalPercentage = function (row) {
             $scope.Distribution.Total = row.TelecallingInhouse + row.TelecallingExternal + row.FieldInhouse + row.FieldExternal;
+            if ($scope.Distribution.Total>100) {
+                $csnotify.error("Total should be exact 100");
+            }
         };
 
         $scope.cancel = function() {
