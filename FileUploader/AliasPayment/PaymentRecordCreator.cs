@@ -84,6 +84,11 @@ namespace ColloSys.FileUploaderService.AliasPayment
             throw new NotImplementedException();
         }
 
+        public override void PostProcessing()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

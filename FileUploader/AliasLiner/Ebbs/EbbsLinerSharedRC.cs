@@ -1,11 +1,11 @@
 ﻿#region references
 
-using System;
-using System.Globalization;
+using System.Collections.Generic;
 using System.Linq;
+using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.FileUploaderService.ExcelReader;
+using ColloSys.DataLayer.SharedDomain;
 using ColloSys.FileUploaderService.RecordManager;
 
 #endregion
@@ -98,6 +98,66 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
             return YesterdayRecords.SingleOrDefault(x => x.AccountNo == entity.AccountNo);
         }
 
+        public override void PostProcessing()
+        {
+            InsertIntoInfo();
+        }
 
+        private void InsertIntoInfo()
+        {
+            var infos = DbLayer.GetTableData<CustomerInfo>();
+
+            ISet<CustomerInfo> isetInfo = new HashSet<CustomerInfo>(infos);
+
+            //var todayLiner = OldDbRecordList.Where(x => x.FileDate.Date == Reader.UploadedFile.FileDate.Date).ToList();
+            var todayLiner = TodayRecordList.GetEntities(FileScheduler.FileDate.Date);
+
+            var saveEntity = new List<Entity>();
+            foreach (var liner in todayLiner)
+            {
+                var info = isetInfo.FirstOrDefault(x => x.AccountNo == liner.AccountNo);
+
+                if (info != null)
+                {
+                    info.AccountNo = liner.AccountNo;
+                    info.CustomerName = liner.CustomerName;
+                    info.Pincode = liner.Pincode;
+                    info.Product = liner.Product;
+                    info.IsInRecovery = false;
+                    info.AllocStatus = liner.AllocStatus;
+                    info.Bucket = liner.Bucket;
+                    info.CustStatus = liner.CustStatus;
+                    info.Cycle = liner.Cycle;
+                    info.IsReferred = liner.IsReferred;
+                    info.NoAllocResons = liner.NoAllocResons;
+                    info.TotalDue = liner.TotalDue;
+                    info.Flag = liner.Flag;
+                }
+                else
+                {
+                    info = new CustomerInfo
+                    {
+                        AccountNo = liner.AccountNo,
+                        CustomerName = liner.CustomerName,
+                        Pincode = liner.Pincode,
+                        Product = liner.Product,
+                        IsInRecovery = false,
+                        AllocStatus = liner.AllocStatus,
+                        Bucket = liner.Bucket,
+                        CustStatus = liner.CustStatus,
+                        Cycle = liner.Cycle,
+                        IsReferred = liner.IsReferred,
+                        NoAllocResons = liner.NoAllocResons,
+                        TotalDue = liner.TotalDue,
+                        Flag = liner.Flag
+                    };
+                }
+
+                saveEntity.Add(info);
+                isetInfo.Add(info);
+            }
+
+            DbLayer.SaveOrUpdateData(saveEntity);
+        }
     }
 }

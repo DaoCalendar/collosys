@@ -65,6 +65,8 @@ namespace ColloSys.FileUploaderService.RecordManager
                    fileScheduler.FileDate, fileScheduler.FileDetail.FileCount);
         }
 
+        public abstract void PostProcessing();
+
         #endregion
 
         #region IRecord

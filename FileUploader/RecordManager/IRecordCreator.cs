@@ -20,5 +20,7 @@ namespace ColloSys.FileUploaderService.RecordManager
 
         void Init(FileScheduler fileScheduler, ICounter counter);
         void InitPreviousDayLiner   (FileScheduler fileScheduler);
+
+        void PostProcessing();
     }
 }

@@ -265,5 +265,20 @@ namespace ColloSys.FileUploaderService.DataLayer
                 }
             }
         }
+
+        public IList<TEntity> GetTableData<TEntity>()
+             where TEntity : Entity
+        {
+            using (var session = SessionManager.GetStatelessSession())
+            {
+                using (var tx = session.BeginTransaction())
+                {
+                    var data = session.QueryOver<TEntity>()
+                                      .List();
+                    tx.Rollback();
+                    return data;
+                }
+            }
+        }
     }
 }

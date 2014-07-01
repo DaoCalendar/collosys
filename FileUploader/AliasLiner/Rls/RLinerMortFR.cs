@@ -1,5 +1,6 @@
 ﻿#region ref
 
+using System;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploaderService.RecordManager;
 
@@ -17,6 +18,16 @@ namespace ColloSys.FileUploaderService.AliasLiner.Rls
 
        public override bool PostProcessing()
        {
+           try
+           {
+               RecordCreatorObj.PostProcessing();
+           }
+           catch (Exception exception)
+           {
+               Log.Error("In PostProcessing of RLiner MORT:" + exception.Message);
+               return false;
+           }
+
            return true;
        }
     }

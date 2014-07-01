@@ -22,7 +22,7 @@ namespace ColloSys.FileUploaderService.FileReader
         #region ctor
         private const uint BatchSize = 1000;
         private readonly FileProcess _fileProcess;
-        private readonly Logger _log = LogManager.GetCurrentClassLogger();
+        protected readonly Logger Log = LogManager.GetCurrentClassLogger();
         public IRecordCreator<T> RecordCreatorObj { get; private set; }
         public ICounter Counter { get; private set; }
 
@@ -56,7 +56,7 @@ namespace ColloSys.FileUploaderService.FileReader
 
         private void SaveNextBatch(IList<T> list)
         {
-            if(!list.Any()) return;
+            if (!list.Any()) return;
 
             using (var session = SessionManager.GetNewSession())
             {
@@ -91,7 +91,7 @@ namespace ColloSys.FileUploaderService.FileReader
 
             } while (list.Count != BatchSize);
 
-            _log.Info("GetNextBatch: Batch Create ");
+            Log.Info("GetNextBatch: Batch Create ");
             Counter.CalculateTotalRecord();
             return list;
 
@@ -103,17 +103,17 @@ namespace ColloSys.FileUploaderService.FileReader
         {
             try
             {
-                _log.Info("FileUpload: uploading file : " + FileScheduler.FileName + ", for date" +
+                Log.Info("FileUpload: uploading file : " + FileScheduler.FileName + ", for date" +
                           FileScheduler.FileDate.ToShortDateString());
                 _fileProcess.UpdateFileScheduler(FileScheduler, Counter, ColloSysEnums.UploadStatus.UploadStarted);
                 _fileProcess.UpdateFileStatus(FileScheduler, ColloSysEnums.UploadStatus.UploadStarted, Counter);
                 ReadAndSaveBatch();
 
-                _log.Info(string.Format("BatchProcessing : PostProcessing Start"));
+                Log.Info(string.Format("BatchProcessing : PostProcessing Start"));
                 _fileProcess.UpdateFileStatus(FileScheduler, ColloSysEnums.UploadStatus.PostProcessing, Counter);
-                _fileProcess.PostProcesing();
+                PostProcessing();
 
-                _log.Info(string.Format("BatchProcessing : PostProcessing() Done"));
+                Log.Info(string.Format("BatchProcessing : PostProcessing() Done"));
                 _fileProcess.ComputeStatus(FileScheduler, Counter);
                 _fileProcess.UpdateFileScheduler(FileScheduler, Counter, FileScheduler.UploadStatus);
                 _fileProcess.UpdateFileStatus(FileScheduler, FileScheduler.UploadStatus, Counter);
@@ -123,7 +123,7 @@ namespace ColloSys.FileUploaderService.FileReader
                 FileScheduler.UploadStatus = ColloSysEnums.UploadStatus.Error;
                 FileScheduler.StatusDescription = exception.Message;
                 _fileProcess.UpdateFileScheduler(FileScheduler, Counter, ColloSysEnums.UploadStatus.Error);
-                _log.Error(string.Format("FileUpload : Could not upload file {0}-error description-{1}",
+                Log.Error(string.Format("FileUpload : Could not upload file {0}-error description-{1}",
                     FileScheduler.FileName, exception));
             }
         }

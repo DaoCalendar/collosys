@@ -1,5 +1,6 @@
 ﻿#region ref
 
+using System;
 using System.Linq;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
@@ -19,7 +20,17 @@ namespace ColloSys.FileUploaderService.AliasLiner.Rls
 
        public override bool PostProcessing()
        {
-           InsertResolvedCustomer();
+           try
+           {
+               InsertResolvedCustomer();
+               RecordCreatorObj.PostProcessing();
+           }
+           catch (Exception exception)
+           {
+               Log.Error("In PostProcessing of RLiner BFS:" + exception.Message);
+               return false;
+           }
+
            return true;
        }
 

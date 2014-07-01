@@ -86,11 +86,6 @@ namespace ColloSys.FileUploaderService.FileReader
         }
         #endregion
 
-        public virtual bool PostProcesing()
-        {
-            return true;
-        }
-
         public void ResetFileStatus()
         {
             try

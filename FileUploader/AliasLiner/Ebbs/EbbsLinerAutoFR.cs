@@ -22,6 +22,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
         public override bool PostProcessing()
         {
             InsertNormalizedCustomer();
+            RecordCreatorObj.PostProcessing();
             return true;
         }
 

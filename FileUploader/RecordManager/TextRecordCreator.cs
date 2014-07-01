@@ -64,6 +64,9 @@ namespace ColloSys.FileUploaderService.RecordManager
 
        }
 
-
+        public void PostProcessing()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

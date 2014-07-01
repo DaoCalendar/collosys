@@ -1,8 +1,13 @@
 ﻿#region ref
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Domain;
+using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.SharedDomain;
 using ColloSys.FileUploaderService.RecordManager;
 using NLog;
 
@@ -82,6 +87,68 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
         public override RWriteoff GetPreviousDayEntity(RWriteoff entity)
         {
             throw new NotImplementedException();
+        }
+
+        public override void PostProcessing()
+        {
+            InsertIntoInfo();
+        }
+
+        private void InsertIntoInfo()
+        {
+            var infos = DbLayer.GetTableData<CustomerInfo>();
+
+            ISet<CustomerInfo> isetInfo = new HashSet<CustomerInfo>(infos);
+
+            //var todayWriteoff = OldDbRecordList.Where(x => x.FileDate.Date == Reader.UploadedFile.FileDate.Date).ToList();
+            var todayWriteoff = TodayRecordList.GetEntities(FileScheduler.FileDate.Date);
+
+            var saveEntity = new List<Entity>();
+            foreach (var writeoff in todayWriteoff)
+            {
+                var info = isetInfo.FirstOrDefault(x => x.AccountNo == writeoff.AccountNo);
+
+                if (info != null)
+                {
+                    info.AccountNo = writeoff.AccountNo;
+                    info.CustomerName = writeoff.CustomerName;
+                    info.Pincode = writeoff.Pincode;
+                    info.Product = writeoff.Product;
+                    info.IsInRecovery = true;
+                    info.ChargeofDate = writeoff.ChargeOffDate;
+                    info.AllocStatus = writeoff.AllocStatus;
+                    info.CustStatus = writeoff.CustStatus;
+                    info.Cycle = writeoff.Cycle;
+                    info.IsReferred = writeoff.IsReferred;
+                    info.NoAllocResons = writeoff.NoAllocResons;
+                    info.TotalDue = writeoff.TotalDue;
+                    info.Flag = ColloSysEnums.DelqFlag.N;
+                }
+                else
+                {
+                    info = new CustomerInfo
+                    {
+                        AccountNo = writeoff.AccountNo,
+                        CustomerName = writeoff.CustomerName,
+                        Pincode = writeoff.Pincode,
+                        Product = writeoff.Product,
+                        IsInRecovery = true,
+                        ChargeofDate = writeoff.ChargeOffDate,
+                        AllocStatus = writeoff.AllocStatus,
+                        CustStatus = writeoff.CustStatus,
+                        Cycle = writeoff.Cycle,
+                        IsReferred = writeoff.IsReferred,
+                        NoAllocResons = writeoff.NoAllocResons,
+                        TotalDue = writeoff.TotalDue,
+                        Flag = ColloSysEnums.DelqFlag.N
+                    };
+                }
+
+                saveEntity.Add(info);
+                isetInfo.Add(info);
+            }
+
+            DbLayer.SaveOrUpdateData(saveEntity);
         }
     }
 }

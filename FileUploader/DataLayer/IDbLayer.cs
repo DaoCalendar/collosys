@@ -33,5 +33,8 @@ namespace ColloSys.FileUploaderService.DataLayer
            where TEntity : Entity, IDelinquentCustomer;
        IList<TEntity> GetDataForDate<TEntity>(DateTime fileDate)
            where TEntity : Entity, IFileUploadable;
+
+       IList<TEntity> GetTableData<TEntity>()
+           where TEntity : Entity;
    }
 }

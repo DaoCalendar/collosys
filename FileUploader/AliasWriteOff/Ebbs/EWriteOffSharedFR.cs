@@ -18,6 +18,7 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Ebbs
 
         public override bool PostProcessing()
         {
+            RecordCreatorObj.PostProcessing();
             return true;
         }
     }
