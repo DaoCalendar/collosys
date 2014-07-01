@@ -5,6 +5,7 @@
             Product: { type: "enum", label: "Product",valueList:$csShared.enums.Products },
             Weightage: { type: "number", template: "percentage" },
             Param: { type: "text" },
+            SelectParam: { type: "checkbox" }
         };
     };
     

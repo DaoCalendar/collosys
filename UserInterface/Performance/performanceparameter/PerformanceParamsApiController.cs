@@ -42,7 +42,8 @@ namespace AngularUI.Performance.performanceparameter
                     {
                         Param = param,
                         Weightage = 0,
-                        Products = products
+                        Products = products,
+                        Ischeck = false
                     };
                     data.Add(paramObj);
                 }

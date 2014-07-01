@@ -15,6 +15,8 @@ namespace ColloSys.DataLayer.Performance.PerformanceParameter
            Property(x => x.Param);
            Property(x => x.Weightage);
            Property(x => x.Products);
+           Property(x => x.Ischeck);
+
        }
    }
 }
