@@ -47,16 +47,16 @@
         return restApi.customPOST(list, "DeleteWorking");
     };
 
-    var approveWorkings = function (list) {
-        return restApi.customPOST(list, 'ApproveWorkingList');
+    var approveWorkings = function (stakeObj) {
+        return restApi.customPOST(stakeObj, 'ApproveWorking');
     };
 
     var approvePayment = function (stakeObj) {
         return restApi.customPOST(stakeObj, 'ApprovePayment');
     };
 
-    var rejectWorkings = function (list) {
-        return restApi.customPOST(list, 'RejectWorkingList');
+    var rejectWorkings = function (stakeObj) {
+        return restApi.customPOST(stakeObj, 'RejectWorking');
     };
 
     var rejectPayment = function (stakeObj) {
@@ -491,13 +491,8 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             factory.SetWorkList($scope.currStakeholder, workList);
             return datalayer.SaveWorking(workList).then(function (data) {
                 $scope.workingDetailsList = data.WorkList;
-                if (!$scope.selectedHierarchy.HasPayment) {
-                    $scope.gotoView();
-                } else {
-                    if ($scope.selectedHierarchy.HasBuckets)
-                        factory.ParseBuckets($scope.workingDetailsList);
-                    factory.SetReportsToName($scope.workingDetailsList, data.ReportsToList);
-                }
+                factory.ParseBuckets($scope.workingDetailsList);
+                factory.SetReportsToName($scope.workingDetailsList, data.ReportsToList);
                 return data;
             });
         };
@@ -566,7 +561,6 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             });
             $scope.selectedWorkingList = [];
         };
-
         var deleteData = function () {
             _.forEach($scope.selectedWorkingList, function (workingToBeDeleted) {
                 if ($csfactory.isNullOrEmptyGuid(workingToBeDeleted.Id)) {
@@ -582,7 +576,6 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
 
             return $scope.workingDetailsList;
         };
-
         var addUnsavedDataToList = function (stakedata, unsavedList) {
             _.forEach(unsavedList, function (unsavedData) {
                 stakedata.StkhWorkings.push(unsavedData);
@@ -662,7 +655,6 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             paymentData.ApprovalStatus = factory.GetApprovalStatus(paymentData.ApprovalStatus);
             datalayer.SavePayment(paymentData).then(function (data) {
                 $scope.Payment = data;
-                $scope.gotoView();
             });
         };
 
@@ -670,17 +662,23 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             $csnotify.error("Please approve/reject Stakeholder first");
         };
 
-        $scope.approveWorkings = function (workList) {
-            factory.SetWorkList($scope.currStakeholder, workList);
-            datalayer.ApproveWorkings(workList).then(function (data) {
+        $scope.approveWorkings = function (stakeId) {
+            //factory.SetWorkList($scope.currStakeholder, workList);
+            var stakeObj = {
+                Id: stakeId,
+            };
+            datalayer.ApproveWorkings(stakeObj).then(function (data) {
                 postWorkingApproval(data);
                 $csnotify.success("Workings Approved");
             }, showError);
 
         };
-        $scope.rejectWorking = function (worklist) {
-            factory.SetWorkList($scope.currStakeholder, worklist);
-            datalayer.RejectWorkings(worklist).then(function (data) {
+        $scope.rejectWorking = function (stakeId) {
+            // factory.SetWorkList($scope.currStakeholder, worklist);
+            var stakeObj = {
+                Id: stakeId,
+            };
+            datalayer.RejectWorkings(stakeObj).then(function (data) {
                 postWorkingApproval(data);
                 $csnotify.success("Workings Rejected");
             }, showError);

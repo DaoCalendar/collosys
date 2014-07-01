@@ -18,15 +18,15 @@
             permission="StakeholderAddEdit"
             data-on-click="save(workingDetailsList)">
                         </cs-button2>
-        <span data-ng-if="selectedWorkingList.length>0">
+        <span data-ng-if="workingDetailsList.length>0">
             <cs-button2 type="approve"
                 permission="StakeholderApprove"
-                data-on-click="approveWorkings(selectedWorkingList)">
+                data-on-click="approveWorkings(currStakeholder.Id)">
                             </cs-button2>
 
             <cs-button2 type="reject"
                 permission="StakeholderApprove"
-                data-on-click="rejectWorking(selectedWorkingList)">
+                data-on-click="rejectWorking(currStakeholder.Id)">
                             </cs-button2>
         </span>
         <cs-button2
