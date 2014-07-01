@@ -97,6 +97,7 @@ namespace AngularUI.Developer.generatedb.Excel2Db
                     IsInUse = true,
                     Products = products,
                     Category = ScbEnums.Category.Liner,
+                    Name = "AllocateAsPerPolicy"+products
                 };
                 var allocRelation = new AllocRelation()
                 {
