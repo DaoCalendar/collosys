@@ -16,16 +16,10 @@
     };
 }]);
 
-csapp.controller("PerformanaceParameterCtrl", ["$scope", "PerformanceManagemnetDatalayer", "$csShared", "$csnotify", function ($scope, datalayer, $csShared, $csnotify) {
+csapp.controller("PerformanaceParameterCtrl", ["$scope", "PerformanceManagemnetDatalayer", "$csModels", "$csnotify", function ($scope, datalayer, $csModels, $csnotify) {
 
     (function () {
-        $scope.PerformanceModel = {
-            Product: { type: "enum", label: "Product" },
-            Weightage: { type: "number", template: "percentage" },
-            Param: { type: "text" },
-            Total: { type: "number" }
-        };
-        $scope.PerformanceModel.Product.valueList = $csShared.enums.Products;
+        $scope.PerformanceModel = $csModels.getColumns("PerformanceParam");
         $scope.performanceMgt = [];
         $scope.PerformParam = {
             total: 0,
@@ -38,6 +32,9 @@ csapp.controller("PerformanaceParameterCtrl", ["$scope", "PerformanceManagemnetD
         _.forEach(performanceParam, function (row) {
             $scope.PerformParam.total = $scope.PerformParam.total + row.Weightage;
         });
+        if ($scope.PerformParam.total>100) {
+            $csnotify.error("Total weightage should be exact 100%");
+        }
     };
     $scope.save = function (performanceParam) {
         if ($scope.PerformParam.total === 100) {
