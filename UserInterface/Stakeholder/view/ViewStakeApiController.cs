@@ -29,11 +29,10 @@ namespace AngularUI.Stakeholder.view
             return Request.CreateResponse(HttpStatusCode.OK, list);
         }
 
-        [HttpGet]
-        public HttpResponseMessage GetFilteredList(string filterParam)
+        [HttpPost]
+        public HttpResponseMessage GetFilteredList(PaginationParam filterParam)
         {
             var data = FilterDataHelper.GetFilteredStakeData(filterParam);
-
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
@@ -56,5 +55,13 @@ namespace AngularUI.Stakeholder.view
     public class StkhId
     {
         public Guid Id { get; set; }
+    }
+
+    public class PaginationParam
+    {
+        public int page { get; set; }
+        public int size { get; set; }
+        public string name { get; set; }
+        public string filter { get; set; }
     }
 }

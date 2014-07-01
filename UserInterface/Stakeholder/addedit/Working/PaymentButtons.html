@@ -14,12 +14,12 @@
 
     <span data-ng-if="showPaymentApproval(Payment)">
         <cs-button2 type="approve"
-            permission="StakeholderAddEdit"
+            permission="StakeholderApprove"
             data-on-click="approvePayment(currStakeholder.Id)">
                             </cs-button2>
 
         <cs-button2 type="reject"
-            permission="StakeholderAddEdit"
+            permission="StakeholderApprove"
             data-on-click="rejectPayment(currStakeholder.Id)">
                             </cs-button2>
     </span>

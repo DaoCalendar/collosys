@@ -24,7 +24,7 @@
                     <cs-field data-ng-if="selectedHierarchy.IsUser"
                               data-ng-model="Stakeholder.ExternalId"
                               ui-validate="{unique:'validate($value)'}"
-                        data-ng-disabled="Stakeholder.ApprovalStatus === 'Approved'"
+                        data-ng-disabled="Stakeholder.ApprovalStatus === 'Approved' || formMode==='view'"
                               field="stakeholderModels.stakeholder.ExternalId"></cs-field>
                     <cs-field data-ng-model="Stakeholder.MobileNo"
                               field="stakeholderModels.stakeholder.MobileNo"></cs-field>

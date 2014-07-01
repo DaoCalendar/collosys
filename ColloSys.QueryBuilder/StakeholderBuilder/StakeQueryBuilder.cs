@@ -70,14 +70,13 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         }
 
         [Transaction]
-        public IList<Stakeholders> GetAllStakeholders()
+        public IQueryable<Stakeholders> GetAllStakeholders()
         {
             var session = SessionManager.GetCurrentSession();
 
             var stakeholder = session.Query<Stakeholders>()
                 .Fetch(x => x.Hierarchy)
-                .Where(x => x.LeavingDate == null || x.LeavingDate > DateTime.Today)
-                .ToList();
+                .Where(x => x.LeavingDate == null || x.LeavingDate > DateTime.Today);
             return stakeholder;
         }
 
@@ -266,26 +265,26 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         }
 
         [Transaction]
-        public IEnumerable<Stakeholders> GetAllApproved()
+        public IQueryable<Stakeholders> GetAllApproved()
         {
             return SessionManager.GetCurrentSession().Query<Stakeholders>()
-                           .Where(
-                               x =>
-                               x.ApprovalStatus == ColloSysEnums.ApproveStatus.Approved ||
-                               x.ApprovalStatus == ColloSysEnums.ApproveStatus.Changed)
-                               .Fetch(x => x.Hierarchy)
-                           .ToList();
+                                 .Where(
+                                     x =>
+                                     x.ApprovalStatus == ColloSysEnums.ApproveStatus.Approved ||
+                                     x.ApprovalStatus == ColloSysEnums.ApproveStatus.Changed)
+                                 .Fetch(x => x.Hierarchy);
+
         }
 
         [Transaction]
-        public IEnumerable<Stakeholders> GetAllUnApproved()
+        public IQueryable<Stakeholders> GetAllUnApproved()
         {
             return SessionManager.GetCurrentSession().Query<Stakeholders>()
-                           .Where(
-                               x =>
-                              x.ApprovalStatus == ColloSysEnums.ApproveStatus.Submitted)
-                              .Fetch(x => x.Hierarchy)
-                           .ToList();
+                                 .Where(
+                                     x =>
+                                     x.ApprovalStatus == ColloSysEnums.ApproveStatus.Submitted)
+                                 .Fetch(x => x.Hierarchy);
+
         }
     }
 }

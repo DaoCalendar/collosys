@@ -4,7 +4,7 @@ csapp.factory('ViewStakeholderDatalayer', ["Restangular", function (rest) {
     var restApi = rest.all('ViewStakeApi');
 
     var getFilteredList = function (filterParam) {
-        return restApi.customGET("GetFilteredList", { "filterParam": filterParam });
+        return restApi.customPOST(filterParam, "GetFilteredList");
     };
 
     var searchStakeholder = function (param) {
@@ -24,14 +24,14 @@ csapp.controller('viewStake', [
 
         var getPagedData = function () {
             var params = {
-                page: $scope.tableParams.page,
-                size: $scope.tableParams.count,
+                page: $scope.tableParams.page(),
+                size: $scope.tableParams.count(),
                 name: $scope.filter.name,
                 filter: $scope.filter.search
             };
 
-            return datalayer.GetFilteredList("All").then(function (data) {
-                $scope.stakeholders = data;
+            return datalayer.GetFilteredList(params).then(function (data) {
+                $scope.stakeholders = data.Data;
                 if (data.length === 0) {
                     $csnotify.success("stakeholders not found");
                 };
@@ -41,21 +41,20 @@ csapp.controller('viewStake', [
         };
 
         $scope.tableParams = new ngTableParams({
-            page: 1,            // show first page
-            count: 10,          // count per page
+            page: 1,
+            count: 10,
             sorting: {
-                name: 'asc'     // initial sorting
+                name: 'asc'
             }
         }, {
-            total: function () { return getData().length; }, // length of data
+            total: function () { return getData().length; },
             getData: function ($defer, params) {
                 getPagedData().then(function (data) {
-                    params.total(200);
+                    params.total(data.Count);
                     var orderedData = params.sorting() ?
-                                   $filter('orderBy')(data, params.orderBy()) :
-                                   data;
-                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(),
-                        params.page() * params.count()));
+                                   $filter('orderBy')(data.Data, params.orderBy()) :
+                                   data.Data;
+                    $defer.resolve(orderedData);
                 });
             },
             $scope: { $data: {} }
@@ -66,8 +65,11 @@ csapp.controller('viewStake', [
                 filters: { type: 'enum', label: 'View' },
                 Search: { placeholder: "enter ID/Name to edit", type: 'text' }
             };
-            $scope.filter = {};
-            $scope.filterList = ['All', 'Approved', 'Unapproved', "Search"];
+            $scope.filter = {
+                name: "Approved"
+            };
+
+            $scope.filterList = ['All', 'Approved', 'Unapproved'];
         })();
 
         $scope.switchPage = function (data, page) {
@@ -86,25 +88,11 @@ csapp.controller('viewStake', [
 
         $scope.searchStake = function (param) {
             if (param.length < 3) { return; }
-            $scope.filter.name = "Search";
-            $timeout(function () {
-                datalayer.SearchStakeholder(param).then(function (data) {
-                    $scope.stakeholders = data;
-                });
-            }, 400);
+            $scope.tableParams.reload();
         };
 
-        $scope.getStakeholders = function (filterParam) {
+        $scope.getStakeholders = function () {
             $scope.tableParams.reload();
-            //if (filterParam === 'Search') return;
-            //datalayer.GetFilteredList(filterParam).then(function (data) {
-            //    $scope.stakeholders = data;
-            //    if (data.length === 0) {
-            //        $csnotify.success("stakeholders not found");
-            //    } else {
-            //        $scope.tableParams.reload();
-            //    }
-            //});
         };
     }
 ]);
